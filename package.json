@@ -1,0 +1,27 @@
+{
+  "name": "swarmcfo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SwarmCFO — a one-person company's autonomous finance team on SpacetimeDB",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @swarmcfo/web",
+    "dev:web": "npm run dev -w @swarmcfo/web",
+    "build": "npm run build -w @swarmcfo/web",
+    "lint": "npm run lint -w @swarmcfo/web",
+    "spacetime:build": "cd spacetime && spacetime build",
+    "spacetime:publish": "cd spacetime && spacetime publish swarmcfo --clear-database -y",
+    "spacetime:generate": "spacetime generate --lang typescript --out-dir apps/web/src/module_bindings --project-path spacetime",
+    "agents": "cd agents && python -m uvicorn main:app --reload --port 8000",
+    "sim": "python poc/swarmcfo_sim.py",
+    "seed": "python data/seed/generate_ledger.py",
+    "demo": "npm run sim"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

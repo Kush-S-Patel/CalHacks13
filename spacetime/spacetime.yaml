@@ -1,0 +1,3 @@
+# SpacetimeDB module config (CLI may also infer from Cargo.toml)
+# Publish: spacetime publish swarmcfo --project-path . --clear-database -y
+name: swarmcfo

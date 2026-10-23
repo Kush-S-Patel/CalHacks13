@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg-deep: #0c1210;
+  --bg-mid: #14201a;
+  --bg-panel: #1a2a22;
+  --ink: #e8f0ea;
+  --ink-muted: #8fa396;
+  --accent: #3d9b6a;
+  --accent-bright: #5fd49a;
+  --warn: #e0a045;
+  --danger: #d45b5b;
+  --hold: #c9a227;
+  --line: rgba(232, 240, 234, 0.12);
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(61, 155, 106, 0.22), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(201, 162, 39, 0.12), transparent),
+    linear-gradient(165deg, var(--bg-deep), var(--bg-mid) 45%, #0a100e);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.mono {
+  font-variant-numeric: tabular-nums;
+}

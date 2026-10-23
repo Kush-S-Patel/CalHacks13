@@ -1,0 +1,40 @@
+# deps
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# env / secrets
+.env
+.env.local
+.env.*.local
+*.pem
+
+# build
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+spacetime/spacetime.db
+spacetime/*.wasm
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# demo artifacts
+recordings/
+*.mp4
+.turbo/
+.vercel/
+
+# logs
+*.log
+npm-debug.log*
