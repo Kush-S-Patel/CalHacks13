@@ -1,0 +1,908 @@
+{
+  "room_id": "maya-bakery",
+  "owner": "Maya",
+  "business": "Maya's Bakery",
+  "as_of": "2026-10-23",
+  "cash_balance_cents": 1840000,
+  "daily_burn_cents": 165000,
+  "runway_days": 11.15,
+  "suppliers": [
+    {
+      "id": "sup-flour-co",
+      "name": "North Bay Flour Co",
+      "category": "flour",
+      "unit_price_cents": 4200,
+      "bank_fingerprint": "bank-nbflour-001",
+      "trust_score": 0.92
+    },
+    {
+      "id": "sup-dairy",
+      "name": "Valley Dairy",
+      "category": "dairy",
+      "unit_price_cents": 2850,
+      "bank_fingerprint": "bank-valley-002",
+      "trust_score": 0.88
+    },
+    {
+      "id": "sup-packaging",
+      "name": "ClearWrap Packaging",
+      "category": "packaging",
+      "unit_price_cents": 1800,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "trust_score": 0.75
+    },
+    {
+      "id": "sup-alt-flour",
+      "name": "Coastal Grain Alt",
+      "category": "flour",
+      "unit_price_cents": 3800,
+      "bank_fingerprint": "bank-coastal-004",
+      "trust_score": 0.7
+    }
+  ],
+  "invoices": [
+    {
+      "id": "inv-001",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 318100,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-09-19",
+      "status": "paid",
+      "content_hash": "318100|bank-nbflour-001|2026-09-19"
+    },
+    {
+      "id": "inv-002",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 625700,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-09-23",
+      "status": "paid",
+      "content_hash": "625700|bank-valley-002|2026-09-23"
+    },
+    {
+      "id": "inv-003",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 605000,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-09-24",
+      "status": "paid",
+      "content_hash": "605000|bank-clearwrap-003|2026-09-24"
+    },
+    {
+      "id": "inv-004",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 138000,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-10-06",
+      "status": "paid",
+      "content_hash": "138000|bank-nbflour-001|2026-10-06"
+    },
+    {
+      "id": "inv-005",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 104500,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-09-15",
+      "status": "open",
+      "content_hash": "104500|bank-valley-002|2026-09-15"
+    },
+    {
+      "id": "inv-006",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 640400,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-10-06",
+      "status": "paid",
+      "content_hash": "640400|bank-clearwrap-003|2026-10-06"
+    },
+    {
+      "id": "inv-007",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 200100,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-09-17",
+      "status": "paid",
+      "content_hash": "200100|bank-nbflour-001|2026-09-17"
+    },
+    {
+      "id": "inv-008",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 449500,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-09-19",
+      "status": "open",
+      "content_hash": "449500|bank-valley-002|2026-09-19"
+    },
+    {
+      "id": "inv-009",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 290200,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-10-05",
+      "status": "paid",
+      "content_hash": "290200|bank-clearwrap-003|2026-10-05"
+    },
+    {
+      "id": "inv-010",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 478700,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-09-23",
+      "status": "open",
+      "content_hash": "478700|bank-nbflour-001|2026-09-23"
+    },
+    {
+      "id": "inv-011",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 432100,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-09-06",
+      "status": "paid",
+      "content_hash": "432100|bank-valley-002|2026-09-06"
+    },
+    {
+      "id": "inv-012",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 363400,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-10-07",
+      "status": "paid",
+      "content_hash": "363400|bank-clearwrap-003|2026-10-07"
+    },
+    {
+      "id": "inv-013",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 534000,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-08-26",
+      "status": "paid",
+      "content_hash": "534000|bank-nbflour-001|2026-08-26"
+    },
+    {
+      "id": "inv-014",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 634400,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-08-27",
+      "status": "open",
+      "content_hash": "634400|bank-valley-002|2026-08-27"
+    },
+    {
+      "id": "inv-015",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 224600,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-08-15",
+      "status": "paid",
+      "content_hash": "224600|bank-clearwrap-003|2026-08-15"
+    },
+    {
+      "id": "inv-016",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 226900,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-09-27",
+      "status": "paid",
+      "content_hash": "226900|bank-nbflour-001|2026-09-27"
+    },
+    {
+      "id": "inv-017",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 384000,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-09-20",
+      "status": "open",
+      "content_hash": "384000|bank-valley-002|2026-09-20"
+    },
+    {
+      "id": "inv-018",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 576000,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-09-19",
+      "status": "paid",
+      "content_hash": "576000|bank-clearwrap-003|2026-09-19"
+    },
+    {
+      "id": "inv-019",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 187100,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-09-02",
+      "status": "open",
+      "content_hash": "187100|bank-nbflour-001|2026-09-02"
+    },
+    {
+      "id": "inv-020",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 272800,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-08-13",
+      "status": "paid",
+      "content_hash": "272800|bank-valley-002|2026-08-13"
+    },
+    {
+      "id": "inv-021",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 380100,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-09-28",
+      "status": "paid",
+      "content_hash": "380100|bank-clearwrap-003|2026-09-28"
+    },
+    {
+      "id": "inv-022",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 432500,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-10-13",
+      "status": "open",
+      "content_hash": "432500|bank-nbflour-001|2026-10-13"
+    },
+    {
+      "id": "inv-023",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 81700,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-09-03",
+      "status": "open",
+      "content_hash": "81700|bank-valley-002|2026-09-03"
+    },
+    {
+      "id": "inv-024",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 264200,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-10-17",
+      "status": "paid",
+      "content_hash": "264200|bank-clearwrap-003|2026-10-17"
+    },
+    {
+      "id": "inv-025",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 444600,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-08-20",
+      "status": "paid",
+      "content_hash": "444600|bank-nbflour-001|2026-08-20"
+    },
+    {
+      "id": "inv-026",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 418700,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-10-02",
+      "status": "paid",
+      "content_hash": "418700|bank-valley-002|2026-10-02"
+    },
+    {
+      "id": "inv-027",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 246300,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-09-08",
+      "status": "paid",
+      "content_hash": "246300|bank-clearwrap-003|2026-09-08"
+    },
+    {
+      "id": "inv-028",
+      "vendor_id": "sup-flour-co",
+      "vendor_name": "North Bay Flour Co",
+      "amount_cents": 618000,
+      "bank_fingerprint": "bank-nbflour-001",
+      "due_date_iso": "2026-08-17",
+      "status": "paid",
+      "content_hash": "618000|bank-nbflour-001|2026-08-17"
+    },
+    {
+      "id": "inv-029",
+      "vendor_id": "sup-dairy",
+      "vendor_name": "Valley Dairy",
+      "amount_cents": 274600,
+      "bank_fingerprint": "bank-valley-002",
+      "due_date_iso": "2026-08-06",
+      "status": "open",
+      "content_hash": "274600|bank-valley-002|2026-08-06"
+    },
+    {
+      "id": "inv-030",
+      "vendor_id": "sup-packaging",
+      "vendor_name": "ClearWrap Packaging",
+      "amount_cents": 585600,
+      "bank_fingerprint": "bank-clearwrap-003",
+      "due_date_iso": "2026-09-25",
+      "status": "paid",
+      "content_hash": "585600|bank-clearwrap-003|2026-09-25"
+    }
+  ],
+  "cash_history_90d": [
+    {
+      "date": "2026-07-25",
+      "inflow_cents": 198900,
+      "outflow_cents": 191800,
+      "balance_cents": 2207100
+    },
+    {
+      "date": "2026-07-26",
+      "inflow_cents": 201000,
+      "outflow_cents": 123900,
+      "balance_cents": 2284200
+    },
+    {
+      "date": "2026-07-27",
+      "inflow_cents": 153500,
+      "outflow_cents": 179700,
+      "balance_cents": 2258000
+    },
+    {
+      "date": "2026-07-28",
+      "inflow_cents": 229000,
+      "outflow_cents": 178300,
+      "balance_cents": 2308700
+    },
+    {
+      "date": "2026-07-29",
+      "inflow_cents": 149900,
+      "outflow_cents": 138600,
+      "balance_cents": 2320000
+    },
+    {
+      "date": "2026-07-30",
+      "inflow_cents": 140400,
+      "outflow_cents": 139700,
+      "balance_cents": 2320700
+    },
+    {
+      "date": "2026-07-31",
+      "inflow_cents": 113600,
+      "outflow_cents": 200600,
+      "balance_cents": 2233700
+    },
+    {
+      "date": "2026-08-01",
+      "inflow_cents": 220000,
+      "outflow_cents": 176800,
+      "balance_cents": 2276900
+    },
+    {
+      "date": "2026-08-02",
+      "inflow_cents": 102900,
+      "outflow_cents": 212200,
+      "balance_cents": 2167600
+    },
+    {
+      "date": "2026-08-03",
+      "inflow_cents": 126100,
+      "outflow_cents": 137100,
+      "balance_cents": 2156600
+    },
+    {
+      "date": "2026-08-04",
+      "inflow_cents": 94100,
+      "outflow_cents": 163900,
+      "balance_cents": 2086800
+    },
+    {
+      "date": "2026-08-05",
+      "inflow_cents": 211700,
+      "outflow_cents": 180900,
+      "balance_cents": 2117600
+    },
+    {
+      "date": "2026-08-06",
+      "inflow_cents": 193900,
+      "outflow_cents": 202600,
+      "balance_cents": 2108900
+    },
+    {
+      "date": "2026-08-07",
+      "inflow_cents": 191200,
+      "outflow_cents": 191100,
+      "balance_cents": 2109000
+    },
+    {
+      "date": "2026-08-08",
+      "inflow_cents": 87900,
+      "outflow_cents": 219400,
+      "balance_cents": 1977500
+    },
+    {
+      "date": "2026-08-09",
+      "inflow_cents": 170000,
+      "outflow_cents": 204500,
+      "balance_cents": 1943000
+    },
+    {
+      "date": "2026-08-10",
+      "inflow_cents": 150200,
+      "outflow_cents": 186000,
+      "balance_cents": 1907200
+    },
+    {
+      "date": "2026-08-11",
+      "inflow_cents": 98900,
+      "outflow_cents": 173900,
+      "balance_cents": 1832200
+    },
+    {
+      "date": "2026-08-12",
+      "inflow_cents": 80600,
+      "outflow_cents": 132900,
+      "balance_cents": 1779900
+    },
+    {
+      "date": "2026-08-13",
+      "inflow_cents": 143600,
+      "outflow_cents": 132400,
+      "balance_cents": 1791100
+    },
+    {
+      "date": "2026-08-14",
+      "inflow_cents": 163500,
+      "outflow_cents": 150800,
+      "balance_cents": 1803800
+    },
+    {
+      "date": "2026-08-15",
+      "inflow_cents": 265600,
+      "outflow_cents": 147500,
+      "balance_cents": 1921900
+    },
+    {
+      "date": "2026-08-16",
+      "inflow_cents": 195700,
+      "outflow_cents": 181100,
+      "balance_cents": 1936500
+    },
+    {
+      "date": "2026-08-17",
+      "inflow_cents": 223100,
+      "outflow_cents": 127900,
+      "balance_cents": 2031700
+    },
+    {
+      "date": "2026-08-18",
+      "inflow_cents": 272100,
+      "outflow_cents": 168100,
+      "balance_cents": 2135700
+    },
+    {
+      "date": "2026-08-19",
+      "inflow_cents": 186900,
+      "outflow_cents": 157500,
+      "balance_cents": 2165100
+    },
+    {
+      "date": "2026-08-20",
+      "inflow_cents": 254400,
+      "outflow_cents": 205400,
+      "balance_cents": 2214100
+    },
+    {
+      "date": "2026-08-21",
+      "inflow_cents": 87300,
+      "outflow_cents": 120500,
+      "balance_cents": 2180900
+    },
+    {
+      "date": "2026-08-22",
+      "inflow_cents": 145400,
+      "outflow_cents": 154200,
+      "balance_cents": 2172100
+    },
+    {
+      "date": "2026-08-23",
+      "inflow_cents": 111700,
+      "outflow_cents": 170800,
+      "balance_cents": 2113000
+    },
+    {
+      "date": "2026-08-24",
+      "inflow_cents": 194600,
+      "outflow_cents": 219300,
+      "balance_cents": 2088300
+    },
+    {
+      "date": "2026-08-25",
+      "inflow_cents": 189100,
+      "outflow_cents": 172900,
+      "balance_cents": 2104500
+    },
+    {
+      "date": "2026-08-26",
+      "inflow_cents": 248800,
+      "outflow_cents": 168500,
+      "balance_cents": 2184800
+    },
+    {
+      "date": "2026-08-27",
+      "inflow_cents": 125600,
+      "outflow_cents": 188500,
+      "balance_cents": 2121900
+    },
+    {
+      "date": "2026-08-28",
+      "inflow_cents": 122400,
+      "outflow_cents": 150300,
+      "balance_cents": 2094000
+    },
+    {
+      "date": "2026-08-29",
+      "inflow_cents": 243500,
+      "outflow_cents": 123200,
+      "balance_cents": 2214300
+    },
+    {
+      "date": "2026-08-30",
+      "inflow_cents": 157000,
+      "outflow_cents": 171300,
+      "balance_cents": 2200000
+    },
+    {
+      "date": "2026-08-31",
+      "inflow_cents": 226200,
+      "outflow_cents": 213200,
+      "balance_cents": 2213000
+    },
+    {
+      "date": "2026-09-01",
+      "inflow_cents": 112100,
+      "outflow_cents": 195600,
+      "balance_cents": 2129500
+    },
+    {
+      "date": "2026-09-02",
+      "inflow_cents": 109900,
+      "outflow_cents": 146400,
+      "balance_cents": 2093000
+    },
+    {
+      "date": "2026-09-03",
+      "inflow_cents": 167100,
+      "outflow_cents": 190000,
+      "balance_cents": 2070100
+    },
+    {
+      "date": "2026-09-04",
+      "inflow_cents": 248700,
+      "outflow_cents": 206900,
+      "balance_cents": 2111900
+    },
+    {
+      "date": "2026-09-05",
+      "inflow_cents": 124000,
+      "outflow_cents": 146400,
+      "balance_cents": 2089500
+    },
+    {
+      "date": "2026-09-06",
+      "inflow_cents": 167000,
+      "outflow_cents": 180200,
+      "balance_cents": 2076300
+    },
+    {
+      "date": "2026-09-07",
+      "inflow_cents": 128200,
+      "outflow_cents": 156400,
+      "balance_cents": 2048100
+    },
+    {
+      "date": "2026-09-08",
+      "inflow_cents": 238200,
+      "outflow_cents": 145000,
+      "balance_cents": 2141300
+    },
+    {
+      "date": "2026-09-09",
+      "inflow_cents": 201200,
+      "outflow_cents": 149400,
+      "balance_cents": 2193100
+    },
+    {
+      "date": "2026-09-10",
+      "inflow_cents": 167600,
+      "outflow_cents": 140800,
+      "balance_cents": 2219900
+    },
+    {
+      "date": "2026-09-11",
+      "inflow_cents": 211200,
+      "outflow_cents": 155900,
+      "balance_cents": 2275200
+    },
+    {
+      "date": "2026-09-12",
+      "inflow_cents": 167100,
+      "outflow_cents": 123900,
+      "balance_cents": 2318400
+    },
+    {
+      "date": "2026-09-13",
+      "inflow_cents": 144900,
+      "outflow_cents": 160700,
+      "balance_cents": 2302600
+    },
+    {
+      "date": "2026-09-14",
+      "inflow_cents": 174300,
+      "outflow_cents": 128800,
+      "balance_cents": 2348100
+    },
+    {
+      "date": "2026-09-15",
+      "inflow_cents": 94000,
+      "outflow_cents": 197600,
+      "balance_cents": 2244500
+    },
+    {
+      "date": "2026-09-16",
+      "inflow_cents": 89300,
+      "outflow_cents": 181400,
+      "balance_cents": 2152400
+    },
+    {
+      "date": "2026-09-17",
+      "inflow_cents": 268600,
+      "outflow_cents": 120400,
+      "balance_cents": 2300600
+    },
+    {
+      "date": "2026-09-18",
+      "inflow_cents": 213800,
+      "outflow_cents": 199200,
+      "balance_cents": 2315200
+    },
+    {
+      "date": "2026-09-19",
+      "inflow_cents": 142700,
+      "outflow_cents": 139400,
+      "balance_cents": 2318500
+    },
+    {
+      "date": "2026-09-20",
+      "inflow_cents": 172000,
+      "outflow_cents": 169200,
+      "balance_cents": 2321300
+    },
+    {
+      "date": "2026-09-21",
+      "inflow_cents": 193500,
+      "outflow_cents": 159900,
+      "balance_cents": 2354900
+    },
+    {
+      "date": "2026-09-22",
+      "inflow_cents": 148100,
+      "outflow_cents": 126200,
+      "balance_cents": 2376800
+    },
+    {
+      "date": "2026-09-23",
+      "inflow_cents": 139200,
+      "outflow_cents": 174000,
+      "balance_cents": 2342000
+    },
+    {
+      "date": "2026-09-24",
+      "inflow_cents": 169000,
+      "outflow_cents": 217400,
+      "balance_cents": 2293600
+    },
+    {
+      "date": "2026-09-25",
+      "inflow_cents": 108000,
+      "outflow_cents": 135100,
+      "balance_cents": 2266500
+    },
+    {
+      "date": "2026-09-26",
+      "inflow_cents": 256800,
+      "outflow_cents": 125300,
+      "balance_cents": 2398000
+    },
+    {
+      "date": "2026-09-27",
+      "inflow_cents": 102900,
+      "outflow_cents": 157700,
+      "balance_cents": 2343200
+    },
+    {
+      "date": "2026-09-28",
+      "inflow_cents": 248600,
+      "outflow_cents": 136000,
+      "balance_cents": 2455800
+    },
+    {
+      "date": "2026-09-29",
+      "inflow_cents": 124700,
+      "outflow_cents": 151500,
+      "balance_cents": 2429000
+    },
+    {
+      "date": "2026-09-30",
+      "inflow_cents": 142100,
+      "outflow_cents": 181700,
+      "balance_cents": 2389400
+    },
+    {
+      "date": "2026-10-01",
+      "inflow_cents": 159500,
+      "outflow_cents": 149700,
+      "balance_cents": 2399200
+    },
+    {
+      "date": "2026-10-02",
+      "inflow_cents": 86800,
+      "outflow_cents": 155500,
+      "balance_cents": 2330500
+    },
+    {
+      "date": "2026-10-03",
+      "inflow_cents": 106200,
+      "outflow_cents": 130200,
+      "balance_cents": 2306500
+    },
+    {
+      "date": "2026-10-04",
+      "inflow_cents": 153900,
+      "outflow_cents": 170200,
+      "balance_cents": 2290200
+    },
+    {
+      "date": "2026-10-05",
+      "inflow_cents": 170400,
+      "outflow_cents": 179900,
+      "balance_cents": 2280700
+    },
+    {
+      "date": "2026-10-06",
+      "inflow_cents": 259400,
+      "outflow_cents": 179700,
+      "balance_cents": 2360400
+    },
+    {
+      "date": "2026-10-07",
+      "inflow_cents": 168900,
+      "outflow_cents": 124400,
+      "balance_cents": 2404900
+    },
+    {
+      "date": "2026-10-08",
+      "inflow_cents": 151800,
+      "outflow_cents": 174700,
+      "balance_cents": 2382000
+    },
+    {
+      "date": "2026-10-09",
+      "inflow_cents": 140500,
+      "outflow_cents": 133200,
+      "balance_cents": 2389300
+    },
+    {
+      "date": "2026-10-10",
+      "inflow_cents": 278100,
+      "outflow_cents": 202200,
+      "balance_cents": 2465200
+    },
+    {
+      "date": "2026-10-11",
+      "inflow_cents": 90000,
+      "outflow_cents": 153000,
+      "balance_cents": 2402200
+    },
+    {
+      "date": "2026-10-12",
+      "inflow_cents": 114100,
+      "outflow_cents": 211400,
+      "balance_cents": 2304900
+    },
+    {
+      "date": "2026-10-13",
+      "inflow_cents": 261600,
+      "outflow_cents": 175800,
+      "balance_cents": 2390700
+    },
+    {
+      "date": "2026-10-14",
+      "inflow_cents": 231400,
+      "outflow_cents": 132800,
+      "balance_cents": 2489300
+    },
+    {
+      "date": "2026-10-15",
+      "inflow_cents": 264700,
+      "outflow_cents": 120500,
+      "balance_cents": 2633500
+    },
+    {
+      "date": "2026-10-16",
+      "inflow_cents": 263200,
+      "outflow_cents": 145400,
+      "balance_cents": 2751300
+    },
+    {
+      "date": "2026-10-17",
+      "inflow_cents": 266800,
+      "outflow_cents": 208800,
+      "balance_cents": 2809300
+    },
+    {
+      "date": "2026-10-18",
+      "inflow_cents": 219500,
+      "outflow_cents": 135300,
+      "balance_cents": 2893500
+    },
+    {
+      "date": "2026-10-19",
+      "inflow_cents": 98300,
+      "outflow_cents": 169000,
+      "balance_cents": 2822800
+    },
+    {
+      "date": "2026-10-20",
+      "inflow_cents": 270800,
+      "outflow_cents": 158000,
+      "balance_cents": 2935600
+    },
+    {
+      "date": "2026-10-21",
+      "inflow_cents": 94400,
+      "outflow_cents": 155300,
+      "balance_cents": 2874700
+    },
+    {
+      "date": "2026-10-22",
+      "inflow_cents": 134000,
+      "outflow_cents": 202100,
+      "balance_cents": 1840000
+    }
+  ],
+  "demo_chaos": {
+    "price_spike": {
+      "supplier_id": "sup-flour-co",
+      "pct": 40
+    },
+    "duplicate_invoice": {
+      "amount_cents": 420000,
+      "twin_of": "seed"
+    },
+    "late_ar": {
+      "id": "ar-big-cafe",
+      "customer": "Harbor Cafe Group",
+      "amount_cents": 920000,
+      "days_late": 12
+    },
+    "hold_payment": {
+      "amount_cents": 140000,
+      "id": "appr-supplier-deposit"
+    },
+    "defer_spend_cents": 380000
+  }
+}

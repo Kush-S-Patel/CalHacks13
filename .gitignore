@@ -34,6 +34,7 @@ recordings/
 *.mp4
 .turbo/
 .vercel/
+poc/last_sim.json
 
 # logs
 *.log

@@ -146,7 +146,8 @@ export async function injectChaos(kind: ChaosKind): Promise<void> {
       "Defer $3,800 packaging refresh — runway extends.",
       380_000,
     );
-    const cash = state.cashBalanceCents + 380_000;
+    // Pitch: defer $3.8k + accelerated AR $9.2k + blocked dup $4.2k → ~20 days
+    const cash = state.cashBalanceCents + 380_000 + 920_000 + 420_000;
     const days = runwayDays(cash, state.dailyBurnCents);
     state = {
       ...state,
@@ -157,7 +158,7 @@ export async function injectChaos(kind: ChaosKind): Promise<void> {
       "cfo",
       "announce",
       "runway",
-      `Runway ${DEMO_SEED.runwayDays.toFixed(0)} → ${days.toFixed(0)} days.`,
+      `Runway ${DEMO_SEED.runwayDays.toFixed(0)} → ${days.toFixed(0)} days (defer + accelerated AR).`,
     );
 
     state = {

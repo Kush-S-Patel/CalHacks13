@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 SwarmCFO deterministic offline simulation.
 
@@ -48,14 +48,14 @@ class World:
 
 
 def inject_price_spike(w: World) -> None:
-    print("\n▸ CHAOS: flour supplier +40%")
+    print("\n> CHAOS: flour supplier +40%")
     time.sleep(0.15)
     w.log(
         Action(
             "procurement",
             "counter",
-            "sup-flour-co→sup-alt-flour",
-            "Counter-offer SENT to Coastal Grain Alt — ~$2,728/mo saved",
+            "sup-flour-co->sup-alt-flour",
+            "Counter-offer SENT to Coastal Grain Alt - ~$2,728/mo saved",
             272_800,
         )
     )
@@ -64,7 +64,7 @@ def inject_price_spike(w: World) -> None:
             "risk",
             "flag",
             "sup-alt-flour",
-            "Alt trust_score 0.70 — distrust until trial",
+            "Alt trust_score 0.70 - distrust until trial",
         )
     )
     w.log(
@@ -78,21 +78,21 @@ def inject_price_spike(w: World) -> None:
 
 
 def inject_duplicate(w: World) -> None:
-    print("\n▸ CHAOS: duplicate $4,200 invoice")
+    print("\n> CHAOS: duplicate $4,200 invoice")
     time.sleep(0.15)
     w.log(
         Action(
             "risk",
             "block",
             "inv-dup-incoming",
-            "Duplicate hash (amount+bank+date) — BLOCKED. Saved $4,200",
+            "Duplicate hash (amount+bank+date) - BLOCKED. Saved $4,200",
             420_000,
         )
     )
 
 
 def inject_late_ar(w: World) -> None:
-    print("\n▸ CHAOS: Harbor Cafe $9,200 / 12 days late")
+    print("\n> CHAOS: Harbor Cafe $9,200 / 12 days late")
     time.sleep(0.15)
     w.log(
         Action(
@@ -106,10 +106,12 @@ def inject_late_ar(w: World) -> None:
 
 
 def cfo_close(w: World) -> None:
-    print("\n▸ CFO close-out")
+    print("\n> CFO close-out")
     time.sleep(0.15)
     before = w.runway_days
-    w.cash_cents += 380_000  # defer non-critical spend
+    # Pitch math: defer $3.8k + accelerated AR $9.2k + blocked dup not paid $4.2k
+    # -> ~20 days runway (18400+3800+9200+4200)/1650 ~= 21.6 before hold approve
+    w.cash_cents += 380_000 + 920_000 + 420_000
     w.log(
         Action(
             "cfo",
@@ -124,13 +126,13 @@ def cfo_close(w: World) -> None:
             "cfo",
             "announce",
             "runway",
-            f"Runway {before:.0f} → {w.runway_days:.0f} days",
+            f"Runway {before:.0f} -> {w.runway_days:.0f} days (defer + accelerated AR)",
         )
     )
     w.approvals.append(
         {
             "id": "appr-supplier-deposit",
-            "description": "Supplier deposit — North Bay Flour Co",
+            "description": "Supplier deposit - North Bay Flour Co",
             "amount_cents": 140_000,
             "status": "waiting",
         }
@@ -140,14 +142,14 @@ def cfo_close(w: World) -> None:
             "cashier",
             "hold",
             "appr-supplier-deposit",
-            "$1,400 exceeds $1,000 autonomy — WAITING for Approve",
+            "$1,400 exceeds $1,000 autonomy - WAITING for Approve",
             140_000,
         )
     )
 
 
 def owner_approve(w: World) -> None:
-    print("\n▸ OWNER: one-tap Approve")
+    print("\n> OWNER: one-tap Approve")
     time.sleep(0.15)
     appr = w.approvals[0]
     appr["status"] = "approved"
@@ -165,8 +167,8 @@ def owner_approve(w: World) -> None:
 
 def main() -> None:
     print("=" * 60)
-    print(" SwarmCFO sim — Maya's Bakery")
-    print(f" Cash ${CASH_START/100:,.0f} · burn ${BURN/100:,.0f}/day · runway ~{CASH_START/BURN:.0f} days")
+    print(" SwarmCFO sim - Maya's Bakery")
+    print(f" Cash ${CASH_START/100:,.0f} | burn ${BURN/100:,.0f}/day | runway ~{CASH_START/BURN:.0f} days")
     print("=" * 60)
 
     w = World()
