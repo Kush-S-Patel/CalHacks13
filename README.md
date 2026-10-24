@@ -1,10 +1,10 @@
-# SwarmCFO
+# SwarmCFO — Mission Margin Controller
 
-**Autonomous finance for a one-person company — built as a Hyphenate *system of work*.**
+**Sell a financial result, not an agent architecture:** every client deliverable runs as a budgeted multi-agent mission with hard tool-spend limits, audited denials, and a job-cost ledger (quote vs actual cost vs margin).
 
-Maya’s Bakery: $18,400 cash, $1,650/day burn, **11 days runway**. She is CEO, baker, and the entire finance department. SwarmCFO is the finance team she would hire — agents that **do the work**, ask when judgment is needed, and prove every call.
+The Hyphenate **system of work** (World · Time · Team · Limits) is the control plane. Maya’s Bakery remains the messy-corner demo that proves roles, gateway posts, and audit. The product wedge for agencies is **Jobs** (`/suite/jobs`): fixed-price work that stays profitable.
 
-> Harnesses made agents capable. This puts them inside a company: **World · Time · Team · Limits.**
+> Harnesses made agents capable. SwarmCFO makes autonomous jobs **accountable**.
 
 ## Why this wins the Hyphenate track
 
@@ -73,12 +73,17 @@ npm run sow          # python -m sow.scenario → poc/last_sow_run.json · score
 
 ## Product surfaces
 
+- **Mission Margin Controller** (`/suite/jobs`, `POST /v1/missions/demo`) — quote $250 / max tool spend $8; research→extract→verify under `BudgetController`; overspend **DENIED + audited**; deliverable + job ledger + margin  
 - **ERP Suite** (`/suite`) — enterprise **Summary**, **Upload** analyzer, **Documents** vault, **Graphs**, **Work**  
-- **Document intake** — FinDoc OCR ([financial-documents](https://huggingface.co/datasets/daitavan/financial-documents)) + FinCriticalED ([dataset](https://huggingface.co/datasets/TheFinAI/FinCriticalED)) + [DocILE](https://github.com/rossumai/docile) invoices from `data/train_data` → classify → extract → vault
-- **Per-business knowledge** — DocILE KILE/LIR fields expand each issuing vendor into customers, supply-chain parties, SKUs, and relationship strength (`/suite/businesses`, `POST /v1/erp/intake/docile`). Download: `.\scripts\download_docile.ps1 $env:DOCILE_TOKEN`  
-- **Spreadsheet analyzer** — CSV/XLSX (+ scanned text); maps CoA / revenue / AP / AR / supply chain into the vault  
-- **Digital vault** — stores uploads under `data/erp_vault/`; adjacent to NetSuite / QBO / Stripe / bank  
-- **Capital One Nessie** — live bank-sim rail (`NESSIE_API_KEY` → `https://api.nessieisreal.com`); demo posts deposits/withdrawals; UI shows the Nessie mark  
+- **Document intake** — FinDoc OCR + FinCriticalED + [DocILE](https://github.com/rossumai/docile) → vault / per-business knowledge  
+- **Capital One Nessie** — live bank-sim rail; UI shows the Nessie mark  
+- **Claude agents** — `POST /v1/agents/{risk|cfo|…}/run` → audited SoW transitions  
+- **NetSuite-shaped SoR** — gateway fan-out (`GET /v1/erp/netsuite`)  
+
+### Future domain: Claims (not this slice)
+
+Nonprofit grant **reimbursement packages** (award rules → match ledger↔evidence → compliance exceptions → draft claim) remain Plan B if agency interviews show weak job-margin pain. That needs a new accounting/award domain layer — not a retrofit of market tools.
+
 
 - **Runway** — the one number Maya cares about  
 - **Company graphs** — supply chain / context / relationships with **exact USD**; **fraud in red**  
@@ -88,10 +93,11 @@ npm run sow          # python -m sow.scenario → poc/last_sow_run.json · score
 ## Repo layout
 
 ```
-agents/sow/       System of work engine (the product core)
-agents/main.py    FastAPI — world, audit, approve, demo, score
-apps/web/         Next.js world + phone
-spacetime/        Multiplayer shared state (work_item, policy, audit_event)
+agents/missions/  Mission Margin Controller (budget, metered tools, job ledger)
+agents/sow/       System of work engine (control plane)
+agents/main.py    FastAPI — world, missions, erp, nessie, agents
+apps/web/         Next.js world + ERP suite + Jobs
+spacetime/        Multiplayer shared state
 data/seed/        Messy bakery ledger + answer key
 poc/              Deterministic sims + last_sow_run.json
 ```

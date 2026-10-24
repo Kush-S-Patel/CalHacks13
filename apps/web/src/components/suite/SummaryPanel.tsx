@@ -133,10 +133,12 @@ export function SummaryPanel() {
                 <strong>
                   {name}
                   {name === "nessie" ? " · Capital One" : ""}
+                  {name === "netsuite" ? " · SoR" : ""}
                 </strong>
                 <span>
                   {info.status}
                   {name === "nessie" ? " · Powered by Nessie" : ""}
+                  {name === "netsuite" ? " · gateway fan-out" : ""}
                 </span>
               </li>
             ))}

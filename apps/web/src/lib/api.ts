@@ -85,6 +85,19 @@ export const api = {
       nessie_marker?: string | null;
     }>("/v1/demo/run", { method: "POST" }),
   nessie: () => req<Record<string, unknown>>("/v1/nessie"),
+  netsuite: () => req<Record<string, unknown>>("/v1/erp/netsuite"),
+  runAgent: (agent: string, message: string) =>
+    req<{
+      ok?: boolean;
+      live_claude?: boolean;
+      model?: string;
+      text?: string;
+      actions?: unknown[];
+      error?: string;
+    }>(`/v1/agents/${encodeURIComponent(agent)}/run`, {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    }),
   approve: (id: string) =>
     req<{ item: WorkItem; world: WorldSnapshot }>(`/v1/work/${id}/approve`, {
       method: "POST",
@@ -101,4 +114,12 @@ export const api = {
       body: JSON.stringify({ actor_id: "human-maya", answer }),
     }),
   reset: () => req<WorldSnapshot>("/v1/reset", { method: "POST" }),
+  missions: () => req<{ missions: unknown[]; count: number }>("/v1/missions"),
+  missionDemo: () =>
+    req<{
+      ok: boolean;
+      score: number;
+      job_ledger: Record<string, number>;
+      mission: { id: string; status: string };
+    }>("/v1/missions/demo", { method: "POST" }),
 };

@@ -33,8 +33,13 @@ from erp.intake.pipeline import (
 )
 from erp.store import ERP, seed_sample_if_empty
 from erp.summary import build_enterprise_summary
+from erp.netsuite.adapter import NETSUITE
+from missions.orchestrate import complete_after_expand, create_mission, expand_budget, run_mission
+from missions.scenario import run_mission_demo
+from missions.store import MISSIONS
 from nessie.client import get_nessie
 from nessie.demo import provision_maya_bakery, snapshot_for_ui, sync_demo_to_nessie
+from runtime import run_agent
 from sow.improve import handle_rejection
 from sow.models import ACTORS, MAYA
 from sow.roles import Denied
@@ -91,6 +96,9 @@ def root() -> dict[str, Any]:
         "businesses": "/v1/erp/businesses",
         "docile": "/v1/erp/intake/docile",
         "nessie": "/v1/nessie",
+        "netsuite": "/v1/erp/netsuite",
+        "agents": "/v1/agents/{agent}/run",
+        "missions": "/v1/missions",
         "ui": "http://127.0.0.1:3000/suite",
     }
 
@@ -113,15 +121,51 @@ def health() -> dict[str, Any]:
         "ok": True,
         "service": "swarmcfo",
         "anthropic_configured": bool(settings.anthropic_api_key),
+        "claude_model": settings.claude_model,
         "nessie_configured": nessie.enabled,
         "nessie_marker": "Powered by Capital One Nessie" if nessie.enabled else None,
+        "netsuite": NETSUITE.totals(),
         "work_items": len(WORLD.work_items),
         "policies": len(WORLD.policies),
         "audit_events": len(WORLD.audit),
         "runway_days": round(WORLD.runway_days, 2),
         "erp_documents": len(ERP.documents),
         "erp_accounts": len(ERP.accounts),
+        "missions": len(MISSIONS.missions),
     }
+
+
+class AgentRunBody(BaseModel):
+    message: str
+    room_id: str = Field(default_factory=lambda: settings.demo_room)
+
+
+@app.post("/v1/agents/{agent}/run")
+async def agent_run(agent: str, body: AgentRunBody) -> dict[str, Any]:
+    """Live Claude tool-use → SoW transitions (Risk / Procurement / Collections / Cashier / CFO)."""
+    result = await run_agent(
+        agent,
+        WORLD.snapshot(),
+        body.message,
+        room_id=body.room_id,
+        sow=WORLD,
+    )
+    result["world"] = {
+        "runway_days": WORLD.runway_days,
+        "work_items": len(WORLD.work_items),
+        "open_holds": len([w for w in WORLD.work_items.values() if w.state == "HELD"]),
+    }
+    return result
+
+
+@app.get("/v1/erp/netsuite")
+def netsuite_snapshot() -> dict[str, Any]:
+    return NETSUITE.snapshot()
+
+
+@app.post("/v1/erp/netsuite/sync-coa")
+def netsuite_sync_coa() -> dict[str, Any]:
+    return NETSUITE.sync_coa_from_erp()
 
 
 @app.get("/v1/nessie")
@@ -389,9 +433,18 @@ def approve_work(work_item_id: str, body: ActorAction | None = None) -> dict[str
     actor = ACTORS.get((body.actor_id if body else None) or MAYA.id, MAYA)
     try:
         item = WORLD.approve(work_item_id, actor, (body.reason if body else None) or "approved")
+        posted = None
         if item.state == "APPROVED":
-            WORLD.post(work_item_id)
-        return {"item": item.to_dict(), "world": WORLD.snapshot()}
+            dest = {
+                "ap_invoice": "netsuite",
+                "cash_match": "netsuite",
+                "ar_collect": "crm",
+                "spend_hold": "nessie",
+                "forecast": "fpa",
+                "procurement": "procurement",
+            }.get(item.kind, "netsuite")
+            posted = WORLD.post(work_item_id, destination=dest)
+        return {"item": item.to_dict(), "posted": posted, "world": WORLD.snapshot(), "netsuite": NETSUITE.totals()}
     except Denied as e:
         raise HTTPException(403, str(e)) from e
     except KeyError as e:
@@ -448,6 +501,7 @@ def demo_run() -> dict[str, Any]:
         "answer_key": result["answer_key"],
         "nessie": nessie,
         "nessie_marker": "Powered by Capital One Nessie" if nessie.get("used_nessie") else None,
+        "netsuite": NETSUITE.snapshot(),
     }
 
 
@@ -473,6 +527,84 @@ def reset_world() -> dict[str, Any]:
     WORLD.cash_balance_cents = fresh.cash_balance_cents
     WORLD.daily_burn_cents = fresh.daily_burn_cents
     return WORLD.snapshot()
+
+
+# ─── Mission Margin Controller ───────────────────────────────────────────────
+
+
+class MissionCreateBody(BaseModel):
+    client: str = "Acme Corp"
+    brief: str = "Intelligence report"
+    quote_cents: int | None = None
+    max_spend_cents: int | None = None
+
+
+class MissionExpandBody(BaseModel):
+    additional_cents: int = 200
+    reason: str = "owner expand budget"
+
+
+@app.get("/v1/missions")
+def list_missions() -> dict[str, Any]:
+    return {"missions": MISSIONS.list_summaries(), "count": len(MISSIONS.missions)}
+
+
+@app.post("/v1/missions")
+def missions_create(body: MissionCreateBody) -> dict[str, Any]:
+    m = create_mission(
+        client=body.client,
+        brief=body.brief,
+        quote_cents=body.quote_cents if body.quote_cents is not None else settings.mission_default_quote_cents,
+        max_spend_cents=body.max_spend_cents
+        if body.max_spend_cents is not None
+        else settings.mission_default_max_spend_cents,
+    )
+    return {"mission": m.to_dict()}
+
+
+@app.get("/v1/missions/{mission_id}")
+def missions_get(mission_id: str) -> dict[str, Any]:
+    m = MISSIONS.get(mission_id)
+    if not m:
+        raise HTTPException(404, f"unknown mission {mission_id}")
+    return {"mission": m.to_dict(), "job_ledger": m.job_ledger()}
+
+
+@app.post("/v1/missions/{mission_id}/run")
+def missions_run(mission_id: str, force_overspend_probe: bool = True) -> dict[str, Any]:
+    m = MISSIONS.get(mission_id)
+    if not m:
+        raise HTTPException(404, f"unknown mission {mission_id}")
+    return run_mission(m, sow=WORLD, force_overspend_probe=force_overspend_probe)
+
+
+@app.post("/v1/missions/{mission_id}/expand-budget")
+def missions_expand(mission_id: str, body: MissionExpandBody) -> dict[str, Any]:
+    m = MISSIONS.get(mission_id)
+    if not m:
+        raise HTTPException(404, f"unknown mission {mission_id}")
+    expand_budget(m, body.additional_cents, reason=body.reason)
+    # Create budget_expand work for audit trail
+    from sow.models import SYNC
+
+    wi = WORLD.create_work(
+        SYNC,
+        kind="budget_expand",  # type: ignore[arg-type]
+        subject=mission_id,
+        title=f"Expand mission budget +${body.additional_cents/100:.2f}",
+        amount_cents=body.additional_cents,
+        payload={"mission_id": mission_id, "reason": body.reason},
+    )
+    m.work_item_ids.append(wi.id)
+    MISSIONS.upsert(m)
+    finished = complete_after_expand(m, sow=WORLD)
+    return finished
+
+
+@app.post("/v1/missions/demo")
+def missions_demo() -> dict[str, Any]:
+    """Answer-key: $250 quote / $8 cap / deny overspend / job ledger + margin."""
+    return run_mission_demo(WORLD, expand_and_finish=True)
 
 
 if __name__ == "__main__":

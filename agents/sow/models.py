@@ -24,6 +24,9 @@ WorkKind = Literal[
     "spend_hold",  # above-autonomy payment
     "forecast",  # runway / defer
     "policy",  # policy proposal as work
+    "mission_run",  # Mission Margin Controller — budgeted job
+    "budget_expand",  # human expands mission tool budget
+    "mission_deliverable",  # packaged report + job ledger
 ]
 
 WorkState = Literal[

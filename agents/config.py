@@ -26,5 +26,12 @@ class Settings(BaseSettings):
     nessie_api_key: str = ""
     nessie_base_url: str = "https://api.nessieisreal.com"
 
+    # Claude model for agent tool-use (override via CLAUDE_MODEL)
+    claude_model: str = "claude-sonnet-4-5"
+
+    # Mission Margin Controller — default demo economics
+    mission_default_quote_cents: int = 25_000  # $250
+    mission_default_max_spend_cents: int = 800  # $8
+
 
 settings = Settings()

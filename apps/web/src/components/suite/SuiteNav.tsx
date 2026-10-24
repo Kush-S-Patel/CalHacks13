@@ -6,6 +6,7 @@ import { NessieBadge } from "@/components/NessieBadge";
 
 const LINKS = [
   { href: "/suite", label: "Summary" },
+  { href: "/suite/jobs", label: "Jobs" },
   { href: "/suite/upload", label: "Upload" },
   { href: "/suite/documents", label: "Documents" },
   { href: "/suite/businesses", label: "Enterprises" },

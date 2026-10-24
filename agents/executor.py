@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from config import settings
+from config import settings  # noqa: E402 — path set by main
 
 log = logging.getLogger("swarmcfo.executor")
 
@@ -34,8 +34,29 @@ async def call_reducer(name: str, args: dict[str, Any]) -> dict[str, Any]:
     return {"ok": True, "reducer": name}
 
 
-async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], room_id: str) -> dict[str, Any]:
+async def execute_tool(
+    agent: str,
+    tool_name: str,
+    tool_input: dict[str, Any],
+    room_id: str,
+    *,
+    sow: Any | None = None,
+) -> dict[str, Any]:
     limit = settings.cashier_auto_pay_limit_usd
+
+    # Prefer System of Work when provided (live Claude → audited queue)
+    sow_result: dict[str, Any] | None = None
+    if sow is not None:
+        from sow.claude_bridge import apply_tool_to_sow
+
+        if tool_name == "pay":
+            amount = int(tool_input["amount_cents"])
+            if _cents_to_usd(amount) > limit:
+                raise AutonomyError(
+                    f"Cashier cannot auto-pay ${_cents_to_usd(amount):.2f}; "
+                    f"limit is ${limit:.0f}. Use hold_payment."
+                )
+        sow_result = apply_tool_to_sow(sow, agent, tool_name, tool_input)
 
     if tool_name == "pay":
         amount = int(tool_input["amount_cents"])
@@ -44,7 +65,7 @@ async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], r
                 f"Cashier cannot auto-pay ${_cents_to_usd(amount):.2f}; "
                 f"limit is ${limit:.0f}. Use hold_payment."
             )
-        return await call_reducer(
+        reducer = await call_reducer(
             "pay",
             {
                 "room_id": room_id,
@@ -54,9 +75,10 @@ async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], r
                 "rationale": tool_input["rationale"],
             },
         )
+        return {**reducer, "sow": sow_result}
 
     if tool_name == "hold_payment":
-        return await call_reducer(
+        reducer = await call_reducer(
             "hold_payment",
             {
                 "room_id": room_id,
@@ -67,9 +89,10 @@ async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], r
                 "rationale": tool_input["rationale"],
             },
         )
+        return {**reducer, "sow": sow_result}
 
     if tool_name == "block_invoice":
-        return await call_reducer(
+        reducer = await call_reducer(
             "block_invoice",
             {
                 "room_id": room_id,
@@ -79,9 +102,10 @@ async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], r
                 "duplicate_of": tool_input.get("duplicate_of"),
             },
         )
+        return {**reducer, "sow": sow_result}
 
     if tool_name == "counter_offer":
-        return await call_reducer(
+        reducer = await call_reducer(
             "counter_offer",
             {
                 "room_id": room_id,
@@ -92,9 +116,10 @@ async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], r
                 "proposed_price_cents": int(tool_input["proposed_price_cents"]),
             },
         )
+        return {**reducer, "sow": sow_result}
 
     if tool_name == "chase_ar":
-        return await call_reducer(
+        reducer = await call_reducer(
             "chase_ar",
             {
                 "room_id": room_id,
@@ -103,9 +128,10 @@ async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], r
                 "rationale": tool_input["rationale"],
             },
         )
+        return {**reducer, "sow": sow_result}
 
     if tool_name == "defer_spend":
-        return await call_reducer(
+        reducer = await call_reducer(
             "defer_spend",
             {
                 "room_id": room_id,
@@ -114,9 +140,10 @@ async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], r
                 "rationale": tool_input["rationale"],
             },
         )
+        return {**reducer, "sow": sow_result}
 
     if tool_name == "arbitrate":
-        return await call_reducer(
+        reducer = await call_reducer(
             "arbitrate",
             {
                 "room_id": room_id,
@@ -125,8 +152,12 @@ async def execute_tool(agent: str, tool_name: str, tool_input: dict[str, Any], r
                 "rationale": tool_input["rationale"],
             },
         )
+        return {**reducer, "sow": sow_result}
 
     if tool_name == "recompute_runway":
-        return await call_reducer("recompute_runway", {"room_id": room_id})
+        reducer = await call_reducer("recompute_runway", {"room_id": room_id})
+        return {**reducer, "sow": sow_result}
 
+    if sow_result is not None:
+        return sow_result
     return {"ok": False, "error": f"unknown tool {tool_name}"}
