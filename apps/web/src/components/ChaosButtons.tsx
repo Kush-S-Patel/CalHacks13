@@ -1,38 +1,30 @@
 "use client";
 
-import { CHAOS_BUTTONS } from "@swarmcfo/shared";
 import { useWorld } from "@/hooks/useWorld";
 import { injectChaos, resetDemo } from "@/lib/demo-store";
 
 export function ChaosButtons() {
-  const { chaosInjected } = useWorld();
+  const { ready, error } = useWorld();
 
   return (
     <section className="chaos">
-      <h2>Inject chaos</h2>
-      <p className="sub">Judges press these — or join from phone via QR.</p>
+      <h2>Run the system of work</h2>
+      <p className="sub">
+        Sync → learn policies → agents propose → ask/hold → owner decide → gateway post.
+        {error ? ` API: ${error}` : ready ? " Connected." : " Connecting…"}
+      </p>
       <div className="grid">
-        {CHAOS_BUTTONS.map((b) => {
-          const done = chaosInjected.includes(b.kind);
-          return (
-            <button
-              key={b.kind}
-              type="button"
-              disabled={done}
-              onClick={() => void injectChaos(b.kind)}
-            >
-              <span className="label">{b.label}</span>
-              <span className="detail">{done ? "Injected" : b.detail}</span>
-            </button>
-          );
-        })}
+        <button type="button" className="primary" onClick={() => void injectChaos("full_demo")}>
+          <span className="label">Inject full chaos + answer key</span>
+          <span className="detail">Short wire · duplicate $4.2k · spike · late AR · $1.4k hold</span>
+        </button>
+        <button type="button" className="reset" onClick={() => void resetDemo()}>
+          Reset to onboarded policies
+        </button>
       </div>
-      <button type="button" className="reset" onClick={resetDemo}>
-        Reset demo
-      </button>
       <style jsx>{`
         .chaos {
-          padding: 0 2rem 1.5rem;
+          padding: 0 2rem 1.25rem;
         }
         h2 {
           font-family: var(--font-display);
@@ -45,26 +37,19 @@ export function ChaosButtons() {
           font-size: 0.9rem;
         }
         .grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          display: flex;
+          flex-wrap: wrap;
           gap: 0.65rem;
+          align-items: center;
         }
-        .grid button {
+        .primary {
           text-align: left;
-          background: var(--bg-panel);
-          border: 1px solid var(--line);
-          border-radius: 10px;
-          padding: 1rem;
-          color: var(--ink);
-          transition: border-color 0.15s ease, background 0.15s ease;
-        }
-        .grid button:not(:disabled):hover {
-          border-color: var(--accent);
           background: #1f3328;
-        }
-        .grid button:disabled {
-          opacity: 0.55;
-          cursor: default;
+          border: 1px solid var(--accent);
+          border-radius: 10px;
+          padding: 1rem 1.15rem;
+          color: var(--ink);
+          max-width: 28rem;
         }
         .label {
           display: block;
@@ -76,11 +61,10 @@ export function ChaosButtons() {
           color: var(--ink-muted);
         }
         .reset {
-          margin-top: 0.85rem;
           background: transparent;
           border: 1px dashed var(--line);
           color: var(--ink-muted);
-          padding: 0.45rem 0.85rem;
+          padding: 0.55rem 0.85rem;
           border-radius: 6px;
           font-size: 0.8rem;
         }

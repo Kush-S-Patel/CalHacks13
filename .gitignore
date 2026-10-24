@@ -35,6 +35,7 @@ recordings/
 .turbo/
 .vercel/
 poc/last_sim.json
+poc/last_sow_run.json
 
 # logs
 *.log

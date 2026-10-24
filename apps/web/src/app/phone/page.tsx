@@ -1,45 +1,46 @@
 "use client";
 
-import { CHAOS_BUTTONS, DEMO_SEED, formatUsd } from "@swarmcfo/shared";
+import { DEMO_SEED, formatUsd } from "@swarmcfo/shared";
+import { useEffect } from "react";
 import { useWorld } from "@/hooks/useWorld";
-import { approve, injectChaos } from "@/lib/demo-store";
+import { approve, injectChaos, refresh } from "@/lib/demo-store";
 
-/** Owner / judge phone controller — runway + Approve + chaos inject. */
+/** Owner phone — runway + Approve + run demo. */
 export default function PhonePage() {
   const world = useWorld();
-  const waiting = world.approvals.find((a) => a.status === "waiting");
+  const hold = world.holds[0];
+
+  useEffect(() => {
+    void refresh();
+    const t = setInterval(() => void refresh(), 3000);
+    return () => clearInterval(t);
+  }, []);
 
   return (
     <main className="phone">
       <p className="brand">SwarmCFO</p>
-      <p className="who">{DEMO_SEED.ownerName}</p>
+      <p className="who">{DEMO_SEED.ownerName} · system of work</p>
 
       <div className="runway">
         <span>Runway</span>
         <p className="mono">{world.runwayDays.toFixed(0)} days</p>
         <small className="mono">{formatUsd(world.cashBalanceCents)}</small>
+        {world.score && (
+          <small className="score">Hyphenate {world.score.hyphenate_score}/100</small>
+        )}
       </div>
 
-      {waiting ? (
-        <button type="button" className="approve" onClick={() => approve(waiting.id)}>
-          Approve {formatUsd(waiting.amountCents)}
+      {hold ? (
+        <button type="button" className="approve" onClick={() => void approve(hold.id)}>
+          Approve {formatUsd(hold.amount_cents)}
         </button>
       ) : (
-        <p className="idle">Nothing waiting — inject chaos below</p>
+        <p className="idle">Nothing held — run chaos to open work</p>
       )}
 
-      <div className="chaos">
-        {CHAOS_BUTTONS.map((b) => (
-          <button
-            key={b.kind}
-            type="button"
-            disabled={world.chaosInjected.includes(b.kind)}
-            onClick={() => void injectChaos(b.kind)}
-          >
-            {b.label}
-          </button>
-        ))}
-      </div>
+      <button type="button" className="chaos" onClick={() => void injectChaos()}>
+        Run full demo
+      </button>
 
       <style jsx>{`
         .phone {
@@ -80,6 +81,11 @@ export default function PhonePage() {
         }
         small {
           color: var(--ink-muted);
+          display: block;
+        }
+        .score {
+          margin-top: 0.5rem;
+          color: var(--accent-bright) !important;
         }
         .approve {
           border: none;
@@ -98,21 +104,13 @@ export default function PhonePage() {
           font-size: 0.9rem;
         }
         .chaos {
-          display: flex;
-          flex-direction: column;
-          gap: 0.55rem;
           margin-top: auto;
-        }
-        .chaos button {
           background: #1f3328;
           border: 1px solid var(--line);
           color: var(--ink);
           padding: 1rem;
           border-radius: 10px;
           font-weight: 600;
-        }
-        .chaos button:disabled {
-          opacity: 0.45;
         }
       `}</style>
     </main>

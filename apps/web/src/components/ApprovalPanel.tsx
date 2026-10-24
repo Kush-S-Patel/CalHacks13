@@ -5,33 +5,28 @@ import { useWorld } from "@/hooks/useWorld";
 import { approve } from "@/lib/demo-store";
 
 export function ApprovalPanel() {
-  const { approvals } = useWorld();
-  const waiting = approvals.filter((a) => a.status === "waiting");
-
-  if (waiting.length === 0 && approvals.length === 0) return null;
+  const { holds } = useWorld();
+  if (holds.length === 0) return null;
 
   return (
     <section className="approvals">
       <h2>Owner approvals</h2>
-      {waiting.length === 0 ? (
-        <p className="none">No holds — Cashier is within autonomy.</p>
-      ) : (
-        waiting.map((a) => (
-          <div key={a.id} className="row">
-            <div>
-              <span className="status">WAITING</span>
-              <p>{a.description}</p>
-              <p className="amt mono">{formatUsd(a.amountCents)}</p>
-            </div>
-            <button type="button" onClick={() => approve(a.id)}>
-              Approve
-            </button>
+      <p className="hint">One number. One button. Complexity under the hood.</p>
+      {holds.map((a) => (
+        <div key={a.id} className="row">
+          <div>
+            <span className="status">HELD</span>
+            <p>{a.title}</p>
+            <p className="amt mono">{formatUsd(a.amount_cents)}</p>
           </div>
-        ))
-      )}
+          <button type="button" onClick={() => void approve(a.id)}>
+            Approve
+          </button>
+        </div>
+      ))}
       <style jsx>{`
         .approvals {
-          margin: 0 2rem 2rem;
+          margin: 0 2rem 1.5rem;
           padding: 1.25rem 1.35rem;
           border: 1px solid var(--hold);
           border-radius: 12px;
@@ -40,11 +35,12 @@ export function ApprovalPanel() {
         h2 {
           font-family: var(--font-display);
           font-size: 1.15rem;
-          margin: 0 0 0.75rem;
-        }
-        .none {
           margin: 0;
+        }
+        .hint {
+          margin: 0.25rem 0 0.85rem;
           color: var(--ink-muted);
+          font-size: 0.85rem;
         }
         .row {
           display: flex;
@@ -73,11 +69,6 @@ export function ApprovalPanel() {
           font-size: 1rem;
           padding: 0.85rem 1.4rem;
           border-radius: 8px;
-          transition: transform 0.15s ease, background 0.15s ease;
-        }
-        button:hover {
-          background: var(--accent-bright);
-          transform: translateY(-1px);
         }
       `}</style>
     </section>

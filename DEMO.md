@@ -1,27 +1,65 @@
-# SwarmCFO — 3-minute demo script
+# SwarmCFO — Hyphenate demo script (3 minutes)
 
-## Pre-flight (T−30 min)
+## Pre-flight
 
-1. Run `npm run sim` once — confirm last_sim.json writes  
-2. Record local fallback video (`poc` path) before final hour  
-3. Big screen: `/` · Phone: `/phone` · QR visible  
-4. Seed SpacetimeDB: `npm run spacetime:publish` then open world  
-5. Agent service: `npm run agents` with `ANTHROPIC_API_KEY`  
+```bash
+pip install -r agents/requirements.txt
+cd agents && python -m sow.scenario   # expect SCORE 100/100
+uvicorn main:app --port 8000
+# other terminal
+npm run dev
+```
 
-## Script
+Record fallback video of `sow.scenario` before the final hour.
 
-| Time | Beat |
-| --- | --- |
-| 0:00–0:20 | Pain: Maya alone, runway counter ticking at **11 days** |
-| 0:20–0:50 | Judge presses chaos (or QR from their phone): price spike, duplicate $4.2k, late $9.2k |
-| 0:50–1:40 | Show **tool calls, not chat** — BLOCKED + reason, counter SENT, Procurement vs Risk → CFO arbitrate |
-| 1:40–2:20 | $1,400 **WAITING** → owner tap **Approve** → every screen updates |
-| 2:20–3:00 | Close: “2,000 students here will start something alone. None can hire a finance team. This is the team.” |
+## Talk track mapped to judging
 
-## Talk track (owner UI)
+### 0:00–0:25 — Real enough
+> “Maya’s Bakery. One person. Eleven days of runway. We’re not replacing her bank or QuickBooks — we sit on top as the **system of work**.”
 
-> “Judges asked if this is too complex for someone without a finance background. The owner sees one number — runway — and one button — Approve. The swarm lives under the hood.”
+Show runway. Mention systems of record vs system of work (workshop slide).
 
-## Fallback
+### 0:25–0:50 — Self-learning
+> “At onboarding we queried a year of short wires. **pol-001**: gap ≤ $50 → book to 6850 Bank Fees. Evidence: seven precedents. Maya approved the policy — not a prompt.”
 
-If Wi-Fi / Anthropic / SpacetimeDB dies: play recorded video, or run `python poc/swarmcfo_sim.py` on projector terminal.
+Flash Policy panel.
+
+### 0:50–1:15 — Graphs (complicated company)
+Open `/graphs` or the Company graph on the world page.
+
+> “This is not a toy ledger. Full supply chain — wheat co-op to Harbor Cafe — with **exact dollars** on every edge. Red dashed = fraud. Amber = hold.”
+
+Flip tabs: **Supply chain** → **Context** → **Relationships**. Click the FRAUD $4,200 edge.
+
+### 1:15–1:50 — Team + limits (would you hire it?)
+Press **Run full demo** (graphs refresh live).
+
+Call out on the audit feed:
+1. Short wire → **ASK** → Maya answers → gateway **POST**  
+2. Duplicate $4,200 → **BLOCK** · show **DENIED** when Risk tries to approve  
+3. Procurement vs Risk → CFO **arbitrate**  
+4. Cashier **cannot** approve $1,400 — **HELD**
+
+> “Limits are in `can()`. Denied attempts are logged. Only the gateway posts.”
+
+### 1:50–2:25 — Wow + handles a no
+Owner phone: **Approve** $1,400. Runway jumps. Fraud edge stays red on the graph; hold turns posted. Score → 100.
+
+Mention rejection of sketchy supplier → precedent → **pol-014** drafted (self-improving).
+
+### 2:25–3:00 — Close
+> “Two thousand students here will start something alone. None can hire a finance team. This is the team — and every call is queryable months later.”
+
+Optional: hit `/v1/audit/inv-dup-incoming` on screen.
+
+## Answer key
+
+See `agents/sow/scenario.py` → `ANSWER_KEY` and `poc/last_sow_run.json`.
+
+## Weak patterns we explicitly avoid
+
+- Chatbot over a spreadsheet  
+- Ten shallow workflows  
+- Happy-path-only data  
+- “The prompt tells it not to”  
+- Memory that dies with the context window  

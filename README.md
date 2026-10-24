@@ -1,125 +1,115 @@
 # SwarmCFO
 
-**A one-person company with a full finance team.**
+**Autonomous finance for a one-person company — built as a Hyphenate *system of work*.**
 
-Maya runs a bakery alone. She has $18,400 in the bank, burns $1,650/day, and has **11 days of cash runway** — and she is simultaneously the CEO, the baker, and the entire finance department.
+Maya’s Bakery: $18,400 cash, $1,650/day burn, **11 days runway**. She is CEO, baker, and the entire finance department. SwarmCFO is the finance team she would hire — agents that **do the work**, ask when judgment is needed, and prove every call.
 
-SwarmCFO gives her five autonomous agents that share one live financial world (SpacetimeDB) with her phone, a partner’s laptop, and the demo big screen. Every agent decision is a real, auditable action — block, counter, chase, pay, hold — not a chat transcript.
+> Harnesses made agents capable. This puts them inside a company: **World · Time · Team · Limits.**
 
-## The five agents
+## Why this wins the Hyphenate track
 
-| Agent | Job | Autonomy |
-| --- | --- | --- |
-| **CFO** | Owns the runway number; arbitrates disagreements; recomputes cash after every event | Governance |
-| **Risk / Fraud** | Duplicate detection, vendor legitimacy, anomalous amounts | Block / flag |
-| **Procurement** | Watches supplier prices; drafts counter-offers | Counter / recommend |
-| **Collections** | Escalating, tone-aware chase + early-pay incentives | Chase AR |
-| **Cashier** | Executes payments ≤ $1,000; holds anything above for one-tap approval | Pay / hold |
+| Judge ask | SwarmCFO |
+| --- | --- |
+| **Is it real enough?** | Maya’s Bakery messy corner: short wires, duplicate AP, late AR, spend holds |
+| **Would you hire it?** | Roles + `can()` in code; gateway-only posts; owner Approve |
+| **Something new?** | Self-learning policies from history; corrections → precedents → pol-014 |
+| **Wow moment?** | Runway 11→~20, $4.2k fraud BLOCKED, $1.4k HELD → one-tap Approve on every screen |
 
-Owner UI is intentionally one number (**runway**) and one button (**Approve**). Complexity lives under the hood.
+**Not a chatbot over a spreadsheet.** Tools are CRUD on work items. Memory is policies + precedents (not the context window). Limits are enforced in code — denied attempts are audited.
 
-## Demo (3 minutes)
-
-1. **0:00–0:20** — Pain + runway counter ticking  
-2. **0:20–0:50** — Judge injects chaos (QR join from phones)  
-3. **0:50–1:40** — Tool calls, not chat: BLOCKED invoice, SENT counter-offer, visible agent disagreement  
-4. **1:40–2:20** — $1,400 hold → owner tap → every screen updates  
-5. **2:20–3:00** — Close: “2,000 students here will start something alone. None can hire a finance team. This is the team.”
-
-Worked chaos scenario (also in `poc/swarmcfo_sim.py`):
-
-- Supplier raises prices 40% → Procurement counters (~$2,728/mo saved)  
-- Duplicate $4,200 invoice → Risk blocks it  
-- Customer 12 days late on $9,200 → Collections accelerates  
-- CFO defers $3,800 non-critical spend → runway **11 → 20 days**  
-- $1,400 supplier deposit sits in **WAITING** until Maya taps Approve  
-
-## Architecture
+## The Hyphenate blueprint (mapped)
 
 ```
-apps/web          Next.js world-view + phone controller (QR join)
-spacetime/        SpacetimeDB tables + reducers (shared live world)
-agents/           5 Claude agents: system prompt + tools + $ autonomy limit
-poc/              Deterministic offline sim (Wi-Fi/API fallback)
-data/seed         Frozen bakery ledger (30 invoices, 4 suppliers, 90 days cash)
+SYSTEMS OF RECORD          GATEWAY              SYSTEM OF WORK (this repo)
+Bank / AP / CRM / Stripe ──► one door ──► work items · policies · precedents · audit
+                              │
+                         agents + Maya share the same queue
 ```
 
-**Invariant:** Claude decides; SpacetimeDB reducers execute. That separation is the anti-“chat theatre” story.
+| Build | What we shipped |
+| --- | --- |
+| **1 Environment** | `sow/sync.py` — raw ledger → golden records, stable ids, cursors |
+| **2 Team** | `sow/roles.py` — actors, SoD (proposer ≠ approver), gateway-only `post` |
+| **3 Harness** | `sow/transitions.py` — NEW→PROPOSED→…→POSTED; tools = transitions |
+| **4 Traceability** | `sow/audit.py` — append-only diffs; `/v1/audit/{subject}` = “why?” |
+| **Self-learning** | `sow/learn.py` — pol-001 short wire, pol-002 duplicate, pol-003 autonomy |
+| **Self-improving** | `sow/improve.py` — rejections & corrections → precedents → pol-014 |
 
-```
-Judge / Owner phone ──► Next.js ──► SpacetimeDB reducers
-                              ▲            │
-                              │            ▼
-                         subscriptions   agent service (Anthropic)
-                              │            │
-                              └────────────┘  live multiplayer world
-```
+## Roles (few, done deep)
 
-### SpacetimeDB tables
-
-`cash` · `invoices` · `suppliers` · `orders` · `agent_actions` · `approvals` · `runway`
-
-### Reducers
-
-`inject_chaos` · `block_invoice` · `counter_offer` · `chase_ar` · `pay` · `hold` · `approve` · `recompute_runway`
-
-## Repo layout
-
-```
-swarmcfo/
-├── apps/web/           # Next.js (big screen + phone)
-├── spacetime/          # Rust/TS SpacetimeDB module
-├── agents/             # FastAPI + Anthropic tool-use agents
-├── packages/shared/    # Shared types / constants
-├── poc/                # Offline deterministic demo
-├── data/seed/          # Bakery ledger generator + JSON
-├── .env.example
-└── package.json        # npm workspaces
-```
+| Actor | Corner |
+| --- | --- |
+| **Risk** | Cash match (short wires), AP duplicate block |
+| **Procurement** | Supplier spike → counter-offer |
+| **Collections** | Late AR chase + early-pay |
+| **Cashier** | ≤$1k autonomy; above → HELD |
+| **CFO** | Arbitrate disagreements; defer spend; own runway |
+| **Maya (owner)** | Answer / Approve / Reject |
+| **Gateway** | Sole writer to systems of record |
 
 ## Quick start
 
 ```bash
 cp .env.example .env
-# fill ANTHROPIC_API_KEY (and optional Stripe test keys)
-
 npm install
-
-# Terminal A — SpacetimeDB (requires spacetime CLI)
-npm run spacetime:publish
-
-# Terminal B — agent service
-python -m venv .venv && .venv\Scripts\activate   # Windows
-# source .venv/bin/activate                      # macOS/Linux
 pip install -r agents/requirements.txt
-npm run agents
 
-# Terminal C — web
+# Terminal A — system of work API
+cd agents && python -m uvicorn main:app --reload --port 8000
+
+# Terminal B — product UI
 npm run dev
+# Big screen http://localhost:3000  ·  Phone http://localhost:3000/phone
 ```
 
-**Offline fallback** (judges / dead Wi-Fi):
+**Offline / Wi-Fi dead (answer key):**
 
 ```bash
-npm run sim
+npm run sow          # python -m sow.scenario → poc/last_sow_run.json · score 100
 ```
 
-## Team split (36h)
+## Product surfaces
 
-| Role | Owns |
-| --- | --- |
-| SpacetimeDB / state | Tables, reducers, subscriptions |
-| Agents / prompts / tools | Five Claude agents + arbitration |
-| Frontend world + phone UX | Big screen, QR join, Approve |
-| Data + demo + Devpost | Seed ledger, rehearsals, video before final hour |
+- **Runway** — the one number Maya cares about  
+- **Company graphs** (`/` + `/graphs`) — full supply chain, context graph, relationship graph with **exact USD** on every edge; **fraud in red**, holds in amber  
+- **Work queue** — state machine (PROPOSED / NEEDS_INFO / HELD / BLOCKED / POSTED)  
+- **Learned policies** — pol-001…014 drafted from history  
+- **Audit trail** — every transition + denials  
+- **Hyphenate score** — live scorecard against judging criteria  
+- **Phone** — QR join · Approve · run demo  
+
+## Repo layout
+
+```
+agents/sow/       System of work engine (the product core)
+agents/main.py    FastAPI — world, audit, approve, demo, score
+apps/web/         Next.js world + phone
+spacetime/        Multiplayer shared state (work_item, policy, audit_event)
+data/seed/        Messy bakery ledger + answer key
+poc/              Deterministic sims + last_sow_run.json
+```
+
+## Demo (3 min) — geared to Hyphenate
+
+1. **Pain** — runway ticking at 11 days  
+2. **Onboarding** — show pol-001 learned from 7 historical short wires  
+3. **Chaos** — short wire asks Maya; duplicate BLOCKED (agent approve DENIED on screen); spike disagreement → CFO arbitrate; AR chase; $1.4k HELD  
+4. **Approve** — Maya taps; gateway posts; every screen updates  
+5. **Score** — Hyphenate 100 · “This is the team a one-person company would hire”  
+6. **Close** — query `/v1/audit/inv-dup-incoming` — why? is one query  
+
+Script detail: [`DEMO.md`](./DEMO.md)
+
+## Outcome-shaped pitch (pricing story)
+
+SaaS sells seats. Hyphenate sells **work**. SwarmCFO proves outcomes: blocked fraud dollars, posted matches, approved holds — each an audited work item. That’s how you bill per result.
 
 ## Sponsor fit
 
-- **Hyphenate** — Autonomous Systems for Finance  
+- **Hyphenate** — Autonomous Systems for Finance (primary)  
 - **Creao** — Best One-Person Company  
-- **SpacetimeDB** — realtime multiplayer shared state  
-- **CRS** — Best Financial AI Agent  
-- **Anthropic** — five distinct Claude agents with tools  
+- **SpacetimeDB** — shared live world for agents + humans  
+- **CRS / Anthropic** — financial agents with tools, not chat theatre  
 
 ## License
 
