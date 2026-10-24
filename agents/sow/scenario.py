@@ -275,8 +275,8 @@ def run_demo(sow: SystemOfWork | None = None) -> dict[str, Any]:
 
     # ── 7. Owner approves the hold (wow: every screen) ────────────────────
     sow.approve(hold.id, MAYA, "one-tap Approve")
-    sow.post(hold.id, destination="stripe_test")
-    step(f"  [spend_hold] APPROVED + gateway posted | runway {sow.runway_days:.0f}d")
+    sow.post(hold.id, destination="nessie")  # Capital One Nessie bank rail
+    step(f"  [spend_hold] APPROVED + gateway posted → Nessie | runway {sow.runway_days:.0f}d")
 
     # ── 8. Handle a NO - rejection becomes precedent (self-improving) ─────
     bad = sow.create_work(
@@ -315,6 +315,38 @@ def run_demo(sow: SystemOfWork | None = None) -> dict[str, Any]:
     if pol014:
         step(f"  [self-improve] drafted {pol014.id}: {pol014.rule}")
 
+    # ── 9. Capital One Nessie — live bank-sim rail for demo cash moves ───
+    nessie_result: dict[str, Any] = {"ok": False, "used_nessie": False}
+    try:
+        from nessie.demo import sync_demo_to_nessie
+
+        nessie_result = sync_demo_to_nessie()
+        if nessie_result.get("ok"):
+            step(
+                "  [nessie] Capital One Nessie synced — deposits (wire+AR) + withdrawal (AP hold) | "
+                f"account={nessie_result.get('account_id')}"
+            )
+            # Mark gateway ledger that bank rail used Capital One Nessie
+            sow.gateway.posted.append(
+                {
+                    "work_item_id": "nessie-rail",
+                    "kind": "bank_sync",
+                    "subject": "nessie",
+                    "amount_cents": 0,
+                    "destination": "nessie",
+                    "provider": "Capital One Nessie",
+                    "marker": "Powered by Capital One Nessie",
+                    "account_id": nessie_result.get("account_id"),
+                    "events": len(nessie_result.get("events") or []),
+                    "logo": "/nessie-mark.svg",
+                }
+            )
+        else:
+            step(f"  [nessie] skipped/unavailable: {nessie_result.get('error') or nessie_result}")
+    except Exception as e:  # noqa: BLE001
+        nessie_result = {"ok": False, "error": str(e), "used_nessie": False}
+        step(f"  [nessie] error: {e}")
+
     score = score_run(sow)
     step(f"== SCORE {score['hyphenate_score']}/100 | wow={json.dumps(score['wow'])}")
 
@@ -324,6 +356,7 @@ def run_demo(sow: SystemOfWork | None = None) -> dict[str, Any]:
         "audit": sow.audit.all(),
         "score": score,
         "answer_key": ANSWER_KEY,
+        "nessie": nessie_result,
     }
     out_path = Path(__file__).resolve().parents[2] / "poc" / "last_sow_run.json"
     out_path.write_text(json.dumps(out, indent=2, default=str), encoding="utf-8")
@@ -350,10 +383,12 @@ ANSWER_KEY = {
         "duplicate_4200": "BLOCKED | $4,200 saved | agent approve DENIED",
         "flour_spike": "counter + Risk ask + CFO arbitrate -> APPROVED",
         "late_ar_9200": "chase proposed -> posted | cash in",
-        "deposit_1400": "HELD by pol-003 -> Maya approve -> gateway Stripe",
+        "deposit_1400": "HELD by pol-003 -> Maya approve -> gateway Stripe + Nessie withdrawal",
         "runway": "11 -> ~20 days",
         "rejection": "logged precedent | fuels pol-014 draft",
+        "nessie_bank_rail": "Capital One Nessie deposits (short wire + AR) + AP withdrawal",
     },
+    "integrations": ["Capital One Nessie (nessieisreal.com)", "NetSuite-shaped vault", "Stripe test"],
     "what_not_to_build": "Chatbot over a spreadsheet; prompt-only limits; memory that dies with the context window",
 }
 

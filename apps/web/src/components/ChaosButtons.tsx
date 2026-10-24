@@ -16,7 +16,9 @@ export function ChaosButtons() {
       <div className="grid">
         <button type="button" className="primary" onClick={() => void injectChaos("full_demo")}>
           <span className="label">Inject full chaos + answer key</span>
-          <span className="detail">Short wire · duplicate $4.2k · spike · late AR · $1.4k hold</span>
+          <span className="detail">
+            Short wire · duplicate $4.2k · spike · late AR · $1.4k hold · Capital One Nessie bank rail
+          </span>
         </button>
         <button type="button" className="reset" onClick={() => void resetDemo()}>
           Reset to onboarded policies

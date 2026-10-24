@@ -73,12 +73,16 @@ npm run sow          # python -m sow.scenario → poc/last_sow_run.json · score
 
 ## Product surfaces
 
+- **ERP Suite** (`/suite`) — enterprise **Summary**, **Upload** analyzer, **Documents** vault, **Graphs**, **Work**  
+- **Document intake** — FinDoc OCR ([financial-documents](https://huggingface.co/datasets/daitavan/financial-documents)) + FinCriticalED ([dataset](https://huggingface.co/datasets/TheFinAI/FinCriticalED)) + [DocILE](https://github.com/rossumai/docile) invoices from `data/train_data` → classify → extract → vault
+- **Per-business knowledge** — DocILE KILE/LIR fields expand each issuing vendor into customers, supply-chain parties, SKUs, and relationship strength (`/suite/businesses`, `POST /v1/erp/intake/docile`). Download: `.\scripts\download_docile.ps1 $env:DOCILE_TOKEN`  
+- **Spreadsheet analyzer** — CSV/XLSX (+ scanned text); maps CoA / revenue / AP / AR / supply chain into the vault  
+- **Digital vault** — stores uploads under `data/erp_vault/`; adjacent to NetSuite / QBO / Stripe / bank  
+- **Capital One Nessie** — live bank-sim rail (`NESSIE_API_KEY` → `https://api.nessieisreal.com`); demo posts deposits/withdrawals; UI shows the Nessie mark  
+
 - **Runway** — the one number Maya cares about  
-- **Company graphs** (`/` + `/graphs`) — full supply chain, context graph, relationship graph with **exact USD** on every edge; **fraud in red**, holds in amber  
-- **Work queue** — state machine (PROPOSED / NEEDS_INFO / HELD / BLOCKED / POSTED)  
-- **Learned policies** — pol-001…014 drafted from history  
-- **Audit trail** — every transition + denials  
-- **Hyphenate score** — live scorecard against judging criteria  
+- **Company graphs** — supply chain / context / relationships with **exact USD**; **fraud in red**  
+- **Work queue** — PROPOSED / NEEDS_INFO / HELD / BLOCKED / POSTED  
 - **Phone** — QR join · Approve · run demo  
 
 ## Repo layout

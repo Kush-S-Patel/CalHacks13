@@ -36,6 +36,17 @@ recordings/
 .vercel/
 poc/last_sim.json
 poc/last_sow_run.json
+data/erp_vault/
+data/nessie_state.json
+
+# DocILE downloads (multi-GB; use download script + token locally)
+data/train_data/docile/**/*.zip
+data/train_data/docile/**/pdfs/
+data/train_data/docile/**/ocr/
+data/train_data/docile/**/htmls/
+# keep annotations small enough to optionally share; ignore huge trees by default
+data/train_data/docile/synthetic-chunk-0/
+data/train_data/docile/annotated-trainval/
 
 # logs
 *.log

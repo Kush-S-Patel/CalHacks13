@@ -1,0 +1,16 @@
+account_code,account_name,account_type,balance
+1000,Operating Cash,asset,18400
+1100,Accounts Receivable,asset,27650
+1200,Inventory - Ingredients,asset,8200
+2000,Accounts Payable,liability,22800
+2100,Accrued Expenses,liability,3100
+3000,Owner Equity,equity,45000
+4000,Product Revenue,revenue,62800
+4100,Wholesale Revenue,revenue,28500
+5000,COGS - Flour,expense,18200
+5100,COGS - Dairy,expense,12400
+5200,Packaging Expense,expense,4200
+5300,Freight & Cold Chain,expense,3600
+6850,Bank Fees,expense,180
+6000,Payroll,expense,21000
+6100,Rent - Oakland Kitchen,expense,4800

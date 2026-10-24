@@ -1,0 +1,8 @@
+vendor,balance,memo,fraud
+North Bay Flour Co,18200,Net 30 flour,false
+Valley Dairy,12400,Weekly dairy,false
+ClearWrap Packaging,4200,Boxes & sleeves,false
+Bay Cold Logistics,3600,Refrigerated freight,false
+EcoInk Labels,980,Label print run,false
+North Bay Flour Co,4200,DUPLICATE invoice attempt,true
+Coastal Grain Alt,0,Trial alternate mill,false

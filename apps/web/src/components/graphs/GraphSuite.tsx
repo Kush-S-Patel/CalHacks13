@@ -4,12 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 import type { GraphsResponse } from "@/lib/graph-types";
 import { GraphCanvas } from "./GraphCanvas";
 
-type Tab = "supply_chain" | "context" | "relationships";
+type Tab = "supply_chain" | "context" | "relationships" | "enterprise";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "supply_chain", label: "Supply chain" },
   { id: "context", label: "Context graph" },
   { id: "relationships", label: "Relationships" },
+  { id: "enterprise", label: "Enterprise (DocILE)" },
 ];
 
 /** Prefer same-origin Next proxy, then agent, then static seed. */
@@ -55,6 +56,7 @@ export function GraphSuite({ compact = false }: { compact?: boolean }) {
   }, [load]);
 
   const graph = data?.[tab];
+  const visibleTabs = TABS.filter((t) => t.id !== "enterprise" || Boolean(data?.enterprise));
 
   return (
     <section className={`suite ${compact ? "compact" : ""}`}>
@@ -63,7 +65,7 @@ export function GraphSuite({ compact = false }: { compact?: boolean }) {
           <h2>Company graph</h2>
           <p>
             Full supply chain, money context, and entity relationships — exact dollars, fraud
-            marked in red.
+            marked in red. DocILE adds per-vendor customer and supply graphs.
           </p>
         </div>
         {data && (
@@ -71,12 +73,13 @@ export function GraphSuite({ compact = false }: { compact?: boolean }) {
             <span>{data.stats.supply_tiers} tiers</span>
             <span>{data.stats.fraud_flags} fraud flags</span>
             <span>{data.stats.cash_balance_usd}</span>
+            {data.stats.businesses != null && <span>{data.stats.businesses} enterprises</span>}
           </div>
         )}
       </div>
 
       <div className="tabs">
-        {TABS.map((t) => (
+        {visibleTabs.map((t) => (
           <button
             key={t.id}
             type="button"

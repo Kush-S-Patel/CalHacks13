@@ -10,6 +10,8 @@ import { RunwayHero } from "@/components/RunwayHero";
 import { ScoreCard } from "@/components/ScoreCard";
 import { WorkQueue } from "@/components/WorkQueue";
 import { GraphSuite } from "@/components/graphs/GraphSuite";
+import { NessieBadge } from "@/components/NessieBadge";
+import { NessiePanel } from "@/components/NessiePanel";
 import { refresh } from "@/lib/demo-store";
 import Link from "next/link";
 
@@ -25,10 +27,14 @@ export default function WorldPage() {
     <main>
       <RunwayHero />
       <nav className="subnav">
-        <Link href="/graphs">Open full graph stage</Link>
+        <Link href="/suite">ERP Suite</Link>
+        <Link href="/suite/upload">Upload sheets</Link>
+        <Link href="/graphs">Graph stage</Link>
+        <NessieBadge compact />
       </nav>
       <ScoreCard />
       <ChaosButtons />
+      <NessiePanel />
       <GraphSuite compact />
       <ApprovalPanel />
       <WorkQueue />
@@ -38,6 +44,9 @@ export default function WorldPage() {
       <style jsx>{`
         .subnav {
           padding: 0 2rem 0.75rem;
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
         }
         .subnav :global(a) {
           font-size: 0.85rem;

@@ -38,6 +38,8 @@ export type GraphsResponse = {
   supply_chain: GraphPayload;
   context: GraphPayload;
   relationships: GraphPayload;
+  enterprise?: GraphPayload;
+  businesses?: { id: string; name: string; invoice_count: number; customer_count: number }[];
   legend: Record<string, string>;
   stats: Record<string, number | string>;
 };

@@ -1,0 +1,16 @@
+from,to,amount,tier,role,memo,fraud
+Sacramento Wheat Co-op,Coastal Grain Mill,48000,0,origin,Hard wheat,false
+Petaluma Dairy Farms,Valley Dairy,36000,0,origin,Raw milk,false
+Coastal Grain Mill,North Bay Flour Co,28400,1,processor,Milled flour,false
+Coastal Grain Mill,Coastal Grain Alt,22100,1,processor,Alt channel,false
+Valley Dairy,Maya's Bakery (HQ),12400,2,vendor,Dairy AP,false
+North Bay Flour Co,Maya's Bakery (HQ),18200,2,vendor,Flour AP,false
+North Bay Flour Co,Maya's Bakery (HQ),4200,2,vendor,DUPLICATE AP,true
+ClearWrap Packaging,Maya's Bakery (HQ),4200,2,packaging,Packaging AP,false
+Bay Cold Logistics,Maya's Bakery (HQ),3600,3,logistics,Cold freight,false
+Maya's Bakery (HQ),Mission Pop-up,14200,4,company,Internal transfer,false
+Maya's Bakery (HQ),Oakland Kitchen,22800,4,company,Internal transfer,false
+Oakland Kitchen,Harbor Cafe Group,9200,5,site,Foodservice,false
+Mission Pop-up,Summit Grocery,11400,5,site,Retail,false
+Mission Pop-up,Oak Street Market,6800,5,site,Retail,false
+Maya's Bakery (HQ),Bay Area Wholesale,28500,4,company,Wholesale,false

@@ -77,7 +77,14 @@ export const api = {
       subject ? `/v1/audit/${encodeURIComponent(subject)}` : "/v1/audit",
     ),
   score: () => req<Score>("/v1/score"),
-  runDemo: () => req<{ score: Score; log: string[] }>("/v1/demo/run", { method: "POST" }),
+  runDemo: () =>
+    req<{
+      score: Score;
+      log: string[];
+      nessie?: { ok?: boolean; used_nessie?: boolean; account_id?: string };
+      nessie_marker?: string | null;
+    }>("/v1/demo/run", { method: "POST" }),
+  nessie: () => req<Record<string, unknown>>("/v1/nessie"),
   approve: (id: string) =>
     req<{ item: WorkItem; world: WorldSnapshot }>(`/v1/work/${id}/approve`, {
       method: "POST",
