@@ -80,7 +80,7 @@ def score_claim_risk(package: ClaimPackage) -> RiskScore:
     # Exception-driven risk
     codes: list[str] = []
     for m in package.matches:
-        codes.extend(m.exception_codes)
+        codes.extend(c for c in m.exception_codes if c != "excluded_from_claim")
     for ex in package.exceptions:
         if isinstance(ex, dict) and ex.get("code"):
             codes.append(str(ex["code"]))
@@ -90,6 +90,8 @@ def score_claim_risk(package: ClaimPackage) -> RiskScore:
     codes = list(dict.fromkeys(codes))
 
     for code in codes:
+        if code == "excluded_from_claim":
+            continue
         mapped = EXCEPTION_TO_DRIVERS.get(code, [])
         bump = 6
         detail: dict[str, Any] = {"exception": code, "sources": []}
@@ -123,9 +125,10 @@ def score_claim_risk(package: ClaimPackage) -> RiskScore:
         score += min(28, bump)
         drivers.append(detail)
 
-    # Coverage: unmatched / low-confidence lines
-    low_conf = [m for m in package.matches if m.confidence < 0.55]
-    missing_ev = [m for m in package.matches if not m.evidence_ids]
+    # Coverage: unmatched / low-confidence lines (ignore lines already excluded from claim)
+    active = [m for m in package.matches if "excluded_from_claim" not in m.exception_codes]
+    low_conf = [m for m in active if m.confidence < 0.55]
+    missing_ev = [m for m in active if not m.evidence_ids]
     if missing_ev:
         add = min(20, 4 * len(missing_ev))
         score += add

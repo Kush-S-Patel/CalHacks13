@@ -14,8 +14,8 @@ export function RunwayHero() {
         <div>
           <p className="brand">SwarmCFO Claims</p>
           <p className="who">
-            Reimbursement packages · live rejection-risk gauge · FAC / CA / 990 priors ·{" "}
-            {DEMO_SEED.businessName} control plane
+            Manager no → precedent → policy → denied agent approve ·{" "}
+            {DEMO_SEED.businessName} is secondary control-plane proof
           </p>
         </div>
         <NessieBadge />

@@ -15,6 +15,7 @@ export type ActionRow = {
   amountCents: number;
   at: number;
   allowed?: boolean;
+  diff?: Record<string, unknown>;
 };
 
 export type WorldState = {
@@ -80,6 +81,7 @@ function applySnapshot(snap: WorldSnapshot, audit?: AuditEvent[]) {
         amountCents: 0,
         at: Date.parse(e.at) || Date.now(),
         allowed: e.allowed,
+        diff: e.diff && Object.keys(e.diff).length ? e.diff : undefined,
       })),
   };
   emit();

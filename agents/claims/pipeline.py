@@ -193,13 +193,21 @@ def _match_transactions(
 
 def validate_totals(matches: list[TxMatch], gl_total_cents: int) -> dict[str, int]:
     """Deterministic validation engine — not LLM."""
-    claimed = sum(m.amount_cents for m in matches if "duplicate_expense" not in m.exception_codes)
+    claimed = sum(
+        m.amount_cents
+        for m in matches
+        if "duplicate_expense" not in m.exception_codes and "excluded_from_claim" not in m.exception_codes
+    )
     dup_cents = sum(m.amount_cents for m in matches if "duplicate_expense" in m.exception_codes)
+    excluded_cents = sum(m.amount_cents for m in matches if "excluded_from_claim" in m.exception_codes)
     return {
         "claimed_cents": claimed,
         "gl_cents": gl_total_cents,
         "duplicate_cents": dup_cents,
-        "recon_gap_cents": abs(claimed + dup_cents - gl_total_cents),
+        "excluded_cents": excluded_cents,
+        "recon_gap_cents": abs(claimed + dup_cents + excluded_cents - gl_total_cents)
+        if excluded_cents
+        else abs(claimed + dup_cents - gl_total_cents),
         "match_count": len(matches),
     }
 

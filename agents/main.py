@@ -44,9 +44,9 @@ from nessie.client import get_nessie
 from nessie.demo import provision_maya_bakery, snapshot_for_ui, sync_demo_to_nessie
 from runtime import run_agent
 from sow.improve import handle_rejection
-from sow.models import ACTORS, MAYA
+from sow.models import AI_CLAIMS, ACTORS, FINANCE_MANAGER, MAYA
 from sow.roles import Denied
-from sow.scenario import bootstrap, run_demo
+from sow.scenario import bootstrap
 from sow.scoring import score_run
 from sow.store import WORLD, SystemOfWork
 
@@ -435,20 +435,30 @@ def business_graph(biz_id: str) -> dict[str, Any]:
 
 @app.post("/v1/work/{work_item_id}/approve")
 def approve_work(work_item_id: str, body: ActorAction | None = None) -> dict[str, Any]:
-    actor = ACTORS.get((body.actor_id if body else None) or MAYA.id, MAYA)
+    default_actor = FINANCE_MANAGER.id if work_item_id else MAYA.id
+    raw_actor = (body.actor_id if body else None) or default_actor
+    # Claim work defaults to Finance Manager; bakery kinds keep Maya unless specified
+    item_peek = WORLD.work_items.get(work_item_id)
+    if item_peek and str(item_peek.kind).startswith("claim") and (not body or not body.actor_id):
+        raw_actor = FINANCE_MANAGER.id
+    actor = ACTORS.get(raw_actor, MAYA)
     try:
         item = WORLD.approve(work_item_id, actor, (body.reason if body else None) or "approved")
         posted = None
         if item.state == "APPROVED":
-            dest = {
-                "ap_invoice": "netsuite",
-                "cash_match": "netsuite",
-                "ar_collect": "crm",
-                "spend_hold": "nessie",
-                "forecast": "fpa",
-                "procurement": "procurement",
-            }.get(item.kind, "netsuite")
-            posted = WORLD.post(work_item_id, destination=dest)
+            # Claims never post to funder / ledger — prepare only
+            if str(item.kind).startswith("claim"):
+                posted = {"skipped": True, "reason": "claims do not submit or alter ledger"}
+            else:
+                dest = {
+                    "ap_invoice": "netsuite",
+                    "cash_match": "netsuite",
+                    "ar_collect": "crm",
+                    "spend_hold": "nessie",
+                    "forecast": "fpa",
+                    "procurement": "procurement",
+                }.get(item.kind, "netsuite")
+                posted = WORLD.post(work_item_id, destination=dest)
         return {"item": item.to_dict(), "posted": posted, "world": WORLD.snapshot(), "netsuite": NETSUITE.totals()}
     except Denied as e:
         raise HTTPException(403, str(e)) from e
@@ -465,12 +475,26 @@ def reject_work(work_item_id: str, body: ActorAction) -> dict[str, Any]:
         raise HTTPException(403, str(e)) from e
 
 
+@app.post("/v1/work/{work_item_id}/ask")
+def ask_work(work_item_id: str, body: AskBody) -> dict[str, Any]:
+    actor = ACTORS.get(body.actor_id or AI_CLAIMS.id, AI_CLAIMS)
+    try:
+        item = WORLD.ask(work_item_id, actor, body.question)
+        return {"item": item.to_dict(), "world": WORLD.snapshot()}
+    except Denied as e:
+        raise HTTPException(403, str(e)) from e
+    except KeyError as e:
+        raise HTTPException(404, f"unknown work item {work_item_id}") from e
+
+
 @app.post("/v1/work/{work_item_id}/answer")
 def answer_work(work_item_id: str, body: AnswerBody) -> dict[str, Any]:
-    actor = ACTORS.get(body.actor_id, MAYA)
+    item_peek = WORLD.work_items.get(work_item_id)
+    default = FINANCE_MANAGER.id if item_peek and str(item_peek.kind).startswith("claim") else MAYA.id
+    actor = ACTORS.get(body.actor_id or default, MAYA)
     try:
         item = WORLD.answer(work_item_id, actor, body.answer)
-        return {"item": item.to_dict()}
+        return {"item": item.to_dict(), "world": WORLD.snapshot()}
     except Denied as e:
         raise HTTPException(403, str(e)) from e
 
@@ -478,43 +502,25 @@ def answer_work(work_item_id: str, body: AnswerBody) -> dict[str, Any]:
 @app.post("/v1/demo/run")
 def demo_run() -> dict[str, Any]:
     """
-    Primary demo = SwarmCFO Claims (reimbursement package + rejection risk),
-    then classic bakery SoW for Hyphenate control-plane proof.
+    Primary demo = Claims learning loop only (Hyphenate-competitive path).
+    Bakery SoW is intentionally not the lead — see /v1/missions/demo for secondary.
     """
     claims = run_claims_demo(WORLD)
-    fresh = SystemOfWork()
-    sow_result = run_demo(fresh)
-    WORLD.work_items = {**fresh.work_items, **WORLD.work_items}
-    WORLD.policies = {**fresh.policies, **WORLD.policies}
-    WORLD.precedents = {**fresh.precedents, **WORLD.precedents}
-    WORLD.golden = fresh.golden
-    WORLD.audit = fresh.audit
-    WORLD.gateway = fresh.gateway
-    WORLD.cash_balance_cents = fresh.cash_balance_cents
-    WORLD.daily_burn_cents = fresh.daily_burn_cents
-    nessie = sow_result.get("nessie") or {}
-    if nessie.get("used_nessie"):
-        ERP.integrations["nessie"] = {
-            "status": "demo_synced",
-            "last_sync": snapshot_for_ui().get("last_sync"),
-            "marker": "Powered by Capital One Nessie",
-            "docs": "https://api.nessieisreal.com/",
-            "account_id": nessie.get("account_id"),
-            "tx_events": len(nessie.get("events") or []),
-        }
-        ERP.save()
     return {
         "product": "SwarmCFO Claims",
+        "demo": "learning_loop",
         "score": claims.get("score"),
+        "ok": claims.get("ok"),
         "claims": claims,
         "viz": claims.get("viz"),
         "risk": claims.get("risk"),
         "corpus": claims.get("corpus"),
-        "sow_score": sow_result.get("score"),
-        "log": list(claims.get("log") or []) + list(sow_result.get("log") or [])[:10],
+        "results": claims.get("results"),
+        "story": claims.get("story"),
+        "audit": claims.get("audit"),
+        "outcome": claims.get("outcome"),
+        "log": list(claims.get("log") or []),
         "answer_key": claims.get("answer_key"),
-        "nessie": nessie,
-        "nessie_marker": "Powered by Capital One Nessie" if nessie.get("used_nessie") else None,
         "netsuite": NETSUITE.snapshot(),
     }
 
@@ -656,9 +662,9 @@ def get_claim(claim_id: str) -> dict[str, Any]:
 @app.post("/v1/claims/demo")
 def claims_demo() -> dict[str, Any]:
     """
-    Primary product demo: prepare September workforce-grant reimbursement package,
-    flag evidence-backed exceptions, score rejection risk from FAC / CA denied /
-    Grants.gov-shaped / CA awards / ProPublica priors — do not submit, do not alter ledger.
+    Primary Hyphenate demo: Claims learning loop.
+    Rev1 → ask $860 → manager no → rev2 → precedent → policy → next hold →
+    agent approve DENIED → finance manager approve. Do not submit / alter ledger.
     """
     return run_claims_demo(WORLD)
 

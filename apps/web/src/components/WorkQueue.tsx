@@ -60,9 +60,16 @@ export function WorkQueue() {
                 {w.state === "NEEDS_INFO" ? (
                   <button
                     type="button"
-                    onClick={() => void answer(w.id, "Book it - intermediary fee.")}
+                    onClick={() =>
+                      void answer(
+                        w.id,
+                        w.kind?.startsWith("claim")
+                          ? "No—staff celebration. Exclude it."
+                          : "Book it - intermediary fee.",
+                      )
+                    }
                   >
-                    Answer
+                    {w.kind?.startsWith("claim") ? "Answer: exclude celebration" : "Answer"}
                   </button>
                 ) : null}
               </div>

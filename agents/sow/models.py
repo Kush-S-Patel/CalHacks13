@@ -29,6 +29,8 @@ WorkKind = Literal[
     "mission_deliverable",  # packaged report + job ledger
     "claim_prepare",  # nonprofit reimbursement package
     "claim_risk",  # rejection-risk review hold
+    "claim_question",  # ask finance manager about ambiguous expense
+    "claim_policy_hold",  # next-period expense held by learned policy
 ]
 
 WorkState = Literal[
@@ -61,16 +63,18 @@ class Actor:
         return asdict(self)
 
 
-# Named cast for Maya's Bakery
+# Named cast — Claims (primary) + bakery control-plane cast
 SYNC = Actor("sync-job", "sync", "Sync")
 AI_RISK = Actor("agent-risk", "ai_risk", "Risk / Fraud")
 AI_PROCUREMENT = Actor("agent-procurement", "ai_procurement", "Procurement")
 AI_COLLECTIONS = Actor("agent-collections", "ai_collections", "Collections")
 AI_CASHIER = Actor("agent-cashier", "ai_cashier", "Cashier")
 AI_CFO = Actor("agent-cfo", "ai_cfo", "CFO")
+AI_CLAIMS = Actor("agent-claims", "ai_claims", "Claims Agent")
 MAYA = Actor("human-maya", "human_owner", "Maya (Owner)")
 ACCOUNTANT = Actor("human-accountant", "human_accountant", "Partner Accountant")
 CONTROLLER = Actor("human-controller", "human_controller", "Controller")
+FINANCE_MANAGER = Actor("human-finance-manager", "human_finance_manager", "Finance Manager")
 GATEWAY = Actor("gateway", "gateway", "Gateway")
 
 ACTORS: dict[str, Actor] = {
@@ -82,9 +86,11 @@ ACTORS: dict[str, Actor] = {
         AI_COLLECTIONS,
         AI_CASHIER,
         AI_CFO,
+        AI_CLAIMS,
         MAYA,
         ACCOUNTANT,
         CONTROLLER,
+        FINANCE_MANAGER,
         GATEWAY,
     ]
 }

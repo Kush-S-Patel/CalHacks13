@@ -8,9 +8,12 @@ export function AuditTrail() {
   return (
     <section className="audit">
       <h2>Audit trail</h2>
-      <p className="sub">Append-only diffs. Denied attempts logged too. Months later, why? is one query.</p>
+      <p className="sub">
+        Append-only diffs. Denied attempts logged too. Claim question → answer → revision → policy →
+        DENIED agent approve → finance manager approve.
+      </p>
       <ul>
-        {actions.length === 0 && <li className="empty">No events yet.</li>}
+        {actions.length === 0 && <li className="empty">No events yet — run the Claims learning loop.</li>}
         {actions.map((a) => (
           <li key={a.id} className={a.allowed === false ? "denied" : ""}>
             <span className="act">{a.actionType}</span>
@@ -20,6 +23,9 @@ export function AuditTrail() {
                 {a.targetId}: {a.rationale}
               </p>
               {a.allowed === false && <em>DENIED</em>}
+              {a.diff && Object.keys(a.diff).length > 0 && (
+                <pre className="diff">{formatDiff(a.diff)}</pre>
+              )}
             </div>
           </li>
         ))}
@@ -42,7 +48,7 @@ export function AuditTrail() {
           list-style: none;
           margin: 0;
           padding: 0;
-          max-height: 36vh;
+          max-height: 40vh;
           overflow: auto;
           display: flex;
           flex-direction: column;
@@ -82,7 +88,36 @@ export function AuditTrail() {
           font-size: 0.72rem;
           font-weight: 700;
         }
+        .diff {
+          margin: 0.35rem 0 0;
+          font-size: 0.65rem;
+          line-height: 1.35;
+          max-height: 4.5rem;
+          overflow: auto;
+          background: rgba(0, 0, 0, 0.35);
+          padding: 0.35rem 0.45rem;
+          border-radius: 4px;
+          color: #b8cfc4;
+          white-space: pre-wrap;
+        }
       `}</style>
     </section>
   );
+}
+
+function formatDiff(diff: Record<string, unknown>): string {
+  try {
+    const parts: string[] = [];
+    for (const [k, v] of Object.entries(diff)) {
+      if (v && typeof v === "object" && "from" in (v as object) && "to" in (v as object)) {
+        const d = v as { from: unknown; to: unknown };
+        parts.push(`${k}: ${JSON.stringify(d.from)} → ${JSON.stringify(d.to)}`);
+      } else {
+        parts.push(`${k}: ${JSON.stringify(v).slice(0, 120)}`);
+      }
+    }
+    return parts.slice(0, 6).join("\n");
+  } catch {
+    return "";
+  }
 }

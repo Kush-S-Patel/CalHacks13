@@ -44,6 +44,12 @@ ROLES: dict[str, dict[str, set[str]]] = {
         "precedent": {"read", "create"},
         "forecast": {"update"},
     },
+    # Claims Agent — prepares packages, asks, never approves, never posts
+    "ai_claims": {
+        "work_item": {"propose", "ask", "hold"},
+        "policy": {"propose"},
+        "precedent": {"read", "create"},
+    },
     # Humans
     "human_owner": {  # Maya — one-person company controller
         "work_item": {"approve", "reject", "answer"},
@@ -58,6 +64,12 @@ ROLES: dict[str, dict[str, set[str]]] = {
     "human_controller": {
         "policy": {"approve", "reject"},
         "work_item": {"approve", "reject"},
+    },
+    # Nonprofit fractional CFO / finance manager — claim approvals + policy
+    "human_finance_manager": {
+        "work_item": {"approve", "reject", "answer", "correct"},
+        "policy": {"approve", "reject", "propose"},
+        "precedent": {"create", "read"},
     },
     # Gateway alone writes systems of record
     "gateway": {

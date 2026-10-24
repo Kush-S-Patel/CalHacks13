@@ -7,15 +7,12 @@ import { ChaosButtons } from "@/components/ChaosButtons";
 import { JoinQr } from "@/components/JoinQr";
 import { PolicyPanel } from "@/components/PolicyPanel";
 import { RunwayHero } from "@/components/RunwayHero";
-import { ScoreCard } from "@/components/ScoreCard";
 import { WorkQueue } from "@/components/WorkQueue";
-import { GraphSuite } from "@/components/graphs/GraphSuite";
 import { NessieBadge } from "@/components/NessieBadge";
-import { NessiePanel } from "@/components/NessiePanel";
 import { refresh } from "@/lib/demo-store";
 import Link from "next/link";
 
-/** Big-screen system of work — runway, graphs, queue, policies, audit, score. */
+/** Claims-first Hyphenate surface — learning loop leads; bakery SoW is secondary. */
 export default function WorldPage() {
   useEffect(() => {
     void refresh();
@@ -27,19 +24,14 @@ export default function WorldPage() {
     <main>
       <RunwayHero />
       <nav className="subnav">
-        <Link href="/suite/claims">Claims + risk</Link>
-        <Link href="/suite">ERP Suite</Link>
+        <Link href="/suite/claims">Claims suite</Link>
+        <Link href="/suite">ERP</Link>
         <Link href="/suite/jobs">Jobs</Link>
-        <Link href="/suite/upload">Upload sheets</Link>
-        <Link href="/graphs">Graph stage</Link>
         <NessieBadge compact />
       </nav>
-      <ScoreCard />
       <ChaosButtons />
-      <NessiePanel />
-      <GraphSuite compact />
-      <ApprovalPanel />
       <WorkQueue />
+      <ApprovalPanel />
       <PolicyPanel />
       <AuditTrail />
       <JoinQr />
