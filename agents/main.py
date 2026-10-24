@@ -49,7 +49,7 @@ bootstrap(WORLD)
 
 class ActorAction(BaseModel):
     actor_id: str = MAYA.id
-    work_item_id: str
+    work_item_id: str | None = None  # path param is source of truth
     reason: str = ""
 
 
@@ -59,6 +59,25 @@ class AskBody(ActorAction):
 
 class AnswerBody(ActorAction):
     answer: str
+
+
+@app.get("/")
+def root() -> dict[str, Any]:
+    return {
+        "service": "swarmcfo",
+        "docs": "/docs",
+        "health": "/health",
+        "graphs": "/graphs",
+        "graphs_api": "/v1/graphs",
+        "world": "/v1/world",
+        "ui": "http://127.0.0.1:3000/graphs",
+    }
+
+
+@app.get("/graphs")
+def graphs_alias() -> dict[str, Any]:
+    """Browser-friendly alias — same payload as /v1/graphs (fixes detail Not Found)."""
+    return build_graphs(WORLD)
 
 
 class ChaosKind(BaseModel):

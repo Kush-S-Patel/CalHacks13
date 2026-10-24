@@ -4,8 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import type { GraphsResponse } from "@/lib/graph-types";
 import { GraphCanvas } from "./GraphCanvas";
 
-const API = process.env.NEXT_PUBLIC_AGENT_API ?? "http://127.0.0.1:8000";
-
 type Tab = "supply_chain" | "context" | "relationships";
 
 const TABS: { id: Tab; label: string }[] = [
@@ -14,20 +12,40 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "relationships", label: "Relationships" },
 ];
 
+/** Prefer same-origin Next proxy, then agent, then static seed. */
+const GRAPH_URLS = [
+  "/api/graphs",
+  `${process.env.NEXT_PUBLIC_AGENT_API ?? "http://127.0.0.1:8765"}/graphs`,
+  "/graphs.json",
+];
+
 export function GraphSuite({ compact = false }: { compact?: boolean }) {
   const [data, setData] = useState<GraphsResponse | null>(null);
   const [tab, setTab] = useState<Tab>("supply_chain");
   const [err, setErr] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    try {
-      const res = await fetch(`${API}/v1/graphs`);
-      if (!res.ok) throw new Error(await res.text());
-      setData((await res.json()) as GraphsResponse);
-      setErr(null);
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : "graphs offline");
+    let lastErr: unknown;
+    for (const url of GRAPH_URLS) {
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) {
+          lastErr = new Error(await res.text());
+          continue;
+        }
+        const json = (await res.json()) as GraphsResponse;
+        if (!json?.supply_chain?.nodes) {
+          lastErr = new Error("invalid graph payload");
+          continue;
+        }
+        setData(json);
+        setErr(url === "/graphs.json" ? "Showing seed graphs (agent offline)." : null);
+        return;
+      } catch (e) {
+        lastErr = e;
+      }
     }
+    setErr(lastErr instanceof Error ? lastErr.message : "graphs offline");
   }, []);
 
   useEffect(() => {

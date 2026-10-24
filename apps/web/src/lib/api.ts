@@ -1,4 +1,4 @@
-const API = process.env.NEXT_PUBLIC_AGENT_API ?? "http://127.0.0.1:8000";
+const API = process.env.NEXT_PUBLIC_AGENT_API ?? "http://127.0.0.1:8765";
 
 export type WorkItem = {
   id: string;

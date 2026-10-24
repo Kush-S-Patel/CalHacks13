@@ -54,13 +54,16 @@ cp .env.example .env
 npm install
 pip install -r agents/requirements.txt
 
-# Terminal A — system of work API
-cd agents && python -m uvicorn main:app --reload --port 8000
+# Terminal A — system of work API (port 8765 — 8000 is often taken)
+npm run agents
+# expect http://127.0.0.1:8765/health → "swarmcfo" fields
 
 # Terminal B — product UI
 npm run dev
-# Big screen http://localhost:3000  ·  Phone http://localhost:3000/phone
+# Big screen http://localhost:3000  ·  Graphs /graphs  ·  Phone /phone
 ```
+
+If you see `{"detail":"Not Found"}`, something else is bound to that port — confirm `GET /` returns `"service":"swarmcfo"`.
 
 **Offline / Wi-Fi dead (answer key):**
 

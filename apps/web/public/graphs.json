@@ -1,0 +1,1184 @@
+{
+  "supply_chain": {
+    "id": "supply_chain",
+    "title": "Full supply chain",
+    "subtitle": "Origins \u2192 processors \u2192 bakery \u2192 wholesale \u2192 cafes (monthly $)",
+    "layout": "hierarchical",
+    "nodes": [
+      {
+        "id": "farm-wheat",
+        "label": "Sacramento Wheat Co-op",
+        "kind": "origin",
+        "tier": 0,
+        "tier_label": "Origin",
+        "amount_cents": 4800000,
+        "amount_label": "$48,000",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "farm-dairy",
+        "label": "Petaluma Dairy Farms",
+        "kind": "origin",
+        "tier": 0,
+        "tier_label": "Origin",
+        "amount_cents": 3600000,
+        "amount_label": "$36,000",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "mill-coastal",
+        "label": "Coastal Grain Mill",
+        "kind": "processor",
+        "tier": 1,
+        "tier_label": "Processor",
+        "amount_cents": 5200000,
+        "amount_label": "$52,000",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "sup-flour-co",
+        "label": "North Bay Flour Co",
+        "kind": "distributor",
+        "tier": 2,
+        "tier_label": "Distributor",
+        "amount_cents": 1820000,
+        "amount_label": "$18,200",
+        "fraud": false,
+        "held": false,
+        "meta": {
+          "price_spike": true
+        }
+      },
+      {
+        "id": "sup-alt-flour",
+        "label": "Coastal Grain Alt",
+        "kind": "distributor",
+        "tier": 2,
+        "tier_label": "Distributor",
+        "amount_cents": 1480000,
+        "amount_label": "$14,800",
+        "fraud": false,
+        "held": false,
+        "meta": {
+          "counter_offer": true
+        }
+      },
+      {
+        "id": "sup-dairy",
+        "label": "Valley Dairy",
+        "kind": "distributor",
+        "tier": 2,
+        "tier_label": "Distributor",
+        "amount_cents": 1240000,
+        "amount_label": "$12,400",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "sup-packaging",
+        "label": "ClearWrap Packaging",
+        "kind": "packaging",
+        "tier": 2,
+        "tier_label": "Packaging",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "plant-ink",
+        "label": "EcoInk Labels",
+        "kind": "packaging",
+        "tier": 2,
+        "tier_label": "Packaging",
+        "amount_cents": 98000,
+        "amount_label": "$980",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cold-chain",
+        "label": "Bay Cold Logistics",
+        "kind": "logistics",
+        "tier": 3,
+        "tier_label": "Logistics",
+        "amount_cents": 360000,
+        "amount_label": "$3,600",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "maya-bakery",
+        "label": "Maya's Bakery (HQ)",
+        "kind": "company",
+        "tier": 4,
+        "tier_label": "Production",
+        "amount_cents": 6200000,
+        "amount_label": "$62,000",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "site-mission",
+        "label": "Mission Pop-up",
+        "kind": "site",
+        "tier": 5,
+        "tier_label": "Channels",
+        "amount_cents": 1420000,
+        "amount_label": "$14,200",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "site-oakland",
+        "label": "Oakland Kitchen",
+        "kind": "site",
+        "tier": 5,
+        "tier_label": "Channels",
+        "amount_cents": 2280000,
+        "amount_label": "$22,800",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cust-wholesale",
+        "label": "Bay Area Wholesale",
+        "kind": "customer",
+        "tier": 6,
+        "tier_label": "Wholesale",
+        "amount_cents": 2850000,
+        "amount_label": "$28,500",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cust-harbor",
+        "label": "Harbor Cafe Group",
+        "kind": "customer",
+        "tier": 6,
+        "tier_label": "Foodservice",
+        "amount_cents": 920000,
+        "amount_label": "$9,200",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cust-summit",
+        "label": "Summit Grocery",
+        "kind": "customer",
+        "tier": 6,
+        "tier_label": "Retail",
+        "amount_cents": 1140000,
+        "amount_label": "$11,400",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cust-oak",
+        "label": "Oak Street Market",
+        "kind": "customer",
+        "tier": 6,
+        "tier_label": "Retail",
+        "amount_cents": 680000,
+        "amount_label": "$6,800",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "farm-wheat->mill-coastal",
+        "source": "farm-wheat",
+        "target": "mill-coastal",
+        "amount_cents": 4800000,
+        "amount_label": "$48,000",
+        "label": "wheat $48,000",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "mill-coastal->sup-flour-co",
+        "source": "mill-coastal",
+        "target": "sup-flour-co",
+        "amount_cents": 2840000,
+        "amount_label": "$28,400",
+        "label": "flour $28,400",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "mill-coastal->sup-alt-flour",
+        "source": "mill-coastal",
+        "target": "sup-alt-flour",
+        "amount_cents": 2210000,
+        "amount_label": "$22,100",
+        "label": "flour $22,100",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "farm-dairy->sup-dairy",
+        "source": "farm-dairy",
+        "target": "sup-dairy",
+        "amount_cents": 3600000,
+        "amount_label": "$36,000",
+        "label": "milk $36,000",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "sup-flour-co->maya-bakery",
+        "source": "sup-flour-co",
+        "target": "maya-bakery",
+        "amount_cents": 1820000,
+        "amount_label": "$18,200",
+        "label": "AP $18,200/mo",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "sup-alt-flour->maya-bakery",
+        "source": "sup-alt-flour",
+        "target": "maya-bakery",
+        "amount_cents": 0,
+        "amount_label": "$0",
+        "label": "alt (trial)",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "sup-dairy->maya-bakery",
+        "source": "sup-dairy",
+        "target": "maya-bakery",
+        "amount_cents": 1240000,
+        "amount_label": "$12,400",
+        "label": "AP $12,400/mo",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "sup-packaging->maya-bakery",
+        "source": "sup-packaging",
+        "target": "maya-bakery",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "label": "AP $4,200/mo",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "plant-ink->sup-packaging",
+        "source": "plant-ink",
+        "target": "sup-packaging",
+        "amount_cents": 98000,
+        "amount_label": "$980",
+        "label": "labels $980",
+        "kind": "goods",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "cold-chain->maya-bakery",
+        "source": "cold-chain",
+        "target": "maya-bakery",
+        "amount_cents": 360000,
+        "amount_label": "$3,600",
+        "label": "freight $3,600",
+        "kind": "logistics",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "maya-bakery->site-mission",
+        "source": "maya-bakery",
+        "target": "site-mission",
+        "amount_cents": 1420000,
+        "amount_label": "$14,200",
+        "label": "transfer $14,200",
+        "kind": "internal",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "maya-bakery->site-oakland",
+        "source": "maya-bakery",
+        "target": "site-oakland",
+        "amount_cents": 2280000,
+        "amount_label": "$22,800",
+        "label": "transfer $22,800",
+        "kind": "internal",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "maya-bakery->cust-wholesale",
+        "source": "maya-bakery",
+        "target": "cust-wholesale",
+        "amount_cents": 2850000,
+        "amount_label": "$28,500",
+        "label": "rev $28,500",
+        "kind": "revenue",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "site-oakland->cust-harbor",
+        "source": "site-oakland",
+        "target": "cust-harbor",
+        "amount_cents": 920000,
+        "amount_label": "$9,200",
+        "label": "rev $9,200",
+        "kind": "revenue",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "site-mission->cust-summit",
+        "source": "site-mission",
+        "target": "cust-summit",
+        "amount_cents": 1140000,
+        "amount_label": "$11,400",
+        "label": "rev $11,400",
+        "kind": "revenue",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "site-mission->cust-oak",
+        "source": "site-mission",
+        "target": "cust-oak",
+        "amount_cents": 680000,
+        "amount_label": "$6,800",
+        "label": "rev $6,800",
+        "kind": "revenue",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "inv-dup-incoming",
+        "source": "sup-flour-co",
+        "target": "maya-bakery",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "label": "DUP $4,200",
+        "kind": "payment",
+        "fraud": true,
+        "held": false
+      }
+    ]
+  },
+  "context": {
+    "id": "context",
+    "title": "Context graph",
+    "subtitle": "Cash, invoices, policies, and live work \u2014 exact dollars",
+    "layout": "force",
+    "nodes": [
+      {
+        "id": "maya-bakery",
+        "label": "Maya's Bakery",
+        "kind": "company",
+        "amount_cents": 1840000,
+        "amount_label": "$18,400",
+        "fraud": false,
+        "held": false,
+        "aliases": [],
+        "meta": {}
+      },
+      {
+        "id": "sup-flour-co",
+        "label": "North Bay Flour",
+        "kind": "vendor",
+        "amount_cents": 1820000,
+        "amount_label": "$18,200",
+        "fraud": false,
+        "held": false,
+        "aliases": [],
+        "meta": {}
+      },
+      {
+        "id": "sup-dairy",
+        "label": "Valley Dairy",
+        "kind": "vendor",
+        "amount_cents": 1240000,
+        "amount_label": "$12,400",
+        "fraud": false,
+        "held": false,
+        "aliases": [],
+        "meta": {}
+      },
+      {
+        "id": "inv-dup-incoming",
+        "label": "INV dup $4,200",
+        "kind": "invoice",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "fraud": true,
+        "held": false,
+        "aliases": [
+          "inv-dup-original"
+        ],
+        "meta": {}
+      },
+      {
+        "id": "inv-dup-original",
+        "label": "INV paid $4,200",
+        "kind": "invoice",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "fraud": true,
+        "held": false,
+        "aliases": [],
+        "meta": {}
+      },
+      {
+        "id": "JPM-88310442",
+        "label": "Wire $57,975",
+        "kind": "bank_txn",
+        "amount_cents": 5797500,
+        "amount_label": "$57,975",
+        "fraud": false,
+        "held": false,
+        "aliases": [],
+        "meta": {}
+      },
+      {
+        "id": "ar-big-cafe",
+        "label": "AR Harbor $9,200",
+        "kind": "receivable",
+        "amount_cents": 920000,
+        "amount_label": "$9,200",
+        "fraud": false,
+        "held": false,
+        "aliases": [],
+        "meta": {}
+      },
+      {
+        "id": "appr-supplier-deposit",
+        "label": "Deposit $1,400",
+        "kind": "payment",
+        "amount_cents": 140000,
+        "amount_label": "$1,400",
+        "fraud": false,
+        "held": true,
+        "aliases": [],
+        "meta": {}
+      },
+      {
+        "id": "cash-operating",
+        "label": "Operating cash",
+        "kind": "cash",
+        "amount_cents": 3420000,
+        "amount_label": "$34,200",
+        "fraud": false,
+        "held": false,
+        "meta": {
+          "runway_days": 20.7
+        }
+      },
+      {
+        "id": "pol-001",
+        "label": "pol-001",
+        "kind": "policy",
+        "amount_cents": 0,
+        "amount_label": "active",
+        "fraud": false,
+        "held": false,
+        "meta": {
+          "rule": "wire \u2264 $50 short \u2192 book gap to 6850 Bank Fees",
+          "title": "Short wire tolerance"
+        }
+      },
+      {
+        "id": "pol-002",
+        "label": "pol-002",
+        "kind": "policy",
+        "amount_cents": 0,
+        "amount_label": "active",
+        "fraud": false,
+        "held": false,
+        "meta": {
+          "rule": "incoming invoice content_hash matching a paid invoice \u2192 BLOCK",
+          "title": "Duplicate AP invoice"
+        }
+      },
+      {
+        "id": "pol-003",
+        "label": "pol-003",
+        "kind": "policy",
+        "amount_cents": 0,
+        "amount_label": "active",
+        "fraud": false,
+        "held": false,
+        "meta": {
+          "rule": "payments \u2264 $1,000 auto-propose for gateway; above \u2192 HOLD for owner",
+          "title": "Cashier autonomy ceiling"
+        }
+      },
+      {
+        "id": "pol-014",
+        "label": "pol-014",
+        "kind": "policy",
+        "amount_cents": 0,
+        "amount_label": "needs_approval",
+        "fraud": false,
+        "held": true,
+        "meta": {
+          "rule": "one wire, many invoice numbers in memo \u2192 split when amounts add up",
+          "title": "Split wire across invoices"
+        }
+      },
+      {
+        "id": "runway",
+        "label": "Runway 21d",
+        "kind": "forecast",
+        "amount_cents": 3420000,
+        "amount_label": "$34,200",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "maya-bakery->sup-flour-co",
+        "source": "maya-bakery",
+        "target": "sup-flour-co",
+        "amount_cents": 1820000,
+        "amount_label": "$18,200",
+        "label": "$18,200/mo",
+        "kind": "payment",
+        "fraud": false,
+        "held": false,
+        "policy_id": null
+      },
+      {
+        "id": "maya-bakery->sup-dairy",
+        "source": "maya-bakery",
+        "target": "sup-dairy",
+        "amount_cents": 1240000,
+        "amount_label": "$12,400",
+        "label": "$12,400/mo",
+        "kind": "payment",
+        "fraud": false,
+        "held": false,
+        "policy_id": null
+      },
+      {
+        "id": "inv-dup-incoming",
+        "source": "sup-flour-co",
+        "target": "maya-bakery",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "label": "FRAUD $4,200",
+        "kind": "invoice",
+        "fraud": true,
+        "held": false,
+        "policy_id": null
+      },
+      {
+        "id": "inv-dup-original->sup-flour-co",
+        "source": "inv-dup-original",
+        "target": "sup-flour-co",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "label": "paid $4,200",
+        "kind": "paid",
+        "fraud": true,
+        "held": false,
+        "policy_id": null
+      },
+      {
+        "id": "JPM-88310442->maya-bakery",
+        "source": "JPM-88310442",
+        "target": "maya-bakery",
+        "amount_cents": 5797500,
+        "amount_label": "$57,975",
+        "label": "$57,975 (-$25)",
+        "kind": "wire",
+        "fraud": false,
+        "held": false,
+        "policy_id": null
+      },
+      {
+        "id": "ar-big-cafe->maya-bakery",
+        "source": "ar-big-cafe",
+        "target": "maya-bakery",
+        "amount_cents": 920000,
+        "amount_label": "$9,200",
+        "label": "$9,200 late",
+        "kind": "ar",
+        "fraud": false,
+        "held": false,
+        "policy_id": null
+      },
+      {
+        "id": "maya-bakery->appr-supplier-deposit",
+        "source": "maya-bakery",
+        "target": "appr-supplier-deposit",
+        "amount_cents": 140000,
+        "amount_label": "$1,400",
+        "label": "HOLD $1,400",
+        "kind": "hold",
+        "fraud": false,
+        "held": true,
+        "policy_id": null
+      },
+      {
+        "id": "wi-wi-36efb1679b",
+        "source": "JPM-88310442",
+        "target": "cash-operating",
+        "amount_cents": 5797500,
+        "amount_label": "$57,975",
+        "label": "NEW $57,975",
+        "kind": "cash_match",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-36efb1679b"
+      },
+      {
+        "id": "wi-wi-0e76e0eb07",
+        "source": "JPM-SPLIT-5602",
+        "target": "cash-operating",
+        "amount_cents": 1200000,
+        "amount_label": "$12,000",
+        "label": "NEW $12,000",
+        "kind": "cash_match",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-0e76e0eb07"
+      },
+      {
+        "id": "wi-wi-53a1cce342",
+        "source": "JPM-88310442",
+        "target": "cash-operating",
+        "amount_cents": 5797500,
+        "amount_label": "$57,975",
+        "label": "POSTED $57,975",
+        "kind": "cash_match",
+        "fraud": false,
+        "held": false,
+        "policy_id": "pol-001",
+        "work_item_id": "wi-53a1cce342"
+      },
+      {
+        "id": "pol-wi-53a1cce342",
+        "source": "pol-001",
+        "target": "JPM-88310442",
+        "amount_cents": 0,
+        "amount_label": "pol-001",
+        "label": "pol-001",
+        "kind": "policy_link",
+        "fraud": false,
+        "held": false,
+        "policy_id": "pol-001"
+      },
+      {
+        "id": "wi-wi-017d06c020",
+        "source": "cash-operating",
+        "target": "inv-dup-incoming",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "label": "POSTED $4,200",
+        "kind": "ap_invoice",
+        "fraud": true,
+        "held": false,
+        "policy_id": "pol-002",
+        "work_item_id": "wi-017d06c020"
+      },
+      {
+        "id": "pol-wi-017d06c020",
+        "source": "pol-002",
+        "target": "inv-dup-incoming",
+        "amount_cents": 0,
+        "amount_label": "pol-002",
+        "label": "pol-002",
+        "kind": "policy_link",
+        "fraud": false,
+        "held": false,
+        "policy_id": "pol-002"
+      },
+      {
+        "id": "wi-wi-fc92ba52a2",
+        "source": "cash-operating",
+        "target": "sup-flour-co",
+        "amount_cents": 272800,
+        "amount_label": "$2,728",
+        "label": "POSTED $2,728",
+        "kind": "procurement",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-fc92ba52a2"
+      },
+      {
+        "id": "wi-wi-f8dee95d10",
+        "source": "ar-big-cafe",
+        "target": "cash-operating",
+        "amount_cents": 920000,
+        "amount_label": "$9,200",
+        "label": "POSTED $9,200",
+        "kind": "ar_collect",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-f8dee95d10"
+      },
+      {
+        "id": "wi-wi-49ce020ffd",
+        "source": "cash-operating",
+        "target": "appr-supplier-deposit",
+        "amount_cents": 140000,
+        "amount_label": "$1,400",
+        "label": "POSTED $1,400",
+        "kind": "spend_hold",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-49ce020ffd"
+      },
+      {
+        "id": "wi-wi-e6abfbf437",
+        "source": "cash-operating",
+        "target": "runway",
+        "amount_cents": 380000,
+        "amount_label": "$3,800",
+        "label": "POSTED $3,800",
+        "kind": "forecast",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-e6abfbf437"
+      },
+      {
+        "id": "wi-wi-f16152d945",
+        "source": "WI-SPLIT-0",
+        "target": "cash-operating",
+        "amount_cents": 10000,
+        "amount_label": "$100",
+        "label": "PROPOSED $100",
+        "kind": "cash_match",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-f16152d945"
+      },
+      {
+        "id": "wi-wi-d400332f30",
+        "source": "WI-SPLIT-1",
+        "target": "cash-operating",
+        "amount_cents": 10000,
+        "amount_label": "$100",
+        "label": "PROPOSED $100",
+        "kind": "cash_match",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-d400332f30"
+      },
+      {
+        "id": "wi-wi-b893348183",
+        "source": "WI-SPLIT-2",
+        "target": "cash-operating",
+        "amount_cents": 10000,
+        "amount_label": "$100",
+        "label": "PROPOSED $100",
+        "kind": "cash_match",
+        "fraud": false,
+        "held": false,
+        "policy_id": null,
+        "work_item_id": "wi-b893348183"
+      }
+    ]
+  },
+  "relationships": {
+    "id": "relationships",
+    "title": "Relationship graph",
+    "subtitle": "Vendors, bank fingerprints, customers, GL \u2014 who touches whom",
+    "layout": "force",
+    "nodes": [
+      {
+        "id": "maya-bakery",
+        "label": "Maya's Bakery",
+        "kind": "company",
+        "amount_cents": 3420000,
+        "amount_label": "$34,200",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "bank-jpm",
+        "label": "JPM operating",
+        "kind": "bank",
+        "amount_cents": 3420000,
+        "amount_label": "$34,200",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "gl-6850",
+        "label": "GL 6850 Bank Fees",
+        "kind": "gl",
+        "amount_cents": 0,
+        "amount_label": "fees",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "sup-flour-co",
+        "label": "North Bay Flour Co",
+        "kind": "vendor",
+        "amount_cents": 4200,
+        "amount_label": "$42/unit",
+        "fraud": false,
+        "held": false,
+        "aliases": [
+          "bank-nbflour-001"
+        ],
+        "meta": {
+          "trust": 0.92,
+          "category": "flour"
+        }
+      },
+      {
+        "id": "bank-nbflour-001",
+        "label": "bank-nbflour-001",
+        "kind": "bank_fp",
+        "amount_cents": 0,
+        "amount_label": "fingerprint",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "sup-dairy",
+        "label": "Valley Dairy",
+        "kind": "vendor",
+        "amount_cents": 2850,
+        "amount_label": "$28.50/unit",
+        "fraud": false,
+        "held": false,
+        "aliases": [
+          "bank-valley-002"
+        ],
+        "meta": {
+          "trust": 0.88,
+          "category": "dairy"
+        }
+      },
+      {
+        "id": "bank-valley-002",
+        "label": "bank-valley-002",
+        "kind": "bank_fp",
+        "amount_cents": 0,
+        "amount_label": "fingerprint",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "sup-packaging",
+        "label": "ClearWrap Packaging",
+        "kind": "vendor",
+        "amount_cents": 1800,
+        "amount_label": "$18/unit",
+        "fraud": false,
+        "held": false,
+        "aliases": [
+          "bank-clearwrap-003"
+        ],
+        "meta": {
+          "trust": 0.75,
+          "category": "packaging"
+        }
+      },
+      {
+        "id": "bank-clearwrap-003",
+        "label": "bank-clearwrap-003",
+        "kind": "bank_fp",
+        "amount_cents": 0,
+        "amount_label": "fingerprint",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "sup-alt-flour",
+        "label": "Coastal Grain Alt",
+        "kind": "vendor",
+        "amount_cents": 3800,
+        "amount_label": "$38/unit",
+        "fraud": false,
+        "held": false,
+        "aliases": [
+          "bank-coastal-004"
+        ],
+        "meta": {
+          "trust": 0.7,
+          "category": "flour"
+        }
+      },
+      {
+        "id": "bank-coastal-004",
+        "label": "bank-coastal-004",
+        "kind": "bank_fp",
+        "amount_cents": 0,
+        "amount_label": "fingerprint",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cust-harbor",
+        "label": "Harbor Cafe Group",
+        "kind": "customer",
+        "amount_cents": 920000,
+        "amount_label": "$9,200",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cust-summit",
+        "label": "Summit Grocery",
+        "kind": "customer",
+        "amount_cents": 480000,
+        "amount_label": "$4,800",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cust-oak",
+        "label": "Oak Street Market",
+        "kind": "customer",
+        "amount_cents": 215000,
+        "amount_label": "$2,150",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      },
+      {
+        "id": "cust-wholesale",
+        "label": "Bay Area Wholesale",
+        "kind": "customer",
+        "amount_cents": 1240000,
+        "amount_label": "$12,400",
+        "fraud": false,
+        "held": false,
+        "meta": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "rel-cash",
+        "source": "maya-bakery",
+        "target": "bank-jpm",
+        "amount_cents": 3420000,
+        "amount_label": "$34,200",
+        "label": "$34,200",
+        "kind": "owns",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-sup-flour-co-bank",
+        "source": "sup-flour-co",
+        "target": "bank-nbflour-001",
+        "amount_cents": 0,
+        "amount_label": "pays via",
+        "label": "pays via",
+        "kind": "bank_link",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-ap-sup-flour-co",
+        "source": "maya-bakery",
+        "target": "sup-flour-co",
+        "amount_cents": 3998000,
+        "amount_label": "$39,980",
+        "label": "AP $39,980",
+        "kind": "payable",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-sup-dairy-bank",
+        "source": "sup-dairy",
+        "target": "bank-valley-002",
+        "amount_cents": 0,
+        "amount_label": "pays via",
+        "label": "pays via",
+        "kind": "bank_link",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-ap-sup-dairy",
+        "source": "maya-bakery",
+        "target": "sup-dairy",
+        "amount_cents": 3678000,
+        "amount_label": "$36,780",
+        "label": "AP $36,780",
+        "kind": "payable",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-sup-packaging-bank",
+        "source": "sup-packaging",
+        "target": "bank-clearwrap-003",
+        "amount_cents": 0,
+        "amount_label": "pays via",
+        "label": "pays via",
+        "kind": "bank_link",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-ap-sup-packaging",
+        "source": "maya-bakery",
+        "target": "sup-packaging",
+        "amount_cents": 4175800,
+        "amount_label": "$41,758",
+        "label": "AP $41,758",
+        "kind": "payable",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-sup-alt-flour-bank",
+        "source": "sup-alt-flour",
+        "target": "bank-coastal-004",
+        "amount_cents": 0,
+        "amount_label": "pays via",
+        "label": "pays via",
+        "kind": "bank_link",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-ap-sup-alt-flour",
+        "source": "maya-bakery",
+        "target": "sup-alt-flour",
+        "amount_cents": 0,
+        "amount_label": "$0",
+        "label": "AP $0",
+        "kind": "payable",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-ar-cust-harbor",
+        "source": "cust-harbor",
+        "target": "maya-bakery",
+        "amount_cents": 920000,
+        "amount_label": "$9,200",
+        "label": "AR $9,200",
+        "kind": "receivable",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-ar-cust-summit",
+        "source": "cust-summit",
+        "target": "maya-bakery",
+        "amount_cents": 480000,
+        "amount_label": "$4,800",
+        "label": "AR $4,800",
+        "kind": "receivable",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-ar-cust-oak",
+        "source": "cust-oak",
+        "target": "maya-bakery",
+        "amount_cents": 215000,
+        "amount_label": "$2,150",
+        "label": "AR $2,150",
+        "kind": "receivable",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "rel-ar-cust-wholesale",
+        "source": "cust-wholesale",
+        "target": "maya-bakery",
+        "amount_cents": 1240000,
+        "amount_label": "$12,400",
+        "label": "AR $12,400",
+        "kind": "receivable",
+        "fraud": false,
+        "held": false
+      },
+      {
+        "id": "fraud-inv-dup-incoming",
+        "source": "sup-flour-co",
+        "target": "maya-bakery",
+        "amount_cents": 420000,
+        "amount_label": "$4,200",
+        "label": "FRAUD $4,200",
+        "kind": "fraud",
+        "fraud": true,
+        "held": false
+      },
+      {
+        "id": "fee-wi-53a1cce342",
+        "source": "bank-jpm",
+        "target": "gl-6850",
+        "amount_cents": 2500,
+        "amount_label": "$25",
+        "label": "short $25",
+        "kind": "fee",
+        "fraud": false,
+        "held": false,
+        "policy_id": "pol-001"
+      }
+    ]
+  },
+  "legend": {
+    "fraud": "Red dashed edges / nodes \u2014 blocked, duplicate, or denied",
+    "hold": "Amber \u2014 awaiting owner Approve",
+    "posted": "Green \u2014 gateway posted to system of record",
+    "amounts": "Edge labels are exact USD from ledger / work items"
+  },
+  "stats": {
+    "nodes": 45,
+    "edges": 52,
+    "fraud_flags": 2,
+    "supply_tiers": 7,
+    "cash_balance_usd": "$34,200",
+    "runway_days": 20.73
+  }
+}

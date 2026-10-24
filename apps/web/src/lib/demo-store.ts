@@ -94,12 +94,20 @@ export function subscribe(listener: () => void): () => void {
   return () => listeners.delete(listener);
 }
 
+function friendlyError(raw: string): string {
+  if (raw.includes("Not Found") || raw.includes('"detail"')) {
+    return "API not found on this port — run `npm run agents` (port 8765), not whatever is on 8000.";
+  }
+  return raw.slice(0, 160);
+}
+
 export async function refresh(): Promise<void> {
   try {
     const [snap, audit] = await Promise.all([api.world(), api.audit()]);
     applySnapshot(snap, audit.events);
   } catch (e) {
-    state = { ...state, error: e instanceof Error ? e.message : "API offline", ready: false };
+    const msg = e instanceof Error ? friendlyError(e.message) : "API offline";
+    state = { ...state, error: msg, ready: false };
     emit();
   }
 }
