@@ -34,6 +34,9 @@ from erp.intake.pipeline import (
 from erp.store import ERP, seed_sample_if_empty
 from erp.summary import build_enterprise_summary
 from erp.netsuite.adapter import NETSUITE
+from claims.corpus import corpus_summary, lookup_nonprofit
+from claims.scenario import run_claims_demo
+from claims.store import CLAIMS
 from missions.orchestrate import complete_after_expand, create_mission, expand_budget, run_mission
 from missions.scenario import run_mission_demo
 from missions.store import MISSIONS
@@ -99,6 +102,7 @@ def root() -> dict[str, Any]:
         "netsuite": "/v1/erp/netsuite",
         "agents": "/v1/agents/{agent}/run",
         "missions": "/v1/missions",
+        "claims": "/v1/claims",
         "ui": "http://127.0.0.1:3000/suite",
     }
 
@@ -132,6 +136,7 @@ def health() -> dict[str, Any]:
         "erp_documents": len(ERP.documents),
         "erp_accounts": len(ERP.accounts),
         "missions": len(MISSIONS.missions),
+        "claims": len(CLAIMS.packages),
     }
 
 
@@ -472,19 +477,22 @@ def answer_work(work_item_id: str, body: AnswerBody) -> dict[str, Any]:
 
 @app.post("/v1/demo/run")
 def demo_run() -> dict[str, Any]:
-    """Reset-ish full answer-key demo into a fresh SoW, then copy metrics."""
+    """
+    Primary demo = SwarmCFO Claims (reimbursement package + rejection risk),
+    then classic bakery SoW for Hyphenate control-plane proof.
+    """
+    claims = run_claims_demo(WORLD)
     fresh = SystemOfWork()
-    result = run_demo(fresh)
-    # Replace world state for UI
-    WORLD.work_items = fresh.work_items
-    WORLD.policies = fresh.policies
-    WORLD.precedents = fresh.precedents
+    sow_result = run_demo(fresh)
+    WORLD.work_items = {**fresh.work_items, **WORLD.work_items}
+    WORLD.policies = {**fresh.policies, **WORLD.policies}
+    WORLD.precedents = {**fresh.precedents, **WORLD.precedents}
     WORLD.golden = fresh.golden
     WORLD.audit = fresh.audit
     WORLD.gateway = fresh.gateway
     WORLD.cash_balance_cents = fresh.cash_balance_cents
     WORLD.daily_burn_cents = fresh.daily_burn_cents
-    nessie = result.get("nessie") or {}
+    nessie = sow_result.get("nessie") or {}
     if nessie.get("used_nessie"):
         ERP.integrations["nessie"] = {
             "status": "demo_synced",
@@ -496,9 +504,15 @@ def demo_run() -> dict[str, Any]:
         }
         ERP.save()
     return {
-        "score": result["score"],
-        "log": result["log"],
-        "answer_key": result["answer_key"],
+        "product": "SwarmCFO Claims",
+        "score": claims.get("score"),
+        "claims": claims,
+        "viz": claims.get("viz"),
+        "risk": claims.get("risk"),
+        "corpus": claims.get("corpus"),
+        "sow_score": sow_result.get("score"),
+        "log": list(claims.get("log") or []) + list(sow_result.get("log") or [])[:10],
+        "answer_key": claims.get("answer_key"),
         "nessie": nessie,
         "nessie_marker": "Powered by Capital One Nessie" if nessie.get("used_nessie") else None,
         "netsuite": NETSUITE.snapshot(),
@@ -605,6 +619,48 @@ def missions_expand(mission_id: str, body: MissionExpandBody) -> dict[str, Any]:
 def missions_demo() -> dict[str, Any]:
     """Answer-key: $250 quote / $8 cap / deny overspend / job ledger + margin."""
     return run_mission_demo(WORLD, expand_and_finish=True)
+
+
+# ─── SwarmCFO Claims (nonprofit reimbursements) ─────────────────────────────
+
+
+@app.get("/v1/claims")
+def list_claims() -> dict[str, Any]:
+    return {"claims": CLAIMS.list_summaries(), "count": len(CLAIMS.packages), "corpus": corpus_summary()}
+
+
+@app.get("/v1/claims/corpus")
+def claims_corpus() -> dict[str, Any]:
+    return corpus_summary()
+
+
+@app.get("/v1/claims/nonprofit")
+def claims_nonprofit_lookup(q: str | None = None, ein: str | None = None, limit: int = 20) -> dict[str, Any]:
+    """
+    Enrichment lookup across ProPublica 990 financials, IRS TEOS index, and
+    California Grants Portal awards. Awards ≠ reimbursement outcomes.
+    """
+    if not (q or ein):
+        raise HTTPException(400, "provide q and/or ein")
+    return lookup_nonprofit(q=q, ein=ein, limit=max(1, min(limit, 50)))
+
+
+@app.get("/v1/claims/{claim_id}")
+def get_claim(claim_id: str) -> dict[str, Any]:
+    p = CLAIMS.get(claim_id)
+    if not p:
+        raise HTTPException(404, f"unknown claim {claim_id}")
+    return {"claim": p.to_dict()}
+
+
+@app.post("/v1/claims/demo")
+def claims_demo() -> dict[str, Any]:
+    """
+    Primary product demo: prepare September workforce-grant reimbursement package,
+    flag evidence-backed exceptions, score rejection risk from FAC / CA denied /
+    Grants.gov-shaped / CA awards / ProPublica priors — do not submit, do not alter ledger.
+    """
+    return run_claims_demo(WORLD)
 
 
 if __name__ == "__main__":

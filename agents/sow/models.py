@@ -27,6 +27,8 @@ WorkKind = Literal[
     "mission_run",  # Mission Margin Controller — budgeted job
     "budget_expand",  # human expands mission tool budget
     "mission_deliverable",  # packaged report + job ledger
+    "claim_prepare",  # nonprofit reimbursement package
+    "claim_risk",  # rejection-risk review hold
 ]
 
 WorkState = Literal[

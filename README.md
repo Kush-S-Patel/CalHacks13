@@ -1,129 +1,86 @@
-# SwarmCFO — Mission Margin Controller
+# SwarmCFO Claims
 
-**Sell a financial result, not an agent architecture:** every client deliverable runs as a budgeted multi-agent mission with hard tool-spend limits, audited denials, and a job-cost ledger (quote vs actual cost vs margin).
+**Outcome sold:** a complete, supported **nonprofit grant reimbursement package** ready for a finance manager to approve — with an explicit **rejection-risk score** grounded in public compliance and denial corpora.
 
-The Hyphenate **system of work** (World · Time · Team · Limits) is the control plane. Maya’s Bakery remains the messy-corner demo that proves roles, gateway posts, and audit. The product wedge for agencies is **Jobs** (`/suite/jobs`): fixed-price work that stays profitable.
+Not a grant-management ERP. Not a chatbot over a spreadsheet. The final mile: connect ledger transactions to the evidence and rules a reimbursement submission actually needs, then predict where the package is still likely to fail.
 
-> Harnesses made agents capable. SwarmCFO makes autonomous jobs **accountable**.
+> Customers: outsourced nonprofit bookkeeping / fractional-CFO firms that repeat the same claim assembly across many grantees.
 
-## Why this wins the Hyphenate track
+## Why this problem is real
 
-| Judge ask | SwarmCFO |
-| --- | --- |
-| **Is it real enough?** | Maya’s Bakery messy corner: short wires, duplicate AP, late AR, spend holds |
-| **Would you hire it?** | Roles + `can()` in code; gateway-only posts; owner Approve |
-| **Something new?** | Self-learning policies from history; corrections → precedents → pol-014 |
-| **Wow moment?** | Runway 11→~20, $4.2k fraud BLOCKED, $1.4k HELD → one-tap Approve on every screen |
+- California Little Hoover Commission (2025–26): majority of nonprofits report burdensome reporting; delayed reimbursements are systemic.
+- Federal award rules (2 CFR 200): track expenditures vs budget, retain support, determine allowability.
+- Automation can **prepare a more complete claim**; it cannot force an agency to pay faster.
 
-**Not a chatbot over a spreadsheet.** Tools are CRUD on work items. Memory is policies + precedents (not the context window). Limits are enforced in code — denied attempts are audited.
+## Controlled workflow
 
-## The Hyphenate blueprint (mapped)
+1. **Award analyst** — agreement + budget → structured rulebook (human-approvable)
+2. **Transaction matcher** — GL ↔ receipt/invoice/payroll with confidence
+3. **Compliance reviewer** — missing docs, duplicates, date/PoP issues, budget gaps (evidence-backed exceptions)
+4. **Deterministic validation** — totals, recon, budget caps in **code**
+5. **Claim preparer + risk scorer** — schedules, evidence index, unresolved exceptions, **rejection risk 0–100**
 
+Mission constraint example: *Prepare Award A for September. Reconcile expenses, flag missing support, draft the claim. Do not submit. Do not alter the ledger.*
+
+## Rejection-risk data priors
+
+| Source | Use | Limitation (honored in product copy) |
+| --- | --- | --- |
+| **Federal Audit Clearinghouse** findings | Finding types, material weakness, questioned costs → allowability / reporting / PoP / eligibility priors | Single Audit ≠ denied reimbursement dataset; best public proxy for documentation failures |
+| **Covered CA denied claims** | Category rates: incorrect submission, incorrect billing, ineligibility, duplicates | Aggregated insurer reporting — taxonomy priors for healthcare-adjacent nonprofits, not invoice-level grant cases |
+| **Grants.gov Rejection Report** (shaped samples) | Submission failures (schema, SAM, duplicate) | **Grantor-only**; not public bulk; submission reject ≠ merit denial |
+| **California Grants Portal awards** | Award–awardee relationships, cancel notes, drawdown context | Post-award records; awards ≠ reimbursement rejection outcomes |
+| **IRS Form 990 TEOS index** | EIN / filing inventory for nonprofit identity | Full XML bulk is multi‑GB; index only (truncated locally) |
+| **ProPublica Nonprofit Explorer** | Digitized 990 revenue / expenses / assets enrichment | Not claim denials; digitized subset of filings |
+
+Corpora live under [`data/train_data/claims/`](data/train_data/claims/) — refresh with:
+
+```bash
+python scripts/fetch_claims_sources.py
+python scripts/fetch_nonprofit_financials.py
+# optional: FAC_API_KEY=<Data.gov key> for live api.fac.gov findings
 ```
-SYSTEMS OF RECORD          GATEWAY              SYSTEM OF WORK (this repo)
-Bank / AP / CRM / Stripe ──► one door ──► work items · policies · precedents · audit
-                              │
-                         agents + Maya share the same queue
-```
-
-| Build | What we shipped |
-| --- | --- |
-| **1 Environment** | `sow/sync.py` — raw ledger → golden records, stable ids, cursors |
-| **2 Team** | `sow/roles.py` — actors, SoD (proposer ≠ approver), gateway-only `post` |
-| **3 Harness** | `sow/transitions.py` — NEW→PROPOSED→…→POSTED; tools = transitions |
-| **4 Traceability** | `sow/audit.py` — append-only diffs; `/v1/audit/{subject}` = “why?” |
-| **Self-learning** | `sow/learn.py` — pol-001 short wire, pol-002 duplicate, pol-003 autonomy |
-| **Self-improving** | `sow/improve.py` — rejections & corrections → precedents → pol-014 |
-
-## Roles (few, done deep)
-
-| Actor | Corner |
-| --- | --- |
-| **Risk** | Cash match (short wires), AP duplicate block |
-| **Procurement** | Supplier spike → counter-offer |
-| **Collections** | Late AR chase + early-pay |
-| **Cashier** | ≤$1k autonomy; above → HELD |
-| **CFO** | Arbitrate disagreements; defer spend; own runway |
-| **Maya (owner)** | Answer / Approve / Reject |
-| **Gateway** | Sole writer to systems of record |
 
 ## Quick start
 
 ```bash
-cp .env.example .env
 npm install
-pip install -r agents/requirements.txt
-
-# Terminal A — system of work API (port 8765 — 8000 is often taken)
-npm run agents
-# expect http://127.0.0.1:8765/health → "swarmcfo" fields
-
-# Terminal B — product UI
-npm run dev
-# Big screen http://localhost:3000  ·  Graphs /graphs  ·  Phone /phone
+npm run agents   # :8765
+npm run dev      # :3000 → /suite/claims
 ```
 
-If you see `{"detail":"Not Found"}`, something else is bound to that port — confirm `GET /` returns `"service":"swarmcfo"`.
-
-**Offline / Wi-Fi dead (answer key):**
-
 ```bash
-npm run sow          # python -m sow.scenario → poc/last_sow_run.json · score 100
+curl -X POST http://127.0.0.1:8765/v1/claims/demo
+curl http://127.0.0.1:8765/v1/claims/corpus
+curl "http://127.0.0.1:8765/v1/claims/nonprofit?q=food%20bank"
 ```
 
 ## Product surfaces
 
-- **Mission Margin Controller** (`/suite/jobs`, `POST /v1/missions/demo`) — quote $250 / max tool spend $8; research→extract→verify under `BudgetController`; overspend **DENIED + audited**; deliverable + job ledger + margin  
-- **ERP Suite** (`/suite`) — enterprise **Summary**, **Upload** analyzer, **Documents** vault, **Graphs**, **Work**  
-- **Document intake** — FinDoc OCR + FinCriticalED + [DocILE](https://github.com/rossumai/docile) → vault / per-business knowledge  
-- **Capital One Nessie** — live bank-sim rail; UI shows the Nessie mark  
-- **Claude agents** — `POST /v1/agents/{risk|cfo|…}/run` → audited SoW transitions  
-- **NetSuite-shaped SoR** — gateway fan-out (`GET /v1/erp/netsuite`)  
-
-### Future domain: Claims (not this slice)
-
-Nonprofit grant **reimbursement packages** (award rules → match ledger↔evidence → compliance exceptions → draft claim) remain Plan B if agency interviews show weak job-margin pain. That needs a new accounting/award domain layer — not a retrofit of market tools.
-
-
-- **Runway** — the one number Maya cares about  
-- **Company graphs** — supply chain / context / relationships with **exact USD**; **fraud in red**  
-- **Work queue** — PROPOSED / NEEDS_INFO / HELD / BLOCKED / POSTED  
-- **Phone** — QR join · Approve · run demo  
+- **Claims** (`/suite/claims`, `POST /v1/claims/demo`) — primary demo
+- **Jobs** (`/suite/jobs`) — Mission Margin Controller (secondary: budgeted AI-agency jobs)
+- **ERP Suite** — vault, DocILE enterprises, NetSuite-shaped SoR, Nessie bank rail
+- **World** — Hyphenate system-of-work control plane (roles, gateway, audit)
 
 ## Repo layout
 
 ```
-agents/missions/  Mission Margin Controller (budget, metered tools, job ledger)
-agents/sow/       System of work engine (control plane)
-agents/main.py    FastAPI — world, missions, erp, nessie, agents
-apps/web/         Next.js world + ERP suite + Jobs
-spacetime/        Multiplayer shared state
-data/seed/        Messy bakery ledger + answer key
-poc/              Deterministic sims + last_sow_run.json
+agents/claims/     Reimbursement pipeline + risk scorer
+agents/missions/   Mission Margin (secondary)
+agents/sow/        System of work engine
+agents/main.py     FastAPI
+data/train_data/claims/   FAC / CA denied / Grants.gov / CA awards / IRS 990 / ProPublica
+apps/web/          Next.js suite
 ```
 
-## Demo (3 min) — geared to Hyphenate
+## Demo (3 min)
 
-1. **Pain** — runway ticking at 11 days  
-2. **Onboarding** — show pol-001 learned from 7 historical short wires  
-3. **Chaos** — short wire asks Maya; duplicate BLOCKED (agent approve DENIED on screen); spike disagreement → CFO arbitrate; AR chase; $1.4k HELD  
-4. **Approve** — Maya taps; gateway posts; every screen updates  
-5. **Score** — Hyphenate 100 · “This is the team a one-person company would hire”  
-6. **Close** — query `/v1/audit/inv-dup-incoming` — why? is one query  
+1. **Pain** — monthly workforce-grant reimbursement; missing receipts, duplicate invoice, celebration lunch, wage after period
+2. **Run** — Prepare reimbursement claim
+3. **Show** — matches, exceptions, GL recon, risk band + corpus drivers
+4. **Outcome** — package ready for manager approval; system never submits
+5. **Optional** — full demo also runs bakery SoW for control-plane proof
 
-Script detail: [`DEMO.md`](./DEMO.md)
+## Success metrics (product)
 
-## Outcome-shaped pitch (pricing story)
-
-SaaS sells seats. Hyphenate sells **work**. SwarmCFO proves outcomes: blocked fraud dollars, posted matches, approved holds — each an audited work item. That’s how you bill per result.
-
-## Sponsor fit
-
-- **Hyphenate** — Autonomous Systems for Finance (primary)  
-- **Creao** — Best One-Person Company  
-- **SpacetimeDB** — shared live world for agents + humans  
-- **CRS / Anthropic** — financial agents with tools, not chat theatre  
-
-## License
-
-MIT — CalHacks 13.0
+Preparation hours/claim · % transactions matched to support · discrepancies caught pre-submit · % submissions needing corrections · calibration of risk score vs later outcomes (when labeled data exists)

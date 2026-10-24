@@ -12,9 +12,10 @@ export function RunwayHero() {
     <header className="runway-hero">
       <div className="top">
         <div>
-          <p className="brand">SwarmCFO</p>
+          <p className="brand">SwarmCFO Claims</p>
           <p className="who">
-            {DEMO_SEED.ownerName} · {DEMO_SEED.businessName}
+            Reimbursement packages · live rejection-risk gauge · FAC / CA / 990 priors ·{" "}
+            {DEMO_SEED.businessName} control plane
           </p>
         </div>
         <NessieBadge />

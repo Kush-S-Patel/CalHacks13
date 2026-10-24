@@ -1,0 +1,13 @@
+issuer,plan_year,market,claims_received,claims_denied,denial_rate,category
+Anthem Blue Cross,2025,Individual,1250000,187500,0.15,all
+Anthem Blue Cross,2025,Individual,1250000,42000,0.0336,incorrect_submission
+Anthem Blue Cross,2025,Individual,1250000,38000,0.0304,incorrect_billing
+Anthem Blue Cross,2025,Individual,1250000,51000,0.0408,ineligibility
+Anthem Blue Cross,2025,Individual,1250000,29000,0.0232,duplicate_claims
+Blue Shield of California,2025,Individual,980000,127400,0.13,all
+Blue Shield of California,2025,Individual,980000,31000,0.0316,incorrect_submission
+Blue Shield of California,2025,Individual,980000,22000,0.0224,duplicate_claims
+Kaiser Permanente,2025,Individual,2100000,189000,0.09,all
+Kaiser Permanente,2025,Individual,2100000,41000,0.0195,ineligibility
+Delta Dental,2025,QDP,450000,72000,0.16,all
+Delta Dental,2025,QDP,450000,18000,0.04,incorrect_billing

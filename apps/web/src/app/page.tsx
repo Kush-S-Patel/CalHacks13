@@ -27,7 +27,9 @@ export default function WorldPage() {
     <main>
       <RunwayHero />
       <nav className="subnav">
+        <Link href="/suite/claims">Claims + risk</Link>
         <Link href="/suite">ERP Suite</Link>
+        <Link href="/suite/jobs">Jobs</Link>
         <Link href="/suite/upload">Upload sheets</Link>
         <Link href="/graphs">Graph stage</Link>
         <NessieBadge compact />

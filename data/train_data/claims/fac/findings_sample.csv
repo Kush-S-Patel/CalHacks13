@@ -1,0 +1,7 @@
+report_id,audit_year,auditee_name,auditee_state,finding_ref_number,is_material_weakness,is_modified_opinion,is_other_findings,is_other_noncompliance,type_requirement,questioned_costs,prior_finding_ref_numbers,finding_text
+2023-CA-NP-001,2023,Bay Area Workforce Collaborative,CA,2023-001,Y,N,Y,Y,Allowable Costs/Cost Principles,18400,,Personnel costs charged to CFDA 17.258 lacked contemporaneous time-and-effort documentation for 3 FTEs.
+2023-CA-NP-002,2023,Central Valley Food Bank Network,CA,2023-002,N,N,Y,Y,Procurement and Suspension and Debarment,6200,,Vendor invoices over micro-purchase threshold missing competitive quotes; duplicate invoice paid twice then reversed.
+2024-CA-NP-003,2024,Pacific Youth Development Institute,CA,2024-001,Y,Y,Y,Y,Reporting,0,2023-004,"FFR submitted with expenditure totals that did not reconcile to general ledger by $41,200; prior year finding repeated."
+2024-CA-NP-004,2024,Coastal Health Access Nonprofit,CA,2024-003,N,N,Y,Y,Eligibility,9800,,Participant eligibility files incomplete; services billed for period before enrollment date.
+2023-OR-NP-005,2023,Cascade Housing Alliance,OR,2023-007,N,N,Y,Y,Period of Performance,15200,,Costs charged after award period of performance without approved extension.
+2024-CA-NP-006,2024,Sacramento Community Training Center,CA,2024-002,N,N,Y,N,Allowable Costs/Cost Principles,2400,,Unallowable entertainment and gift cards charged to federal award; questioned costs removed in subsequent claim.
