@@ -1,22 +1,12 @@
 """
 Hyphenate Claims learning loop — one corner done deep.
 
-Sequence (governed actors, not pipeline labels):
-  1. Claims Agent prepares revision 1
-  2. Detects four critical exceptions
-  3. Asks about the ambiguous $860 catering charge
-  4. Finance Manager: "No—staff celebration. Exclude it."
-  5. Correction → revision 2 (+ resolve remaining three)
-  6. Precedent saved
-  7. Policy proposed + approved for future staff celebrations
-  8. Next-month similar expense auto-held by that policy
-  9. Claims Agent approve → DENIED
- 10. Finance Manager approves package
- 11. Append-only audit: question, answer, revision diff, policy, deny, approve
+Interactive beat: start() pauses when Jordan asks Priya about $860 catering.
+resume(answer) completes precedent → policy → next hold → denied approve → FM approve.
 
-Objective results (cents):
-  excluded $8,160 · receipt $124 attached · eligible $28,135 ·
-  4 critical → 0 · zero unauthorized approvals · every transition audited
+Cast (humanized):
+  Jordan (Claims Agent) · Priya Shah (Finance Manager, Meridian Bookkeeping)
+  Client: Bay Area Workforce Collaborative
 """
 
 from __future__ import annotations
@@ -36,21 +26,32 @@ from sow.store import SystemOfWork
 
 log = logging.getLogger("swarmcfo.claims.loop")
 
-# Target objective dollars (must match demo ledger arithmetic)
-EXCLUDE_LEDGER_IDS = {"GL-9005", "GL-9007", "GL-9008"}  # celebration + dup + PoP
+EXCLUDE_LEDGER_IDS = {"GL-9005", "GL-9007", "GL-9008"}
 RECEIPT_LEDGER_ID = "GL-9009"
 CATERING_CENTS = 86_000
-EXCLUDED_TOTAL_CENTS = 816_000  # 860 + 5200 + 2100
-ELIGIBLE_CENTS = 2_813_500  # 36295 - 8160
+EXCLUDED_TOTAL_CENTS = 816_000
+ELIGIBLE_CENTS = 2_813_500
 RECEIPT_CENTS = 12_400
 
+# Conversational ask (still precise for audit)
 CATERING_QUESTION = (
-    "Is the $860.00 North Bay Catering charge (GL-9005) an allowable program cost "
-    "under award FOA-ETA-25-01, or a staff celebration / entertainment expense?"
+    "Priya — before I put North Bay Catering’s $860 on the September claim: "
+    "was this a program lunch with participants, or the staff celebration last Friday? "
+    "If it was staff-only I need to pull it (2 CFR 200 entertainment)."
 )
-MANAGER_NO = "No—staff celebration. Exclude it."
+MANAGER_NO = "No — that was our staff celebration. Exclude it."
+MANAGER_NO_ALIASES = {
+    MANAGER_NO,
+    "No—staff celebration. Exclude it.",
+    "No - staff celebration. Exclude it.",
+    "exclude",
+    "no",
+}
 
 POLICY_ID = "pol-claim-001"
+
+# In-flight demo sessions (claim_id → handles)
+_PENDING: dict[str, dict[str, Any]] = {}
 
 
 def _critical_codes(package: ClaimPackage) -> set[str]:
@@ -58,7 +59,6 @@ def _critical_codes(package: ClaimPackage) -> set[str]:
     for ex in package.exceptions:
         if isinstance(ex, dict) and ex.get("code"):
             codes.add(str(ex["code"]))
-    # Four critical demo exceptions
     return codes & {
         "ineligible_participant",
         "duplicate_expense",
@@ -89,10 +89,8 @@ def apply_revision_2(
     exclude_ids: set[str],
     attach_receipt_for: str,
 ) -> dict[str, Any]:
-    """Manager corrections: exclude lines, attach missing receipt, rescore."""
     before = _snapshot_claim(package)
 
-    # Attach receipt for toner
     if not any(e.linked_ledger_id == attach_receipt_for for e in package.evidence):
         package.evidence.append(
             EvidenceDoc(
@@ -100,7 +98,7 @@ def apply_revision_2(
                 kind="receipt",
                 filename="staples_toner_09122.pdf",
                 linked_ledger_id=attach_receipt_for,
-                notes="Attached after manager correction — $124.00",
+                notes="Priya forwarded the Staples PDF from her phone — $124.00",
             )
         )
 
@@ -110,7 +108,6 @@ def apply_revision_2(
             m.confidence = 0.92
             m.exception_codes = [c for c in m.exception_codes if c not in {"missing_receipt"}]
 
-    # Exclude unallowable / dup / PoP from claim (clear critical codes — resolved)
     excluded_rows: list[dict[str, Any]] = []
     for m in package.matches:
         if m.ledger_id in exclude_ids:
@@ -129,7 +126,6 @@ def apply_revision_2(
             m.exception_codes = ["excluded_from_claim"]
             m.confidence = 1.0
 
-    # Drop resolved critical exceptions; keep audit of exclusions in meta
     keep_ex: list[dict[str, Any]] = []
     for ex in package.exceptions:
         if not isinstance(ex, dict):
@@ -146,13 +142,11 @@ def apply_revision_2(
     package.exceptions = keep_ex
 
     gl_total = int((package.totals or {}).get("gl_cents") or 0)
-    # Eligible = non-excluded, non-duplicate lines
     eligible = sum(
         m.amount_cents
         for m in package.matches
         if m.ledger_id not in exclude_ids and "duplicate_expense" not in m.exception_codes
     )
-    # claimed for submission = eligible (duplicates already in exclude set)
     package.totals = {
         **validate_totals(package.matches, gl_total),
         "claimed_cents": eligible,
@@ -164,15 +158,14 @@ def apply_revision_2(
     package.meta["excluded"] = excluded_rows
     package.meta["revision"] = 2
     package.meta["manager_correction"] = MANAGER_NO
-    package.meta["revision_diff"] = {
-        "from": before,
-        "to": None,  # filled after rescore
-    }
+    package.meta["revision_diff"] = {"from": before, "to": None}
 
     package.risk = score_claim_risk(package)
     package.schedules_md = build_schedules(package)
     package.status = "ready_for_approval" if not _critical_codes(package) else "exceptions"
-    package.log.append("Revision 2: manager excluded celebration; duplicate + PoP removed; $124 receipt attached")
+    package.log.append(
+        "Jordan rebuilt the package: celebration out, duplicate out, October wages out, toner receipt in"
+    )
     package.updated_at = now_iso()
 
     after = _snapshot_claim(package)
@@ -187,20 +180,27 @@ def _policy_holds_celebration(sow: SystemOfWork, desc: str) -> Policy | None:
         return None
     desc_l = desc.lower()
     if any(k in desc_l for k in ("celebration", "staff lunch", "party", "entertainment", "catering")):
-        # condition match
         cond = pol.condition or {}
         if cond.get("unallowable_entertainment") or cond.get("staff_celebration"):
             return pol
     return None
 
 
-def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
-    """Full Hyphenate proof for nonprofit reimbursement Claims."""
-    sow.room_id = "bawo-workforce"
-    story: list[dict[str, Any]] = []
-    denials: list[dict[str, Any]] = []
+def _is_exclude_answer(answer: str) -> bool:
+    a = (answer or "").strip().lower()
+    if a in {x.lower() for x in MANAGER_NO_ALIASES}:
+        return True
+    return "exclude" in a or (a.startswith("no") and "celebration" in a)
 
-    # ── 1. Claims Agent prepares revision 1 ───────────────────────────────
+
+def start_claims_learning(sow: SystemOfWork) -> dict[str, Any]:
+    """
+    Steps 1–3: prepare rev1, flag four problems, ask Priya.
+    Leaves work in NEEDS_INFO for a human answer.
+    """
+    sow.room_id = "meridian-bawo"
+    story: list[dict[str, Any]] = []
+
     raw = build_demo_inputs()
     package = prepare_claim(
         nonprofit=raw["nonprofit"],
@@ -209,18 +209,20 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
         ledger=raw["ledger"],
         evidence=raw["evidence"],
         gl_total_cents=raw["gl_total_cents"],
-        sow=None,  # we govern SoW ourselves
+        sow=None,
     )
     package.meta["revision"] = 1
-    package.meta["product"] = "SwarmCFO Claims · learning loop"
-    package.log.append("Claims Agent: opened revision 1 for finance manager review")
+    package.meta["product"] = "SwarmCFO Claims"
+    package.meta["client_firm"] = "Meridian Bookkeeping"
+    package.meta["awaiting_manager"] = True
+    package.log.append("Jordan opened September’s package for Priya — four things look off")
     CLAIMS.upsert(package)
 
     prepare_wi = sow.create_work(
         SYNC,
         kind="claim_prepare",
         subject=package.id,
-        title=f"Claim rev1 · {package.nonprofit} · {package.reporting_period}",
+        title=f"September claim · {package.nonprofit}",
         amount_cents=int((package.totals or {}).get("claimed_cents") or 0),
         evidence=[package.id],
         payload={
@@ -229,43 +231,50 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
             "risk_score": package.risk.score if package.risk else None,
             "risk_band": package.risk.band if package.risk else None,
             "critical_exceptions": sorted(_critical_codes(package)),
+            "spoken": "I matched the GL to receipts. Four lines still worry me.",
         },
     )
     sow.propose(
         prepare_wi.id,
         AI_CLAIMS,
         patch={"payload": {"proposed_package": True}},
-        reason="Claims Agent proposes reimbursement package revision 1",
+        reason="Jordan proposes September reimbursement package (revision 1)",
     )
     package.work_item_ids.append(prepare_wi.id)
     story.append(
         {
             "step": 1,
-            "actor": AI_CLAIMS.display_name,
+            "actor": "Jordan · Claims Agent",
             "action": "prepare_revision_1",
             "work_item_id": prepare_wi.id,
-            "detail": f"Prepared package with {len(package.exceptions)} exceptions; risk {package.risk.score if package.risk else '?'}",
+            "spoken": "Here’s September for Bay Area Workforce — I won’t submit anything yet.",
+            "detail": f"{len(package.exceptions)} exceptions · rejection risk {package.risk.score if package.risk else '?'}",
         }
     )
 
-    # ── 2. Four critical exceptions ───────────────────────────────────────
     critical = sorted(_critical_codes(package))
+    human_labels = {
+        "ineligible_participant": "Staff celebration lunch ($860) — maybe unallowable",
+        "duplicate_expense": "Coastal Training invoice billed twice ($5,200)",
+        "period_of_performance": "October wages sitting in the September period ($2,100)",
+        "missing_receipt": "Staples toner with no receipt ($124)",
+    }
     story.append(
         {
             "step": 2,
-            "actor": AI_CLAIMS.display_name,
+            "actor": "Jordan · Claims Agent",
             "action": "detect_critical_exceptions",
-            "detail": critical,
+            "detail": [human_labels.get(c, c) for c in critical],
             "count": len(critical),
+            "spoken": "Four problems before this is safe to send.",
         }
     )
 
-    # ── 3. Ask about $860 catering ────────────────────────────────────────
     ask_wi = sow.create_work(
         SYNC,
         kind="claim_question",
         subject=package.id,
-        title="Ambiguous catering charge $860.00 — allowable?",
+        title="Need your call on $860 North Bay Catering",
         amount_cents=CATERING_CENTS,
         evidence=["GL-9005"],
         payload={
@@ -273,42 +282,169 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
             "ledger_id": "GL-9005",
             "vendor": "North Bay Catering",
             "ambiguous": True,
+            "options": [
+                {"id": "exclude", "label": MANAGER_NO},
+                {
+                    "id": "keep",
+                    "label": "Keep it — participants were there; treat as program cost",
+                },
+            ],
         },
     )
     sow.ask(ask_wi.id, AI_CLAIMS, CATERING_QUESTION)
     package.work_item_ids.append(ask_wi.id)
-    package.log.append(f"Claims Agent asked Finance Manager: {CATERING_QUESTION}")
+    package.log.append("Jordan asked Priya about the catering charge")
     CLAIMS.upsert(package)
     story.append(
         {
             "step": 3,
-            "actor": AI_CLAIMS.display_name,
+            "actor": "Jordan · Claims Agent",
             "action": "ask",
             "work_item_id": ask_wi.id,
             "question": CATERING_QUESTION,
+            "spoken": "I need a human call on this one — I shouldn’t guess.",
         }
     )
 
+    _PENDING[package.id] = {
+        "prepare_wi_id": prepare_wi.id,
+        "ask_wi_id": ask_wi.id,
+        "claim_id": package.id,
+        "critical": critical,
+        "story": story,
+    }
+
+    return {
+        "ok": True,
+        "awaiting_manager": True,
+        "phase": "awaiting_manager",
+        "product": "SwarmCFO Claims",
+        "demo": "learning_loop",
+        "claim_id": package.id,
+        "ask_work_item_id": ask_wi.id,
+        "prepare_work_item_id": prepare_wi.id,
+        "question": CATERING_QUESTION,
+        "manager_prompt": {
+            "who": "Priya Shah · Finance Manager · Meridian Bookkeeping",
+            "about": "North Bay Catering · $860.00 · GL-9005",
+            "options": ask_wi.payload.get("options"),
+            "hint": "On stage: tap Exclude — that’s the Hyphenate “handles a no.”",
+        },
+        "story": story,
+        "claim": package.to_dict(),
+        "risk": package.risk.to_dict() if package.risk else None,
+        "talk_track": (
+            "Jordan stops. The package is not finished until Priya answers — "
+            "limits in the workflow, not in a prompt."
+        ),
+    }
+
+
+def resume_claims_learning(
+    sow: SystemOfWork,
+    *,
+    claim_id: str | None = None,
+    answer: str = MANAGER_NO,
+) -> dict[str, Any]:
+    """Steps 4–11 after the manager answers."""
+    if not claim_id:
+        if len(_PENDING) == 1:
+            claim_id = next(iter(_PENDING))
+        elif _PENDING:
+            claim_id = max(_PENDING.keys(), key=lambda k: CLAIMS.get(k).updated_at if CLAIMS.get(k) else "")
+        else:
+            # recover from open NEEDS_INFO claim_question
+            for w in sow.work_items.values():
+                if w.kind == "claim_question" and w.state == "NEEDS_INFO":
+                    claim_id = w.payload.get("claim_id") or w.subject
+                    break
+    if not claim_id or claim_id not in _PENDING:
+        # rebuild pending from sow if possible
+        ask = next(
+            (
+                w
+                for w in sow.work_items.values()
+                if w.kind == "claim_question" and w.state == "NEEDS_INFO"
+            ),
+            None,
+        )
+        prep = next(
+            (w for w in sow.work_items.values() if w.kind == "claim_prepare" and w.state == "PROPOSED"),
+            None,
+        )
+        if ask and prep:
+            cid = str(ask.payload.get("claim_id") or ask.subject)
+            package = CLAIMS.get(cid)
+            if package:
+                _PENDING[cid] = {
+                    "prepare_wi_id": prep.id,
+                    "ask_wi_id": ask.id,
+                    "claim_id": cid,
+                    "critical": sorted(_critical_codes(package)),
+                    "story": [],
+                }
+                claim_id = cid
+    if not claim_id or claim_id not in _PENDING:
+        raise KeyError("no claims demo awaiting a manager answer — call start first")
+
+    pending = _PENDING[claim_id]
+    package = CLAIMS.get(claim_id)
+    if not package:
+        raise KeyError(f"unknown claim {claim_id}")
+    prepare_wi = sow.work_items[pending["prepare_wi_id"]]
+    ask_wi = sow.work_items[pending["ask_wi_id"]]
+    critical = list(pending.get("critical") or sorted(_critical_codes(package)))
+    story: list[dict[str, Any]] = list(pending.get("story") or [])
+    denials: list[dict[str, Any]] = []
+
+    final_answer = answer.strip() if answer and answer.strip() else MANAGER_NO
+    if not _is_exclude_answer(final_answer):
+        # Still record the answer, but demo path requires exclude for objective results
+        sow.answer(ask_wi.id, FINANCE_MANAGER, final_answer)
+        story.append(
+            {
+                "step": 4,
+                "actor": "Priya Shah · Finance Manager",
+                "action": "answer",
+                "work_item_id": ask_wi.id,
+                "answer": final_answer,
+                "spoken": "Noted — but for the stage answer key we need the exclusion path.",
+            }
+        )
+        return {
+            "ok": False,
+            "awaiting_manager": False,
+            "phase": "wrong_path",
+            "score": 0,
+            "checks": {"manager_said_no": False},
+            "story": story,
+            "claim": package.to_dict(),
+            "talk_track": "Priya kept the catering. Retry with Exclude to show the learning loop.",
+            "hint": MANAGER_NO,
+        }
+
     # ── 4. Manager says no ────────────────────────────────────────────────
-    sow.answer(ask_wi.id, FINANCE_MANAGER, MANAGER_NO)
+    sow.answer(ask_wi.id, FINANCE_MANAGER, final_answer)
+    package.meta["awaiting_manager"] = False
+    package.log.append(f"Priya: {final_answer}")
+    CLAIMS.upsert(package)
     story.append(
         {
             "step": 4,
-            "actor": FINANCE_MANAGER.display_name,
+            "actor": "Priya Shah · Finance Manager",
             "action": "answer",
             "work_item_id": ask_wi.id,
-            "answer": MANAGER_NO,
+            "answer": final_answer,
+            "spoken": "That’s a no — pull it. Don’t bill the award for our party.",
         }
     )
 
-    # ── 5. Revision 2 from correction ─────────────────────────────────────
+    # ── 5. Revision 2 ─────────────────────────────────────────────────────
     apply_revision_2(
         package,
         exclude_ids=EXCLUDE_LEDGER_IDS,
         attach_receipt_for=RECEIPT_LEDGER_ID,
     )
-
-    # prepare_wi stays PROPOSED; revision is an audited payload/title update (append-only)
     prepare_wi.payload = {
         **prepare_wi.payload,
         "revision": 2,
@@ -318,63 +454,67 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
         "critical_exceptions": sorted(_critical_codes(package)),
     }
     prepare_wi.amount_cents = ELIGIBLE_CENTS
-    prepare_wi.title = f"Claim rev2 · eligible ${ELIGIBLE_CENTS/100:,.2f}"
+    prepare_wi.title = f"September claim rev2 · ${ELIGIBLE_CENTS/100:,.2f} eligible"
     prepare_wi.updated_at = now_iso()
     sow.audit.append(
         actor=AI_CLAIMS.id,
         action="revise_claim",
         subject=prepare_wi.id,
         allowed=True,
-        reason="revision 1 → 2 after manager exclusion + receipt attach",
+        reason="Jordan revised the package after Priya’s no",
         diff=package.meta.get("revision_diff") or {},
         evidence=[package.id],
     )
-
     story.append(
         {
             "step": 5,
-            "actor": AI_CLAIMS.display_name,
+            "actor": "Jordan · Claims Agent",
             "action": "revision_2",
             "revision_diff": package.meta.get("revision_diff"),
             "excluded_cents": EXCLUDED_TOTAL_CENTS,
             "eligible_cents": ELIGIBLE_CENTS,
             "receipt_attached_cents": RECEIPT_CENTS,
+            "spoken": "Revision 2 is ready — celebration out, duplicate out, October wages out, receipt attached.",
         }
     )
 
-    # ── 6. Precedent from manager no ──────────────────────────────────────
+    # ── 6. Precedent ──────────────────────────────────────────────────────
     prec = apply_correction(
         sow,
         work_item_id=ask_wi.id,
         actor_id=FINANCE_MANAGER.id,
-        summary="Exclude staff celebration catering from federal reimbursement claims",
+        summary="Priya: exclude staff celebration catering from federal claims",
         correction={
             "ledger_id": "GL-9005",
             "exclude": True,
             "amount_cents": CATERING_CENTS,
-            "answer": MANAGER_NO,
+            "answer": final_answer,
             "claim_id": package.id,
         },
-        tags=["staff_celebration", "unallowable", "claim_exception", "entertainment"],
+        tags=["staff_celebration", "unallowable", "claim_exception", "entertainment", "rejection"],
     )
     story.append(
         {
             "step": 6,
-            "actor": FINANCE_MANAGER.display_name,
+            "actor": "Priya Shah · Finance Manager",
             "action": "precedent",
             "precedent_id": prec.id,
             "summary": prec.summary,
+            "spoken": "Save that — next month’s bookkeeper shouldn’t re-ask the same thing.",
         }
     )
 
-    # ── 7. Propose + approve policy ───────────────────────────────────────
+    # ── 7. Policy ─────────────────────────────────────────────────────────
+    if POLICY_ID in sow.policies:
+        # allow re-run: bump version on re-propose path
+        del sow.policies[POLICY_ID]
     policy = Policy(
         id=POLICY_ID,
         version=1,
-        title="Staff celebrations unallowable on federal awards",
+        title="Staff celebrations stay off federal awards",
         rule=(
-            "Charges described as staff celebration, entertainment, party, or non-program catering "
-            "are unallowable under 2 CFR 200 — exclude from reimbursement and hold alike expenses"
+            "If a charge looks like staff celebration, entertainment, party, or non-program catering, "
+            "exclude it from the reimbursement package and hold alike expenses for a human."
         ),
         condition={"staff_celebration": True, "unallowable_entertainment": True},
         action={"exclude_from_claim": True, "hold": True, "notify": "finance_manager"},
@@ -386,23 +526,25 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
     story.append(
         {
             "step": 7,
-            "actor": AI_CLAIMS.display_name,
+            "actor": "Jordan · Claims Agent",
             "action": "propose_policy",
             "policy_id": POLICY_ID,
             "version": 1,
+            "spoken": "I drafted a standing rule from Priya’s correction.",
         }
     )
     story.append(
         {
             "step": 7.1,
-            "actor": FINANCE_MANAGER.display_name,
+            "actor": "Priya Shah · Finance Manager",
             "action": "approve_policy",
             "policy_id": POLICY_ID,
             "status": "active",
+            "spoken": "Approved — that’s policy now, not a chat memory.",
         }
     )
 
-    # ── 8. Next-month similar expense → auto-held ─────────────────────────
+    # ── 8. Next month auto-hold ───────────────────────────────────────────
     next_desc = "Staff celebration lunch — October all-hands catering"
     next_wi = sow.create_work(
         SYNC,
@@ -423,25 +565,26 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
         sow.hold(
             next_wi.id,
             AI_CLAIMS,
-            f"Auto-held by {matched.id} v{matched.version}: {matched.title}",
+            f"Held by {matched.id}: same pattern as Priya’s September no",
         )
         next_wi.policy_id = matched.id
     story.append(
         {
             "step": 8,
-            "actor": AI_CLAIMS.display_name,
+            "actor": "Jordan · Claims Agent",
             "action": "policy_auto_hold",
             "work_item_id": next_wi.id,
             "policy_id": matched.id if matched else None,
             "amount_cents": CATERING_CENTS,
             "detail": next_desc,
+            "spoken": "October’s catering hit the same pattern — held before it enters a claim.",
         }
     )
 
-    # ── 9. Claims Agent tries to approve → DENIED ─────────────────────────
+    # ── 9. Agent approve DENIED ───────────────────────────────────────────
     denied_msg = None
     try:
-        sow.approve(prepare_wi.id, AI_CLAIMS, "Claims Agent attempts package approval")
+        sow.approve(prepare_wi.id, AI_CLAIMS, "Jordan tries to mark the package approved")
     except Denied as e:
         denied_msg = str(e)
         denials.append(
@@ -457,41 +600,40 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
         story.append(
             {
                 "step": 9,
-                "actor": AI_CLAIMS.display_name,
+                "actor": "Jordan · Claims Agent",
                 "action": "approve_denied",
                 "work_item_id": prepare_wi.id,
                 "denied": True,
                 "why": e.why,
+                "spoken": "I can’t approve my own package — that’s on Priya.",
             }
         )
-
     if denied_msg is None:
-        # Should never happen — role matrix must deny
         denials.append({"error": "expected denial missing — role matrix broken"})
 
-    # ── 10. Finance Manager approves ──────────────────────────────────────
+    # ── 10. FM approves ───────────────────────────────────────────────────
     sow.approve(
         prepare_wi.id,
         FINANCE_MANAGER,
-        "Finance Manager approves revision 2 reimbursement package — do not submit to funder",
+        "Priya approves revision 2 — ready for her to submit later; system does not submit",
     )
     package.status = "approved"
     package.meta["approved_by"] = FINANCE_MANAGER.id
     package.meta["authorized_approvals"] = 1
     package.meta["unauthorized_approvals"] = 0
-    package.log.append("Finance Manager approved revision 2 — zero unauthorized approvals")
+    package.log.append("Priya approved revision 2 — Jordan never got an unauthorized approve")
     CLAIMS.upsert(package)
     story.append(
         {
             "step": 10,
-            "actor": FINANCE_MANAGER.display_name,
+            "actor": "Priya Shah · Finance Manager",
             "action": "approve",
             "work_item_id": prepare_wi.id,
             "claim_status": package.status,
+            "spoken": "I’ll submit when I’m ready. The system never sends it for me.",
         }
     )
 
-    # ── 11. Audit slice for this claim ────────────────────────────────────
     related_subjects = {prepare_wi.id, ask_wi.id, next_wi.id, POLICY_ID, package.id, prec.id}
     claim_audit = [
         e
@@ -529,14 +671,15 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
     checks = {
         "revision_1_prepared": True,
         "four_critical_detected": len(critical) >= 4,
-        "manager_asked": ask_wi.question == CATERING_QUESTION,
-        "manager_said_no": ask_wi.answer == MANAGER_NO,
+        "manager_asked": bool(ask_wi.question),
+        "manager_said_no": _is_exclude_answer(final_answer),
         "revision_2_created": package.meta.get("revision") == 2,
         "precedent_saved": prec.id in sow.precedents,
         "policy_active": sow.policies[POLICY_ID].status == "active",
         "next_case_held_by_policy": next_wi.state == "HELD" and next_wi.policy_id == POLICY_ID,
         "agent_approve_denied": bool(denied_msg),
-        "finance_manager_approved": prepare_wi.state == "APPROVED" and prepare_wi.approved_by == FINANCE_MANAGER.id,
+        "finance_manager_approved": prepare_wi.state == "APPROVED"
+        and prepare_wi.approved_by == FINANCE_MANAGER.id,
         "excluded_8160": results["excluded_cents"] == EXCLUDED_TOTAL_CENTS,
         "eligible_28135": results["eligible_reimbursement_cents"] == ELIGIBLE_CENTS,
         "receipt_124": results["receipt_attached_cents"] == RECEIPT_CENTS,
@@ -545,9 +688,12 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
         "audit_complete": results["every_transition_audited"],
     }
     score = int(100 * sum(1 for v in checks.values() if v) / max(1, len(checks)))
+    _PENDING.pop(claim_id, None)
 
     return {
         "ok": all(checks.values()),
+        "awaiting_manager": False,
+        "phase": "complete",
         "score": score,
         "product": "SwarmCFO Claims",
         "demo": "learning_loop",
@@ -567,10 +713,21 @@ def run_claims_learning_demo(sow: SystemOfWork) -> dict[str, Any]:
         },
         "audit": claim_audit,
         "outcome": (
-            f"${results['excluded_usd']:,.2f} excluded · "
-            f"${results['receipt_attached_usd']:,.2f} receipt attached · "
-            f"${results['eligible_reimbursement_usd']:,.2f} eligible · "
-            f"{results['critical_exceptions_before']}→{results['critical_exceptions_after']} critical · "
-            "agent approve DENIED · finance manager approved · policy holds next case"
+            f"${results['excluded_usd']:,.2f} kept off the award · "
+            f"${results['receipt_attached_usd']:,.2f} receipt found · "
+            f"${results['eligible_reimbursement_usd']:,.2f} ready for Priya · "
+            f"exceptions {results['critical_exceptions_before']}→{results['critical_exceptions_after']} · "
+            "Jordan’s approve DENIED · Priya signed off · October held by policy"
+        ),
+        "talk_track": (
+            "That’s the Hyphenate beat: ask → no → remember → improve the next case → prove it in audit."
         ),
     }
+
+
+def run_claims_learning_demo(sow: SystemOfWork, *, interactive_pause: bool = False) -> dict[str, Any]:
+    """Full loop, or pause after ask if interactive_pause=True."""
+    started = start_claims_learning(sow)
+    if interactive_pause:
+        return started
+    return resume_claims_learning(sow, claim_id=started["claim_id"], answer=MANAGER_NO)

@@ -1,12 +1,12 @@
 "use client";
 
-import { DEMO_SEED, formatUsd } from "@swarmcfo/shared";
 import { useWorld } from "@/hooks/useWorld";
-import { NessieBadge } from "@/components/NessieBadge";
 
 export function RunwayHero() {
   const world = useWorld();
-  const improved = world.runwayDays > DEMO_SEED.runwayDays + 0.5;
+  const claimHolds = world.holds.filter((w) => w.kind?.startsWith("claim")).length;
+  const needs = world.needsInfo.filter((w) => w.kind?.startsWith("claim")).length;
+  const openClaims = world.workItems.filter((w) => w.kind?.startsWith("claim")).length;
 
   return (
     <header className="runway-hero">
@@ -14,75 +14,84 @@ export function RunwayHero() {
         <div>
           <p className="brand">SwarmCFO Claims</p>
           <p className="who">
-            Manager no → precedent → policy → denied agent approve ·{" "}
-            {DEMO_SEED.businessName} is secondary control-plane proof
+            Meridian Bookkeeping · Bay Area Workforce Collaborative · Jordan asks, Priya decides
           </p>
         </div>
-        <NessieBadge />
       </div>
-      <div className="runway-block">
-        <span className="label">Cash runway</span>
-        <p className={`days mono ${improved ? "up" : ""}`}>
-          {world.runwayDays.toFixed(0)}
-          <span className="unit"> days</span>
-        </p>
-        <p className="cash mono">
-          {formatUsd(world.cashBalanceCents)} · burns {formatUsd(world.dailyBurnCents)}/day
-        </p>
+      <div className="stats">
+        <article>
+          <span>Open claim work</span>
+          <p className="mono">{openClaims}</p>
+        </article>
+        <article className={needs ? "hot" : ""}>
+          <span>Waiting on Priya</span>
+          <p className="mono">{needs}</p>
+        </article>
+        <article>
+          <span>Policy holds</span>
+          <p className="mono">{claimHolds}</p>
+        </article>
+        <article>
+          <span>Audit events</span>
+          <p className="mono">{world.audit.length}</p>
+        </article>
       </div>
       <style jsx>{`
         .runway-hero {
-          padding: 2.5rem 2rem 1.5rem;
+          padding: 2.5rem 2rem 1.25rem;
         }
         .top {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 1rem;
-          flex-wrap: wrap;
           margin-bottom: 1.25rem;
         }
         .brand {
           font-family: var(--font-display);
-          font-size: clamp(2.5rem, 6vw, 4.5rem);
+          font-size: clamp(2.4rem, 5.5vw, 4rem);
           font-weight: 700;
           letter-spacing: -0.03em;
           margin: 0;
           line-height: 1;
         }
         .who {
-          margin: 0.4rem 0 0;
+          margin: 0.45rem 0 0;
           color: var(--ink-muted);
           font-size: 1rem;
+          max-width: 36rem;
         }
-        .label {
+        .stats {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 0.65rem;
+          max-width: 52rem;
+        }
+        @media (max-width: 700px) {
+          .stats {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        article {
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          padding: 0.85rem 1rem;
+          background: rgba(12, 18, 16, 0.45);
+        }
+        article.hot {
+          border-color: rgba(212, 180, 95, 0.55);
+          background: rgba(80, 60, 20, 0.25);
+        }
+        span {
           display: block;
+          font-size: 0.65rem;
           text-transform: uppercase;
-          letter-spacing: 0.14em;
-          font-size: 0.72rem;
+          letter-spacing: 0.06em;
           color: var(--ink-muted);
-          margin-bottom: 0.35rem;
+          margin-bottom: 0.25rem;
         }
-        .days {
-          font-family: var(--font-display);
-          font-size: clamp(4rem, 12vw, 7rem);
-          font-weight: 700;
+        p {
           margin: 0;
-          line-height: 0.95;
-          transition: color 0.4s ease;
-        }
-        .days.up {
-          color: var(--accent-bright);
-        }
-        .unit {
-          font-size: 0.35em;
-          font-weight: 500;
-          color: var(--ink-muted);
-        }
-        .cash {
-          margin: 0.75rem 0 0;
-          color: var(--ink-muted);
-          font-size: 1.05rem;
+          font-family: var(--font-display);
+          font-size: 2rem;
+          font-weight: 700;
+          line-height: 1;
         }
       `}</style>
     </header>

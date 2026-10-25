@@ -5,34 +5,40 @@ from __future__ import annotations
 from typing import Any
 
 from claims.corpus import corpus_summary
-from claims.learning_loop import run_claims_learning_demo
+from claims.learning_loop import (
+    MANAGER_NO,
+    resume_claims_learning,
+    run_claims_learning_demo,
+    start_claims_learning,
+)
 from claims.pipeline import run_demo_claim
+from sow.scoring import score_run
 
 
 ANSWER_KEY = {
     "product": "SwarmCFO Claims",
-    "customer": "Outsourced nonprofit bookkeeping / fractional-CFO firm",
+    "customer": "Meridian Bookkeeping — fractional CFO for Bay Area Workforce Collaborative",
+    "cast": {
+        "claims_agent": "Jordan",
+        "finance_manager": "Priya Shah",
+        "nonprofit": "Bay Area Workforce Collaborative",
+    },
     "mission": (
-        "Prepare September reimbursement for Award FOA-ETA-25-01 — ask the manager about "
-        "ambiguous costs, learn from a no, improve the next case. Do not submit. Do not alter the ledger."
+        "Prepare September reimbursement for Award FOA-ETA-25-01. Ask Priya about ambiguous costs. "
+        "Learn from a no. Improve October. Do not submit. Do not alter the ledger."
     ),
-    "agents": [
-        "Claims Agent (ai_claims) — prepare, ask, propose policy; never approve",
-        "Finance Manager (human_finance_manager) — answer, approve claim + policy",
-        "Risk priors — FAC / CA denied / Grants.gov / CA awards / 990",
-    ],
     "hyphenate_loop": [
-        "Claims Agent prepares revision 1",
-        "Detects four critical exceptions",
-        "Asks about the ambiguous $860 catering charge",
-        'Manager answers: "No—staff celebration. Exclude it."',
-        "Correction creates revision 2",
+        "Jordan prepares revision 1",
+        "Flags four messy exceptions in plain language",
+        "Asks Priya about the $860 catering charge",
+        "Priya: No — staff celebration. Exclude it.",
+        "Jordan builds revision 2",
         "Correction saved as precedent",
-        "System proposes policy for future staff celebrations",
-        "Similar next-month expense auto-held by that policy",
-        "Claims Agent approve → DENIED",
-        "Finance Manager approves",
-        "Audit shows question, answer, revision diff, policy, deny, approve",
+        "Policy proposed + Priya approves",
+        "October catering auto-held",
+        "Jordan approve → DENIED",
+        "Priya approves the package",
+        "Audit shows the whole conversation as diffs",
     ],
     "objective_results": {
         "excluded_usd": 8160.0,
@@ -41,40 +47,24 @@ ANSWER_KEY = {
         "critical_exceptions": "4 → 0",
         "unauthorized_approvals": 0,
     },
-    "data_priors": [
-        "FAC Single Audit findings / questioned costs",
-        "Covered CA denied-claims taxonomy",
-        "Grants.gov-shaped submission failures",
-        "California Grants Portal awards",
-        "IRS 990 TEOS index + ProPublica financials",
-    ],
     "features": [
-        "Governed Claims Agent + Finance Manager roles",
-        "Manager ask → no → revision 2",
-        "Precedent + policy generalization",
-        "Next-case auto-hold from learned policy",
+        "Jordan asks; Priya decides",
+        "Manager no → revision → precedent → policy",
+        "Next-case auto-hold",
         "Denied agent approval (limits in code)",
         "Append-only audit with revision diffs",
-        "Rejection risk score grounded in public corpora",
+        "Rejection-risk priors from public corpora",
     ],
+    "tracks": {
+        "01_real_enough": "Real workforce-grant GL with planted mess, not a toy ledger",
+        "02_would_you_hire_it": "RBAC deny + queryable audit + human in the loop",
+        "03_something_new": "Nonprofit claims learning loop (not bakery short-wire clone)",
+        "04_wow_moment": "$8,160 kept off the award + October held by learned policy",
+    },
 }
 
 
-def run_claims_demo(sow: Any | None = None) -> dict[str, Any]:
-    """Primary product demo = learning loop (requires SoW). Falls back to shallow package-only."""
-    if sow is None:
-        shallow = run_demo_claim(None)
-        return {
-            **shallow,
-            "ok": False,
-            "score": 0,
-            "checks": {"requires_sow": False},
-            "answer_key": ANSWER_KEY,
-            "note": "Pass SystemOfWork for the Hyphenate learning loop",
-            "corpus": corpus_summary(),
-        }
-
-    result = run_claims_learning_demo(sow)
+def _with_viz(result: dict[str, Any], sow: Any | None) -> dict[str, Any]:
     risk = result.get("risk") or {}
     corpus = corpus_summary()
     viz = {
@@ -92,15 +82,53 @@ def run_claims_demo(sow: Any | None = None) -> dict[str, Any]:
             "propublica_orgs": corpus.get("propublica_orgs"),
         },
         "nonprofit": (result.get("claim") or {}).get("nonprofit"),
-        "claimed_cents": ((result.get("claim") or {}).get("totals") or {}).get("eligible_cents"),
+        "claimed_cents": ((result.get("claim") or {}).get("totals") or {}).get("eligible_cents")
+        or ((result.get("claim") or {}).get("totals") or {}).get("claimed_cents"),
         "checks": result.get("checks"),
         "results": result.get("results"),
         "story": result.get("story"),
     }
-    return {
+    out = {
         **result,
         "answer_key": ANSWER_KEY,
         "corpus": corpus,
         "viz": viz,
         "log": (result.get("claim") or {}).get("log") or [],
     }
+    if sow is not None:
+        out["hyphenate"] = score_run(sow)
+    return out
+
+
+def run_claims_demo(
+    sow: Any | None = None,
+    *,
+    phase: str = "full",
+    claim_id: str | None = None,
+    answer: str | None = None,
+) -> dict[str, Any]:
+    """
+    phase:
+      full — one-shot learning loop (CI / quick check)
+      start — pause at Priya's question (stage demo)
+      resume — continue after manager answer
+    """
+    if sow is None:
+        shallow = run_demo_claim(None)
+        return {
+            **shallow,
+            "ok": False,
+            "score": 0,
+            "checks": {"requires_sow": False},
+            "answer_key": ANSWER_KEY,
+            "corpus": corpus_summary(),
+        }
+
+    if phase == "start":
+        return _with_viz(start_claims_learning(sow), sow)
+    if phase == "resume":
+        return _with_viz(
+            resume_claims_learning(sow, claim_id=claim_id, answer=answer or MANAGER_NO),
+            sow,
+        )
+    return _with_viz(run_claims_learning_demo(sow, interactive_pause=False), sow)

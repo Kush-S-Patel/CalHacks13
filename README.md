@@ -38,10 +38,13 @@ npm run dev      # :3000
 ```
 
 ```bash
-curl -X POST http://127.0.0.1:8765/v1/claims/demo
+# Stage path (pause for Priya)
+curl -X POST http://127.0.0.1:8765/v1/claims/demo -H "content-type: application/json" -d "{\"phase\":\"start\"}"
+# Then resume after she says no
+curl -X POST http://127.0.0.1:8765/v1/claims/demo -H "content-type: application/json" -d "{\"phase\":\"resume\",\"answer\":\"No — that was our staff celebration. Exclude it.\"}"
 ```
 
-UI: open `/` → **Run Claims learning loop**, or `/suite/claims`.
+UI: open `/` → **Start — pause for Priya**, or `/suite/claims`. Talk track: [`DEMO.md`](DEMO.md) · tracks: [`HYPHENATE.md`](HYPHENATE.md).
 
 ## What is governed (not labels)
 

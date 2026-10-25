@@ -64,12 +64,12 @@ export function WorkQueue() {
                       void answer(
                         w.id,
                         w.kind?.startsWith("claim")
-                          ? "No—staff celebration. Exclude it."
+                          ? "No — that was our staff celebration. Exclude it."
                           : "Book it - intermediary fee.",
                       )
                     }
                   >
-                    {w.kind?.startsWith("claim") ? "Answer: exclude celebration" : "Answer"}
+                    {w.kind?.startsWith("claim") ? "Priya: exclude celebration" : "Answer"}
                   </button>
                 ) : null}
               </div>

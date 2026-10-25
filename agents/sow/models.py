@@ -70,11 +70,15 @@ AI_PROCUREMENT = Actor("agent-procurement", "ai_procurement", "Procurement")
 AI_COLLECTIONS = Actor("agent-collections", "ai_collections", "Collections")
 AI_CASHIER = Actor("agent-cashier", "ai_cashier", "Cashier")
 AI_CFO = Actor("agent-cfo", "ai_cfo", "CFO")
-AI_CLAIMS = Actor("agent-claims", "ai_claims", "Claims Agent")
+AI_CLAIMS = Actor("agent-claims", "ai_claims", "Jordan · Claims Agent")
 MAYA = Actor("human-maya", "human_owner", "Maya (Owner)")
 ACCOUNTANT = Actor("human-accountant", "human_accountant", "Partner Accountant")
 CONTROLLER = Actor("human-controller", "human_controller", "Controller")
-FINANCE_MANAGER = Actor("human-finance-manager", "human_finance_manager", "Finance Manager")
+FINANCE_MANAGER = Actor(
+    "human-finance-manager",
+    "human_finance_manager",
+    "Priya Shah · Finance Manager",
+)
 GATEWAY = Actor("gateway", "gateway", "Gateway")
 
 ACTORS: dict[str, Actor] = {

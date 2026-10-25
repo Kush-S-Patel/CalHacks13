@@ -7,6 +7,7 @@ export type LearningStoryStep = {
   detail?: unknown;
   question?: string;
   answer?: string;
+  spoken?: string;
   denied?: boolean;
   why?: string;
   policy_id?: string;
@@ -107,8 +108,10 @@ export function ClaimsLearningViz({
                 <span className="n">{s.step}</span>
                 <div>
                   <strong>
-                    {s.actor} · {s.action.replace(/_/g, " ")}
+                    {s.actor}
+                    <span className="act-tag">{s.action.replace(/_/g, " ")}</span>
                   </strong>
+                  {s.spoken && <p className="spoken">“{s.spoken}”</p>}
                   {s.question && <p className="q">Ask: {s.question}</p>}
                   {s.answer && <p className="a">Answer: {s.answer}</p>}
                   {s.denied && <p className="deny">DENIED — {s.why}</p>}
@@ -261,6 +264,21 @@ export function ClaimsLearningViz({
           font-family: ui-monospace, monospace;
           color: #7eb892;
           font-weight: 700;
+        }
+        .act-tag {
+          margin-left: 0.45rem;
+          font-weight: 500;
+          font-size: 0.72rem;
+          color: var(--ink-muted, #9ab0a4);
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+        }
+        .spoken {
+          margin: 0.35rem 0 0;
+          font-size: 0.88rem;
+          color: #e8f2ec;
+          font-style: italic;
+          line-height: 1.35;
         }
         .q {
           color: #9fd0ff;

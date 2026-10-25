@@ -1,65 +1,70 @@
-# SwarmCFO — Hyphenate demo script (3 minutes)
+# SwarmCFO Claims — stage script (~3 minutes)
 
 ## Pre-flight
 
 ```bash
-pip install -r agents/requirements.txt
-cd agents && python -m sow.scenario   # expect SCORE 100/100
-uvicorn main:app --port 8000
-# other terminal
-npm run dev
+npm run agents   # :8765
+npm run dev      # :3000
+curl -X POST http://127.0.0.1:8765/v1/claims/demo -H "content-type: application/json" -d "{\"phase\":\"full\"}"
+# expect ok true, score 100
 ```
 
-Record fallback video of `sow.scenario` before the final hour.
+## Cast
 
-## Talk track mapped to judging
+| Who | Role |
+| --- | --- |
+| **Jordan** | Claims Agent (`ai_claims`) — prepares, asks, never approves |
+| **Priya Shah** | Finance Manager, Meridian Bookkeeping |
+| **Client** | Bay Area Workforce Collaborative · USDOL workforce grant |
 
-### 0:00–0:25 — Real enough
-> “Maya’s Bakery. One person. Eleven days of runway. We’re not replacing her bank or QuickBooks — we sit on top as the **system of work**.”
+## Talk track × Hyphenate judging
 
-Show runway. Mention systems of record vs system of work (workshop slide).
+### 0:00–0:30 — Real enough
+> “Fractional CFO firm. Same messy September reimbursement every month. We’re not their grant portal — we sit on top as the **system of work** for the claim package.”
 
-### 0:25–0:50 — Self-learning
-> “At onboarding we queried a year of short wires. **pol-001**: gap ≤ $50 → book to 6850 Bank Fees. Evidence: seven precedents. Maya approved the policy — not a prompt.”
+Hit **Start — pause for Priya**. Show four plain-language exceptions.
 
-Flash Policy panel.
+### 0:30–1:00 — Asks at the right moment
+Jordan stops on **$860 North Bay Catering**.
 
-### 0:50–1:15 — Graphs (complicated company)
-Open `/graphs` or the Company graph on the world page.
+> “The agent doesn’t guess entertainment. It asks Priya.”
 
-> “This is not a toy ledger. Full supply chain — wheat co-op to Harbor Cafe — with **exact dollars** on every edge. Red dashed = fraud. Amber = hold.”
+Point at the amber decision card.
 
-Flip tabs: **Supply chain** → **Context** → **Relationships**. Click the FRAUD $4,200 edge.
+### 1:00–1:35 — Handles a no + learns
+Click **No — staff celebration. Exclude it.**
 
-### 1:15–1:50 — Team + limits (would you hire it?)
-Press **Run full demo** (graphs refresh live).
+Call out: revision 2 · **$8,160** off the award · **$124** receipt attached · **$28,135** eligible · precedent → **pol-claim-001**.
 
-Call out on the audit feed:
-1. Short wire → **ASK** → Maya answers → gateway **POST**  
-2. Duplicate $4,200 → **BLOCK** · show **DENIED** when Risk tries to approve  
-3. Procurement vs Risk → CFO **arbitrate**  
-4. Cashier **cannot** approve $1,400 — **HELD**
+> “Her no isn’t a chat message. It’s a precedent, then a policy she approves.”
 
-> “Limits are in `can()`. Denied attempts are logged. Only the gateway posts.”
+### 1:35–2:10 — Would you hire it? (limits)
+October catering appears → **auto-held**. Jordan tries to approve → **DENIED** on the audit feed.
 
-### 1:50–2:25 — Wow + handles a no
-Owner phone: **Approve** $1,400. Runway jumps. Fraud edge stays red on the graph; hold turns posted. Score → 100.
+> “Limits are in `can()`. Denied attempts are logged. Only Priya approves. The system never submits to the funder.”
 
-Mention rejection of sketchy supplier → precedent → **pol-014** drafted (self-improving).
+### 2:10–2:40 — Wow + something new
+Flip revision diff + Hyphenate YES chips. Mention FAC / CA awards / 990 as **priors**, not the product.
 
-### 2:25–3:00 — Close
-> “Two thousand students here will start something alone. None can hire a finance team. This is the team — and every call is queryable months later.”
+> “Same narrow idea as ‘reimbursement prep’ — but it learns, improves the next month, and proves every transition.”
 
-Optional: hit `/v1/audit/inv-dup-incoming` on screen.
+### 2:40–3:00 — Close
+> “Outsourced bookkeepers repeat this corner across dozens of nonprofits. That’s the hire.”
 
-## Answer key
+Optional: `GET /v1/audit/{ask_work_item_id}` on screen.
 
-See `agents/sow/scenario.py` → `ANSWER_KEY` and `poc/last_sow_run.json`.
+## Weak patterns we avoid
 
-## Weak patterns we explicitly avoid
-
-- Chatbot over a spreadsheet  
-- Ten shallow workflows  
-- Happy-path-only data  
-- “The prompt tells it not to”  
+- One-button planted flags with no manager beat  
+- Bakery short-wire / 6850 / pol-001 as the lead (workshop echo)  
+- Ten shallow ERP tabs as the pitch  
+- “The prompt says don’t approve”  
 - Memory that dies with the context window  
+
+## API for judges
+
+| Call | Purpose |
+| --- | --- |
+| `POST /v1/claims/demo` `{"phase":"start"}` | Pause at Priya |
+| `POST /v1/claims/demo` `{"phase":"resume","answer":"No — that was our staff celebration. Exclude it."}` | Finish loop |
+| `POST /v1/claims/demo` `{"phase":"full"}` | One-shot 100/100 |

@@ -659,14 +659,28 @@ def get_claim(claim_id: str) -> dict[str, Any]:
     return {"claim": p.to_dict()}
 
 
+class ClaimsDemoBody(BaseModel):
+    phase: Literal["full", "start", "resume"] = "full"
+    claim_id: str | None = None
+    answer: str | None = None
+
+
 @app.post("/v1/claims/demo")
-def claims_demo() -> dict[str, Any]:
+def claims_demo(body: ClaimsDemoBody | None = None) -> dict[str, Any]:
     """
     Primary Hyphenate demo: Claims learning loop.
-    Rev1 → ask $860 → manager no → rev2 → precedent → policy → next hold →
-    agent approve DENIED → finance manager approve. Do not submit / alter ledger.
+    phase=start pauses for Priya's answer; phase=resume continues; full = one-shot.
     """
-    return run_claims_demo(WORLD)
+    b = body or ClaimsDemoBody()
+    try:
+        return run_claims_demo(
+            WORLD,
+            phase=b.phase,
+            claim_id=b.claim_id,
+            answer=b.answer,
+        )
+    except KeyError as e:
+        raise HTTPException(400, str(e)) from e
 
 
 if __name__ == "__main__":
