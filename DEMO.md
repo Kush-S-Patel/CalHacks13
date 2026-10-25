@@ -1,92 +1,35 @@
-# SwarmCFO Claims — stage demo (~3 minutes)
+# Guided Claims demo
 
-**Full video VO + shot list:** [`VIDEO_SCRIPT.md`](VIDEO_SCRIPT.md)
+Open `/demo`. Keep provider details in technical receipts and Q&A. This is a seeded package with real UI actions, code-enforced transitions, persisted work state, and optional live rule refresh.
 
-Homepage flow: **banner (concept)** → **how it works** → **live demo (be Priya)** → **proof panels**.
+## Before presenting
 
-## Pre-flight
+Start the app using README.md. If showing live retrieval, click **Refresh official rule** before deciding. Allow time for the Actor and model. Confirm its receipt and verified quote. If human review is required, show the proposed question. If retrieval fails, disclose that and demonstrate manual review against the labeled bundled excerpt.
 
-```bash
-npm run agents   # :8765
-npm run dev      # :3000 → http://127.0.0.1:3000
-```
+Do not use the legacy full-loop endpoint for this presentation; it bypasses the stepwise manager controls.
 
-Optional check:
+## Two-minute core story
 
-```bash
-curl -X POST http://127.0.0.1:8765/v1/claims/demo -H "content-type: application/json" -d "{\"phase\":\"full\"}"
-# expect ok true, score 100, hyphenate 100
-```
+**0:00–0:20:** “Would you include this $860 lunch in a workforce grant claim? The amount alone doesn’t establish its purpose. SwarmCFO Claims gives the bookkeeper the rule and evidence, then asks the manager for context.”
 
-## Cast
+**0:20–0:45:** “Priya confirms it was a staff celebration. She excludes it with a reason.” Click **Exclude from claim**. Resolve the duplicate and October wages separately, then link the explicitly labeled demo receipt record. Explain that each issue needs its own action.
 
-| Who | Role |
-| --- | --- |
-| **Jordan** | Claims Agent — prepares, asks, never approves |
-| **Priya Shah** | Finance Manager, Meridian Bookkeeping (you, on stage) |
-| **Client** | Bay Area Workforce Collaborative · USDOL workforce grant |
+**0:45–1:05:** “The sample ledger contains $36,295. We retain $28,135 and hold out $8,160. The ledger reconciles to zero.” These are sample results, not money recovered.
 
-## Homepage story (what judges see first)
+**1:05–1:30:** Propose and separately approve the future rule. “The correction becomes a recorded precedent and an approved rule.” Submit the independent October claim and point to its new ID and held work item.
 
-1. **Hero banner** — full-bleed visual + animated loop: Prepare → Ask → No → Learn → Prove  
-2. **How it works** — one corner: ask / learn / prove, with objective dollars  
-3. **Live demo** — interactive pause for Priya’s no  
-4. **Proof** — work queue, policies, append-only audit with diffs  
+**1:30–1:50:** Test automated approval. “The claims role cannot approve its own package. The code denies the attempt.” Approve the corrected claim as the manager.
 
-## Talk track × Hyphenate judging
+**1:50–2:00:** “SwarmCFO Claims helps nonprofit bookkeepers carry a decision into the next month. Next we’ll test real document packages, preparation time, missed exceptions, and false holds.”
 
-### 0:00–0:35 — Real enough (hero + how it works)
-Stay on the banner. Let the loop animate once.
+For three minutes, insert live retrieval and citation verification after the opening.
 
-> “Fractional CFO firm. Same messy September reimbursement every month. We’re not their grant portal — we sit on top as the **system of work** for the claim package.”
+## Evidence and fallback
 
-Scroll to **How it works**. Point at Ask / Learn / Prove.
+- **Technical receipts → Load audit receipts** shows actual persisted events.
+- Reloading restores the saved claim; a temporary service outage preserves its browser ID.
+- The restart script exercises the core HTTP workflow across two real process restarts.
+- Use an actual saved screen recording if live services stall. Label it as captured evidence.
+- Allow requires a documented program-purpose reason and supporting evidence, rather than immediately clearing every issue.
 
-### 0:35–1:05 — Asks at the right moment
-Click **Start — pause for Priya**.
-
-> “Jordan matched the GL. Four problems. The $860 catering charge is ambiguous — so the agent asks, instead of guessing.”
-
-Gesture at the amber decision card.
-
-### 1:05–1:40 — Handles a no + learns
-Click **No — staff celebration. Exclude it.**
-
-Call out as the story fills:
-- **$8,160** kept off the award  
-- **$124** receipt attached  
-- **$28,135** eligible  
-- precedent → **pol-claim-001**  
-- October catering **auto-held**
-
-> “Her no isn’t a chat message. It’s a precedent, then a policy she approves.”
-
-### 1:40–2:15 — Would you hire it?
-Scroll to **Audit trail**. Find Jordan’s approve → **DENIED**.
-
-> “Limits are in `can()`. Denied attempts are logged. Only Priya approves. The system never submits to the funder.”
-
-### 2:15–2:45 — Wow + something new
-Show Hyphenate YES chips + revision diff.
-
-> “Same narrow idea as reimbursement prep — but it learns, improves the next month, and proves every transition. Not a bakery short-wire clone.”
-
-### 2:45–3:00 — Close
-> “Outsourced bookkeepers repeat this corner across dozens of nonprofits. That’s the hire.”
-
-## Weak patterns we avoid
-
-- One-button planted flags with no manager beat  
-- Leading with bakery / 6850 / pol-001 workshop twins  
-- Ten shallow ERP tabs as the pitch  
-- “The prompt says don’t approve”  
-- Memory that dies with the context window  
-
-## API
-
-| Call | Purpose |
-| --- | --- |
-| `POST /v1/claims/demo` `{"phase":"start"}` | Pause for Priya |
-| `POST /v1/claims/demo` `{"phase":"resume","answer":"No — that was our staff celebration. Exclude it."}` | Finish loop |
-| `POST /v1/claims/demo` `{"phase":"full"}` | One-shot 100/100 |
-| `GET /v1/claims/pending` | Recover interactive state after refresh |
+No funder submission, money movement, calibrated denial prediction, cryptographic audit guarantee, or customer savings are established. Production authentication and Claims-specific payment matching remain outside the demonstrated scope.

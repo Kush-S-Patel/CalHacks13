@@ -10,7 +10,7 @@ from __future__ import annotations
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, NoReturn
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,6 +35,18 @@ from erp.store import ERP, seed_sample_if_empty
 from erp.summary import build_enterprise_summary
 from erp.netsuite.adapter import NETSUITE
 from claims.corpus import corpus_summary, lookup_nonprofit
+from claims.guided_persistence import GUIDED_PERSISTENCE
+from claims.guided_flow import (
+    approve_claim as guided_approve_claim,
+    approve_policy as guided_approve_policy,
+    attempt_ai_approval as guided_attempt_ai_approval,
+    guided_state,
+    propose_policy as guided_propose_policy,
+    resolve_exception as guided_resolve_exception,
+    submit_decision as guided_submit_decision,
+    submit_next_period_claim as guided_submit_next_period_claim,
+)
+from claims.rules_refresh import claim_audit_chain, refresh_claim_rule
 from claims.scenario import run_claims_demo
 from claims.store import CLAIMS
 from missions.orchestrate import complete_after_expand, create_mission, expand_budget, run_mission
@@ -67,6 +79,7 @@ app.add_middleware(
 
 # Boot golden records + learned policies + sample ERP sheets once
 bootstrap(WORLD)
+GUIDED_PERSISTENCE.restore_all(WORLD)
 seed_sample_if_empty()
 
 
@@ -573,6 +586,7 @@ def reset_world() -> dict[str, Any]:
     from claims.session import clear_all_pending
 
     clear_all_pending()
+    GUIDED_PERSISTENCE.clear()
     fresh = bootstrap(SystemOfWork())
     WORLD.work_items = fresh.work_items
     WORLD.policies = fresh.policies
@@ -671,6 +685,7 @@ def missions_demo() -> dict[str, Any]:
 def list_claims() -> dict[str, Any]:
     from claims.session import list_pending, recover_pending
 
+    GUIDED_PERSISTENCE.restore_all(WORLD)
     recover_pending(WORLD)
     return {
         "claims": CLAIMS.list_summaries(),
@@ -690,6 +705,7 @@ def claims_pending() -> dict[str, Any]:
     """Recover interactive demo state after refresh / process bounce."""
     from claims.session import list_pending, recover_pending
 
+    GUIDED_PERSISTENCE.restore_all(WORLD)
     sess = recover_pending(WORLD)
     pending = list_pending()
     out: dict[str, Any] = {"pending": pending, "count": len(pending)}
@@ -730,6 +746,167 @@ class ClaimsDemoBody(BaseModel):
     phase: Literal["full", "start", "resume"] = "full"
     claim_id: str | None = None
     answer: str | None = None
+
+
+class ClaimDecisionBody(BaseModel):
+    decision: Literal["exclude", "keep"]
+    reason: str = Field(min_length=1)
+
+
+class ClaimExceptionResolutionBody(BaseModel):
+    action: Literal["exclude", "attach_receipt"]
+    reason: str = Field(min_length=1)
+    evidence_id: str | None = None
+    filename: str | None = None
+
+
+class ClaimReasonBody(BaseModel):
+    reason: str = Field(min_length=1)
+
+
+class RuleRefreshBody(BaseModel):
+    source_url: str | None = None
+
+
+class NextPeriodSubmissionBody(BaseModel):
+    reason: str = Field(
+        default="Test the approved learned rule on a separate October submission.",
+        min_length=1,
+    )
+    reporting_period: str = "2025-10"
+    ledger_id: str = "GL-9105"
+    date: str = "2025-10-08"
+    vendor: str = "Marina Cafe"
+    description: str = "All-hands staff lunch — October"
+    amount_cents: int = Field(default=86_000, gt=0)
+    budget_line: str = "supplies"
+    evidence_id: str = "ev-october-staff-lunch"
+    filename: str = "october_staff_lunch.pdf"
+
+
+def _guided_http_error(exc: Exception) -> NoReturn:
+    detail = str(exc).strip("'")
+    if isinstance(exc, KeyError):
+        raise HTTPException(404, detail) from exc
+    if isinstance(exc, ValueError):
+        raise HTTPException(400, detail) from exc
+    raise HTTPException(409, detail) from exc
+
+
+@app.post("/v1/claims/{claim_id}/rules/refresh")
+def claims_refresh_rules(claim_id: str, body: RuleRefreshBody | None = None) -> dict[str, Any]:
+    b = body or RuleRefreshBody()
+    try:
+        return refresh_claim_rule(WORLD, claim_id, source_url=b.source_url)
+    except KeyError as exc:
+        _guided_http_error(exc)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+
+@app.get("/v1/claims/{claim_id}/audit")
+def claims_audit_chain(claim_id: str) -> dict[str, Any]:
+    try:
+        return claim_audit_chain(WORLD, claim_id)
+    except KeyError as exc:
+        _guided_http_error(exc)
+
+
+@app.get("/v1/claims/{claim_id}/guided")
+def claims_guided_state(claim_id: str) -> dict[str, Any]:
+    try:
+        return guided_state(WORLD, claim_id)
+    except (KeyError, ValueError, RuntimeError, Denied) as exc:
+        _guided_http_error(exc)
+
+
+@app.post("/v1/claims/{claim_id}/decisions")
+def claims_submit_decision(claim_id: str, body: ClaimDecisionBody) -> dict[str, Any]:
+    try:
+        return guided_submit_decision(
+            WORLD,
+            claim_id=claim_id,
+            decision=body.decision,
+            reason=body.reason,
+        )
+    except (KeyError, ValueError, RuntimeError, Denied) as exc:
+        _guided_http_error(exc)
+
+
+@app.post("/v1/claims/{claim_id}/exceptions/{ledger_id}/resolve")
+def claims_resolve_exception(
+    claim_id: str,
+    ledger_id: str,
+    body: ClaimExceptionResolutionBody,
+) -> dict[str, Any]:
+    try:
+        return guided_resolve_exception(
+            WORLD,
+            claim_id=claim_id,
+            ledger_id=ledger_id,
+            action=body.action,
+            reason=body.reason,
+            evidence_id=body.evidence_id,
+            filename=body.filename,
+        )
+    except (KeyError, ValueError, RuntimeError, Denied) as exc:
+        _guided_http_error(exc)
+
+
+@app.post("/v1/claims/{claim_id}/policies")
+def claims_propose_policy(claim_id: str, body: ClaimReasonBody) -> dict[str, Any]:
+    try:
+        return guided_propose_policy(WORLD, claim_id=claim_id, reason=body.reason)
+    except (KeyError, ValueError, RuntimeError, Denied) as exc:
+        _guided_http_error(exc)
+
+
+@app.post("/v1/policies/{policy_id}/approve")
+def claims_approve_policy(policy_id: str, body: ClaimReasonBody) -> dict[str, Any]:
+    try:
+        return guided_approve_policy(WORLD, policy_id=policy_id, reason=body.reason)
+    except (KeyError, ValueError, RuntimeError, Denied) as exc:
+        _guided_http_error(exc)
+
+
+@app.post("/v1/claims/{source_claim_id}/next-period-submissions")
+def claims_submit_next_period(
+    source_claim_id: str,
+    body: NextPeriodSubmissionBody,
+) -> dict[str, Any]:
+    try:
+        return guided_submit_next_period_claim(
+            WORLD,
+            source_claim_id=source_claim_id,
+            reason=body.reason,
+            reporting_period=body.reporting_period,
+            ledger_id=body.ledger_id,
+            date=body.date,
+            vendor=body.vendor,
+            description=body.description,
+            amount_cents=body.amount_cents,
+            budget_line=body.budget_line,
+            evidence_id=body.evidence_id,
+            filename=body.filename,
+        )
+    except (KeyError, ValueError, RuntimeError, Denied) as exc:
+        _guided_http_error(exc)
+
+
+@app.post("/v1/claims/{claim_id}/approval-attempts")
+def claims_attempt_ai_approval(claim_id: str, body: ClaimReasonBody) -> dict[str, Any]:
+    try:
+        return guided_attempt_ai_approval(WORLD, claim_id=claim_id, reason=body.reason)
+    except (KeyError, ValueError, RuntimeError, Denied) as exc:
+        _guided_http_error(exc)
+
+
+@app.post("/v1/claims/{claim_id}/approve")
+def claims_manager_approval(claim_id: str, body: ClaimReasonBody) -> dict[str, Any]:
+    try:
+        return guided_approve_claim(WORLD, claim_id=claim_id, reason=body.reason)
+    except (KeyError, ValueError, RuntimeError, Denied) as exc:
+        _guided_http_error(exc)
 
 
 @app.post("/v1/claims/demo")

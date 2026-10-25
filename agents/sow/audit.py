@@ -50,5 +50,13 @@ class AuditLog:
     def denials(self) -> list[dict[str, Any]]:
         return [e.to_dict() for e in self._events if not e.allowed]
 
+    def restore(self, events: list[AuditEvent]) -> None:
+        """Merge persisted receipts without rewriting or duplicating event IDs."""
+        existing = {event.id for event in self._events}
+        for event in events:
+            if event.id not in existing:
+                self._events.append(event)
+                existing.add(event.id)
+
     def __len__(self) -> int:
         return len(self._events)

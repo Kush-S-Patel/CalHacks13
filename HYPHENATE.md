@@ -1,5 +1,7 @@
 # Hyphenate track alignment — SwarmCFO Claims
 
+Current presentation route: `/demo`. The guided flow has separate manager/policy approvals, per-claim policy IDs, SQLite work-state persistence, an independent October submission, and actual source/model receipts. Use `RECOVERY_STATUS.md` for current verified evidence and `DEMO.md` for the operator sequence. Examples of the older one-request loop below are historical, not the judged interaction path.
+
 Source: *Beyond Agentic Harnesses · Hyphenate CalHacks Workshop*
 
 ## The four questions

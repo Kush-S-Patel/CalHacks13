@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=_ENV_FILES, extra="ignore")
 
     anthropic_api_key: str = ""
+    apify_token: str = ""
+    apify_actor_id: str = ""
     # 8000 is often taken on hackathon machines — default to 8765
     agent_service_port: int = 8765
     agent_autonomy_limit_usd: float = 1000.0
@@ -27,7 +29,7 @@ class Settings(BaseSettings):
     nessie_base_url: str = "https://api.nessieisreal.com"
 
     # Claude model for agent tool-use (override via CLAUDE_MODEL)
-    claude_model: str = "claude-sonnet-4-5"
+    claude_model: str = "claude-sonnet-4-6"
 
     # Mission Margin Controller — default demo economics
     mission_default_quote_cents: int = 25_000  # $250

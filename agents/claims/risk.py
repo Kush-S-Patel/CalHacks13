@@ -146,10 +146,8 @@ def score_claim_risk(package: ClaimPackage) -> RiskScore:
         drivers.append({"exception": "low_match_confidence", "count": len(low_conf), "points": add, "sources": []})
 
     # GL reconciliation gap
-    claimed = int(package.totals.get("claimed_cents") or 0)
-    gl = int(package.totals.get("gl_cents") or 0)
-    if gl and abs(claimed - gl) > 100:
-        gap = abs(claimed - gl)
+    gap = int(package.totals.get("recon_gap_cents") or 0)
+    if gap > 100:
         add = 10 + min(15, gap // 50000)
         score += add
         drivers.append(
@@ -165,7 +163,7 @@ def score_claim_risk(package: ClaimPackage) -> RiskScore:
     budget = package.award.budget_lines or {}
     spent: dict[str, int] = {}
     for m in package.matches:
-        if m.exception_codes and "budget_overrun" in m.exception_codes:
+        if {"duplicate_expense", "excluded_from_claim"} & set(m.exception_codes):
             continue
         spent[m.budget_line] = spent.get(m.budget_line, 0) + m.amount_cents
     for line, cap in budget.items():

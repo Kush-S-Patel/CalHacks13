@@ -53,7 +53,7 @@ export function ConceptBanner() {
         </div>
 
         <div className="cta">
-          <a href="#live-demo" className="primary">
+          <a href="/demo" className="primary">
             Run the live demo
           </a>
           <a href="#how-it-works" className="ghost">

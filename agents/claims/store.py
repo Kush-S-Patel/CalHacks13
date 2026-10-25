@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +19,10 @@ from claims.models import (
 
 class ClaimStore:
     def __init__(self, root: Path | None = None) -> None:
-        self.root = root or Path(__file__).resolve().parents[2] / "data" / "erp_vault" / "claims"
+        self.root = root if root is not None else Path(
+            os.getenv("SWARMCFO_CLAIMS_DIR")
+            or str(Path(__file__).resolve().parents[2] / "data" / "erp_vault" / "claims")
+        )
         self.root.mkdir(parents=True, exist_ok=True)
         self.index_path = self.root / "index.json"
         self.packages: dict[str, ClaimPackage] = {}

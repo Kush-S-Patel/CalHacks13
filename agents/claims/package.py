@@ -36,7 +36,7 @@ def build_schedules(package: ClaimPackage) -> str:
     lines.extend(["", "## Claimed expenditures by budget line"])
     by_line: dict[str, int] = {}
     for m in package.matches:
-        if "duplicate_expense" in m.exception_codes:
+        if {"duplicate_expense", "excluded_from_claim"} & set(m.exception_codes):
             continue
         by_line[m.budget_line] = by_line.get(m.budget_line, 0) + m.amount_cents
     for line, cents in sorted(by_line.items()):
@@ -49,9 +49,10 @@ def build_schedules(package: ClaimPackage) -> str:
         [
             "",
             "## Reconciliation (deterministic)",
-            f"- Claimed (ex-duplicates): **${(tot.get('claimed_cents') or 0)/100:,.2f}**",
+            f"- Eligible claim: **${(tot.get('eligible_cents') or tot.get('claimed_cents') or 0)/100:,.2f}**",
             f"- GL export total: **${(tot.get('gl_cents') or 0)/100:,.2f}**",
             f"- Duplicate lines held out: **${(tot.get('duplicate_cents') or 0)/100:,.2f}**",
+            f"- Excluded / protected: **${(tot.get('excluded_cents') or 0)/100:,.2f}**",
             f"- Recon gap: **${(tot.get('recon_gap_cents') or 0)/100:,.2f}**",
             "",
             "## Transaction ↔ evidence matches",

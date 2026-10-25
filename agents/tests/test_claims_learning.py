@@ -37,6 +37,18 @@ class ClaimsLearningTests(unittest.TestCase):
         self.assertTrue(result["results"]["next_month_held"])
         self.assertEqual(result.get("invariant_gaps"), [])
 
+        claim = result["claim"]
+        self.assertEqual(claim["status"], "approved")
+        self.assertEqual(claim["totals"]["gl_cents"], 3_629_500)
+        self.assertEqual(claim["totals"]["recon_gap_cents"], 0)
+        self.assertNotIn(
+            "unreconciled_gl",
+            {driver.get("exception") for driver in claim["risk"]["drivers"]},
+        )
+        self.assertIn("**supplies:** $549.00", claim["schedules_md"])
+        self.assertIn("**contractual:** $5,200.00", claim["schedules_md"])
+        self.assertIn("_Status: approved", claim["schedules_md"])
+
     def test_interactive_start_resume(self) -> None:
         started = start_claims_learning(self.sow)
         self.assertTrue(started["awaiting_manager"])

@@ -261,7 +261,6 @@ def prepare_claim(
 
     package.risk = score_claim_risk(package)
     package.log.append(f"Risk score {package.risk.score} ({package.risk.band})")
-    package.schedules_md = build_schedules(package)
 
     if package.risk.band in {"high", "critical"} or package.exceptions:
         package.status = "exceptions" if package.risk.band != "critical" else "rejected_prediction"
@@ -270,6 +269,8 @@ def prepare_claim(
 
     if package.risk.band == "critical":
         package.status = "rejected_prediction"
+
+    package.schedules_md = build_schedules(package)
 
     _link_sow(package, sow)
     CLAIMS.upsert(package)

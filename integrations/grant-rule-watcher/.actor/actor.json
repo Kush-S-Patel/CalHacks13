@@ -1,0 +1,7 @@
+{
+  "actorSpecification": 1,
+  "name": "swarmcfo-grant-rule-watcher",
+  "title": "SwarmCFO Grant Rule Watcher",
+  "version": "1.0",
+  "dockerfile": "../Dockerfile"
+}

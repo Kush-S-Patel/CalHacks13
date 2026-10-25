@@ -25,6 +25,7 @@ export default function WorldPage() {
     <main>
       <ConceptBanner />
       <nav className="subnav">
+        <Link href="/demo">Open guided claim review</Link>
         <Link href="#how-it-works">How it works</Link>
         <Link href="#live-demo">Live demo</Link>
         <Link href="/suite/claims">Claims suite</Link>

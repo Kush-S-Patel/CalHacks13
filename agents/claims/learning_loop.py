@@ -15,6 +15,7 @@ import logging
 from typing import Any
 
 from claims.models import ClaimPackage, EvidenceDoc, new_id, now_iso
+from claims.guided_persistence import GUIDED_PERSISTENCE
 from claims.package import build_schedules
 from claims.pipeline import build_demo_inputs, prepare_claim, validate_totals
 from claims.risk import score_claim_risk
@@ -183,8 +184,8 @@ def apply_revision_2(
     package.meta["revision_diff"] = {"from": before, "to": None}
 
     package.risk = score_claim_risk(package)
-    package.schedules_md = build_schedules(package)
     package.status = "ready_for_approval" if not _critical_codes(package) else "exceptions"
+    package.schedules_md = build_schedules(package)
     package.log.append(
         "Jordan rebuilt the package: celebration out, duplicate out, October wages out, toner receipt in"
     )
@@ -241,6 +242,17 @@ def start_claims_learning(sow: SystemOfWork) -> dict[str, Any]:
     package.meta["revision"] = 1
     package.meta["product"] = "SwarmCFO Claims"
     package.meta["client_firm"] = "Meridian Bookkeeping"
+    package.meta["rule_source"] = {
+        "title": "2 CFR § 200.438 — Entertainment and prizes",
+        "url": "https://www.govinfo.gov/content/pkg/CFR-2026-title2-vol01/xhtml/CFR-2026-title2-vol01-part200-subpartE.html",
+        "quote": (
+            "Costs of entertainment, including amusement, diversion, and social activities "
+            "and any associated costs (such as gifts), are unallowable unless they have a "
+            "specific and direct programmatic purpose and are included in a Federal award."
+        ),
+        "provenance": "Bundled excerpt from the 2026 annual CFR edition",
+        "live_refresh": False,
+    }
     package.log.append("Jordan opened September’s package for Priya — four things look off")
     CLAIMS.upsert(package)
 
@@ -342,6 +354,7 @@ def start_claims_learning(sow: SystemOfWork) -> dict[str, Any]:
         },
         package,
     )
+    GUIDED_PERSISTENCE.save_claim(sow, package)
 
     return {
         "ok": True,
@@ -631,6 +644,7 @@ def resume_claims_learning(
     package.meta["authorized_approvals"] = 1
     package.meta["unauthorized_approvals"] = 0
     package.log.append("Priya approved revision 2 — Jordan never got an unauthorized approve")
+    package.schedules_md = build_schedules(package)
     CLAIMS.upsert(package)
     story.append(
         {
@@ -703,6 +717,7 @@ def resume_claims_learning(
     package.meta["loop_complete"] = True
     package.meta["objective_invariants_ok"] = len(invariant_gaps) == 0
     CLAIMS.upsert(package)
+    GUIDED_PERSISTENCE.save_claim(sow, package)
 
     return {
         "ok": all(checks.values()),
