@@ -146,13 +146,13 @@ export function ChaosButtons() {
   }
 
   return (
-    <section className="chaos">
-      <h2>September claim — Meridian Bookkeeping</h2>
+    <section id="live-demo" className="chaos">
+      <h2>Live demo — be Priya for one decision</h2>
       <p className="sub">
-        Jordan (Claims Agent) prepares Bay Area Workforce’s reimbursement for Priya Shah. The system
-        asks her a real question, learns from a <em>no</em>, and proves it.{" "}
+        Start the September claim. Jordan will pause on the $860 catering charge. Your answer becomes
+        precedent and policy — then watch October get held and Jordan’s approve get denied.{" "}
         {error ? `API: ${error}` : ready ? "Connected." : "Connecting…"}{" "}
-        <Link href="/suite/claims">Claims suite</Link>
+        <Link href="/suite/claims">Open Claims suite</Link>
       </p>
 
       <div className="grid">
@@ -242,7 +242,8 @@ export function ChaosButtons() {
 
       <style jsx>{`
         .chaos {
-          padding: 0 2rem 1.25rem;
+          padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem) 1.5rem;
+          scroll-margin-top: 4rem;
         }
         h2 {
           font-family: var(--font-display);

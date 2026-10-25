@@ -1,0 +1,300 @@
+{
+  "version": 1,
+  "historyId": "a977c729-1101-4cb8-97f2-94af103af9d9",
+  "currentRevision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+  "pendingChanges": false,
+  "files": {
+    "assets/audit-trail.png": {
+      "hash": "7b6f506db0d2ea0643c93056cb9991dc4f0d929ea76840248cbde4f02945bcef",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\7b\\7b6f506db0d2ea0643c93056cb9991dc4f0d929ea76840248cbde4f02945bcef"
+    },
+    "assets/gsap.min.js": {
+      "hash": "92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\92\\92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb"
+    },
+    "assets/music/happy-beats-business-moves-vol-10-by-ende-dot-app.music-cues.json": {
+      "hash": "96c1ea257959a13f92d528b455715ac390e3060cadd010825ada6b0ed164e29a",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\96\\96c1ea257959a13f92d528b455715ac390e3060cadd010825ada6b0ed164e29a"
+    },
+    "assets/music/happy-beats-business-moves-vol-10-by-ende-dot-app.music-cues.md": {
+      "hash": "0ed311d5532047f08f5eda22f870b2b39acfc8fe5ab807a17983a4161d6b03ca",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\0e\\0ed311d5532047f08f5eda22f870b2b39acfc8fe5ab807a17983a4161d6b03ca"
+    },
+    "assets/priya-question.png": {
+      "hash": "cce2effe9515725fa4e8d801c20eb284665a4f88bda9a85c42c323c1a571eb80",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\cc\\cce2effe9515725fa4e8d801c20eb284665a4f88bda9a85c42c323c1a571eb80"
+    },
+    "assets/sfx/impact/impactSoft_medium_001.ogg": {
+      "hash": "7642a4fd43e547afe4f7adfadb3dabb681c0ff512f52c1674bae30a726841faf",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\76\\7642a4fd43e547afe4f7adfadb3dabb681c0ff512f52c1674bae30a726841faf"
+    },
+    "assets/sfx/interface/click_003.ogg": {
+      "hash": "2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\2f\\2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292"
+    },
+    "index.html": {
+      "hash": "e2e1a5d2f141cdacf9d3b79097e2417748b582331dea4599f51e896a31df9daa",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\e2\\e2e1a5d2f141cdacf9d3b79097e2417748b582331dea4599f51e896a31df9daa"
+    },
+    "assets/hero.png": {
+      "hash": "8a7372485a0a6e15036547863b0edf97526716baa49639d95ccdfd200082a910",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\8a\\8a7372485a0a6e15036547863b0edf97526716baa49639d95ccdfd200082a910"
+    },
+    "assets/learning-result.png": {
+      "hash": "7e9f83502669582c86dbc94d258ca245d49d12d29c48b8a3417d5eb689e05c84",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\7e\\7e9f83502669582c86dbc94d258ca245d49d12d29c48b8a3417d5eb689e05c84"
+    },
+    "assets/music/happy-beats-business-moves-vol-1-by-ende-dot-app.mp3": {
+      "hash": "aa56ab1cdcbef6b05566c6a7c114323078580ccf6a740a9e6c6b6c4b40b4389f",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\aa\\aa56ab1cdcbef6b05566c6a7c114323078580ccf6a740a9e6c6b6c4b40b4389f"
+    },
+    "assets/music/happy-beats-business-moves-vol-10-by-ende-dot-app.mp3": {
+      "hash": "f9912f2c962ada1e579f5ccc5a7d854d67e5e81ee96a7dd8c885a8480ae58d09",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\f9\\f9912f2c962ada1e579f5ccc5a7d854d67e5e81ee96a7dd8c885a8480ae58d09"
+    },
+    "assets/swarmcfo-live-demo.webm": {
+      "hash": "ea28a8dd4c05a16027724085cd2a2357b3143179400347fd730c806422a051fd",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\ea\\ea28a8dd4c05a16027724085cd2a2357b3143179400347fd730c806422a051fd"
+    },
+    "assets/voiceover-final.wav": {
+      "hash": "7bf223eda543164383d200ee111f9a3b4d429bfa38b18cd8a5953218c836348b",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\7b\\7bf223eda543164383d200ee111f9a3b4d429bfa38b18cd8a5953218c836348b"
+    },
+    "assets/voiceover-final2.wav": {
+      "hash": "672d78eead2f0f42e4794b618ffa399737d7f1f7be072a5a8a3b032853aab17c",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\67\\672d78eead2f0f42e4794b618ffa399737d7f1f7be072a5a8a3b032853aab17c"
+    },
+    "assets/voiceover-tts.wav": {
+      "hash": "fcef04508dc54abd06d1738b18f1fb941b3136b336fa02abfa110bb5fd6ddb98",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\fc\\fcef04508dc54abd06d1738b18f1fb941b3136b336fa02abfa110bb5fd6ddb98"
+    },
+    "assets/voiceover.wav": {
+      "hash": "7d088f79d1aea9893198098770de7a0cd9f01c51b279aea9089985fefe2a307c",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\7d\\7d088f79d1aea9893198098770de7a0cd9f01c51b279aea9089985fefe2a307c"
+    }
+  },
+  "revisions": {
+    "cb5510d0-c128-4063-ae4f-ddb1462a0fc6": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792896880793,
+      "endedAt": 1792896880794,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\ea\\ea6d49c8cf2bf6b42f8e5c39d809cc9dbfdb1b0d1417e4f40f16fb908eac57ed",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\a977c729-1101-4cb8-97f2-94af103af9d9\\blobs\\e2\\e2e1a5d2f141cdacf9d3b79097e2417748b582331dea4599f51e896a31df9daa"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": null,
+      "id": "6e538337-5c86-4610-81f5-9f82296c70a8"
+    },
+    "revisions": {},
+    "unversioned": [
+      {
+        "id": "6e538337-5c86-4610-81f5-9f82296c70a8",
+        "scope": "project",
+        "report": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\checks\\6e538337-5c86-4610-81f5-9f82296c70a8.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1792896838281,
+        "contentHash": "fdaf3307de66ed6a0171cbad8099977dea353bf4d12419211812e5e3644a9b43",
+        "revision": null,
+        "inputFingerprint": "19fbbf6ec5571891534029531ad8ba19efda1c14a34ebaadf28d7d5641d39f24",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+      "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-7"
+    },
+    "revisions": {
+      "cb5510d0-c128-4063-ae4f-ddb1462a0fc6": [
+        {
+          "scope": "full",
+          "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-0",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\snapshots\\4e86a474-57bb-40c0-bc6d-bb4661ec82d4\\frame-00-at-1.8s.png",
+          "time": 1.8,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792896887877,
+          "contentHash": "2161dfac6d15d3260cc09dea7aa6ab9823e8dd8ab5761c5e95f9500cd0c9e53e",
+          "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+          "inputFingerprint": "35dfbc12ed186ba5a7a4ad8126c0f29ae9909accd6b13062c7fc772b1666be43",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-1",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\snapshots\\4e86a474-57bb-40c0-bc6d-bb4661ec82d4\\frame-01-at-8s.png",
+          "time": 8,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792896887877,
+          "contentHash": "0a8158b8fff69d460d7fb9e7a694a4ed40b9e13c35066aa6944787346b313ef8",
+          "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+          "inputFingerprint": "35dfbc12ed186ba5a7a4ad8126c0f29ae9909accd6b13062c7fc772b1666be43",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-2",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\snapshots\\4e86a474-57bb-40c0-bc6d-bb4661ec82d4\\frame-02-at-18s.png",
+          "time": 18,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792896887878,
+          "contentHash": "cff68e0c57d7366a5e5bda2483e65dc55e174d9179f0aa554754482cd3581aab",
+          "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+          "inputFingerprint": "35dfbc12ed186ba5a7a4ad8126c0f29ae9909accd6b13062c7fc772b1666be43",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-3",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\snapshots\\4e86a474-57bb-40c0-bc6d-bb4661ec82d4\\frame-03-at-27s.png",
+          "time": 27,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792896887878,
+          "contentHash": "038187551191126a0ef4a1ed09dd6ebb7c174e2cd07590391dd88fd624b042c9",
+          "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+          "inputFingerprint": "35dfbc12ed186ba5a7a4ad8126c0f29ae9909accd6b13062c7fc772b1666be43",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-4",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\snapshots\\4e86a474-57bb-40c0-bc6d-bb4661ec82d4\\frame-04-at-37s.png",
+          "time": 37,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792896887878,
+          "contentHash": "f606ba94d1eb6c1f89118bf378b5b2672c3c4804f06bf58ff6f99b67b697e3a4",
+          "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+          "inputFingerprint": "35dfbc12ed186ba5a7a4ad8126c0f29ae9909accd6b13062c7fc772b1666be43",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-5",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\snapshots\\4e86a474-57bb-40c0-bc6d-bb4661ec82d4\\frame-05-at-46s.png",
+          "time": 46,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792896887878,
+          "contentHash": "5f57d68e730267f0619ed4474059976c89563b0cd8cc96c97974b672bb907b6a",
+          "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+          "inputFingerprint": "35dfbc12ed186ba5a7a4ad8126c0f29ae9909accd6b13062c7fc772b1666be43",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-6",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\snapshots\\4e86a474-57bb-40c0-bc6d-bb4661ec82d4\\frame-06-at-56s.png",
+          "time": 56,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792896887878,
+          "contentHash": "b9936d6d6ac309bcba945508888a0c6f065e9a630ed981d1a03a727c080701b1",
+          "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+          "inputFingerprint": "35dfbc12ed186ba5a7a4ad8126c0f29ae9909accd6b13062c7fc772b1666be43",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "f0030ed2-acbb-46d1-a8f4-f3a92b777832-7",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output-2026-10-24-193902\\composition\\.hyperframes\\artifacts\\snapshots\\4e86a474-57bb-40c0-bc6d-bb4661ec82d4\\frame-07-at-58.2s.png",
+          "time": 58.2,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792896887879,
+          "contentHash": "b9936d6d6ac309bcba945508888a0c6f065e9a630ed981d1a03a727c080701b1",
+          "revision": "cb5510d0-c128-4063-ae4f-ddb1462a0fc6",
+          "inputFingerprint": "35dfbc12ed186ba5a7a4ad8126c0f29ae9909accd6b13062c7fc772b1666be43",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": []
+  }
+}

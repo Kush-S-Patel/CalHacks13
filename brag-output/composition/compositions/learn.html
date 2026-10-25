@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><script src="assets/gsap.min.js"></script></head><body><template><style>
+  #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden; background:#0c1210; }
+  .clip { position:absolute; }
+  .screen { inset:0; width:1920px; height:1080px; object-fit:cover; background:#0c1210; }
+  .brand-tag { z-index:10; top:50px; right:70px; padding:15px 20px; border:1px solid #5fd49a; border-radius:999px; background:#0c1210; color:#e8f0ea; font:700 28px Inter,Arial,sans-serif; letter-spacing:.14em; }
+  .brand-tag strong { color:#5fd49a; }
+  .qr-mask { z-index:11; right:0; bottom:0; width:230px; height:250px; background:#0c1210; border-top:1px solid rgba(95,212,154,.24); border-left:1px solid rgba(95,212,154,.24); border-radius:22px 0 0 0; }
+  .mark { position:absolute; right:38px; bottom:38px; color:#b2c3b7; font:16px/1.7 Inter,Arial,sans-serif; letter-spacing:.12em; text-align:right; }
+  .mark strong { display:block; color:#5fd49a; font-size:22px; }
+  .panel { z-index:12; right:92px; width:660px; padding:38px 42px 40px; border:1px solid #5fd49a; border-radius:24px; background:rgba(12,18,16,.98); box-shadow:0 24px 80px rgba(0,0,0,.4); font-family:Inter,Arial,sans-serif; }
+  .eyebrow { color:#5fd49a; font:700 28px Inter,Arial,sans-serif; letter-spacing:.18em; text-transform:uppercase; }
+  .headline { margin-top:18px; color:#e8f0ea; font:700 58px/1.05 "Playfair Display",Georgia,serif; letter-spacing:-.025em; }
+  .copy { margin-top:17px; color:#b2c3b7; font:28px/1.35 Inter,Arial,sans-serif; }
+  .accent { color:#5fd49a; }
+  .warn { color:#e0a045; }
+</style><style>.stats{display:flex;gap:12px;margin-top:25px}.stat{flex:1;min-width:0;border:1px solid rgba(95,212,154,.4);border-radius:14px;background:#111b16;padding:19px 16px}.stat strong{display:block;color:#5fd49a;font:700 32px Inter,Arial,sans-serif;line-height:1.1}.stat span{display:block;margin-top:9px;color:#b2c3b7;font:28px/1.2 Inter,Arial,sans-serif}</style><style>.chain{display:flex;align-items:center;gap:18px;margin-top:20px}.chain span{padding:15px 20px;border:1px solid #3d9b6a;border-radius:14px;background:#14201a;color:#e8f0ea;font:700 34px Inter,Arial,sans-serif}.chain b{color:#5fd49a;font:700 32px Inter,Arial,sans-serif}#active{position:absolute;right:35px;top:190px;color:#5fd49a;font:700 30px Inter,Arial,sans-serif}.stats{margin-top:22px}.stat{padding:15px 13px}.stat strong{font-size:31px}.stat span{font-size:28px}</style>
+<div data-hf-id="hf-zw33" id="root" data-composition-id="learn" data-width="1920" data-height="1080">
+  <video data-hf-id="hf-merb" id="learn-screen" class="clip screen" data-start="0" data-duration="5.5" data-media-start="13.2" data-track-index="1" muted playsinline src="assets/swarmcfo-live-demo.webm"></video>
+  <div data-hf-id="hf-3nk8" id="learn-brand" class="clip brand-tag" data-start="0" data-duration="5.5" data-track-index="2"><strong data-hf-id="hf-j2es">CALHACKS 13</strong></div>
+  <div data-hf-id="hf-eq1e" id="learn-mask" class="clip qr-mask" data-start="0" data-duration="5.5" data-track-index="3" style="width:200px;height:205px"></div><div class="clip" data-start="0" data-duration="5.5" data-track-index="4" style="left:0;bottom:0;width:60px;height:60px;background:#0c1210;z-index:11"></div>
+  <div data-hf-id="hf-r5dl" id="learn-panel" class="clip panel" data-start="0.1" data-duration="5.4" data-track-index="5" style="top:165px;left:78px;right:auto;width:1160px">
+    <div data-hf-id="hf-obep" id="learn-content"><div data-hf-id="hf-iwjk" class="eyebrow">02 / LEARNING THAT CARRIES FORWARD</div><div data-hf-id="hf-3db9" class="headline">One answer changes October.</div><div class="chain"><span id="s1">NO</span><b>→</b><span id="s2">PRECEDENT</span><b>→</b><span id="s3">POLICY</span></div><div id="active">POLICY ACTIVE</div><div data-hf-id="hf-rhep" class="stats"><div class="stat"><strong>$8,160</strong><span>kept off award</span></div><div class="stat"><strong>$124</strong><span>receipt attached</span></div><div class="stat"><strong>$28,135</strong><span>eligible</span></div><div class="stat"><strong>4 → 0</strong><span>exceptions</span></div></div></div>
+  </div>
+  <script>const tl=gsap.timeline({paused:true});tl.fromTo("#learn-content",{opacity:0,y:18},{opacity:1,y:0,duration:.35,ease:"power3.out"},.1);tl.fromTo("#s1",{opacity:0,y:14},{opacity:1,y:0,duration:.24},.5);tl.fromTo("#s2",{opacity:0,y:14},{opacity:1,y:0,duration:.24},1);tl.fromTo("#s3",{opacity:0,y:14},{opacity:1,y:0,duration:.24},1.5);tl.fromTo("#active",{opacity:0,scale:.92},{opacity:1,scale:1,duration:.3,ease:"power2.out"},3.52);window.__timelines["learn"]=tl;</script>
+</div></template></body></html>
+
+
+
+
+

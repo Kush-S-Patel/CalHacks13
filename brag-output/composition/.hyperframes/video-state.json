@@ -1,0 +1,983 @@
+{
+  "version": 1,
+  "historyId": "cd909099-51a3-441f-a5e3-6e2cb0fc146d",
+  "currentRevision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+  "pendingChanges": false,
+  "files": {
+    "assets/gsap.min.js": {
+      "hash": "92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\92\\92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb"
+    },
+    "assets/sfx/impact/impactSoft_medium_001.ogg": {
+      "hash": "7642a4fd43e547afe4f7adfadb3dabb681c0ff512f52c1674bae30a726841faf",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\76\\7642a4fd43e547afe4f7adfadb3dabb681c0ff512f52c1674bae30a726841faf"
+    },
+    "assets/sfx/interface/click_003.ogg": {
+      "hash": "2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\2f\\2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292"
+    },
+    "compositions/ask.html": {
+      "hash": "7ac948d126d066e4ad14e4a08b341edc4c96b75ab09c401e477290f0e64a211e",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\7a\\7ac948d126d066e4ad14e4a08b341edc4c96b75ab09c401e477290f0e64a211e"
+    },
+    "compositions/hook.html": {
+      "hash": "07b7cc30e8a5ba27b1df6d642924efe6b0283a33d413f96a1ac1ad235cf52a25",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\07\\07b7cc30e8a5ba27b1df6d642924efe6b0283a33d413f96a1ac1ad235cf52a25"
+    },
+    "compositions/learn.html": {
+      "hash": "968d9c66522304de70efff5f4927331132826aa635defbd586f3f4e926f53cf2",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\96\\968d9c66522304de70efff5f4927331132826aa635defbd586f3f4e926f53cf2"
+    },
+    "compositions/outro.html": {
+      "hash": "4983faf60317696c2da7e1d1bc009486e07b725c3955f0076dc8ddb91eaebcd2",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\49\\4983faf60317696c2da7e1d1bc009486e07b725c3955f0076dc8ddb91eaebcd2"
+    },
+    "compositions/prove.html": {
+      "hash": "43911060ba7f7d4179d8fc8234b9b9eef77111435a4cea94d75c6315715d4aeb",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\43\\43911060ba7f7d4179d8fc8234b9b9eef77111435a4cea94d75c6315715d4aeb"
+    },
+    "assets/music/happy-beats-business-moves-vol-1-by-ende-dot-app.mp3": {
+      "hash": "aa56ab1cdcbef6b05566c6a7c114323078580ccf6a740a9e6c6b6c4b40b4389f",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\aa\\aa56ab1cdcbef6b05566c6a7c114323078580ccf6a740a9e6c6b6c4b40b4389f"
+    },
+    "assets/swarmcfo-live-demo.webm": {
+      "hash": "ea28a8dd4c05a16027724085cd2a2357b3143179400347fd730c806422a051fd",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\ea\\ea28a8dd4c05a16027724085cd2a2357b3143179400347fd730c806422a051fd"
+    },
+    "assets/audit-trail.png": {
+      "hash": "7b6f506db0d2ea0643c93056cb9991dc4f0d929ea76840248cbde4f02945bcef",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\7b\\7b6f506db0d2ea0643c93056cb9991dc4f0d929ea76840248cbde4f02945bcef"
+    },
+    "index.html": {
+      "hash": "4ce10bb4335057147a57cc90a11e6878bf59b33571ed79e95e74de1aaa1d3e0d",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\4c\\4ce10bb4335057147a57cc90a11e6878bf59b33571ed79e95e74de1aaa1d3e0d"
+    },
+    "compositions/system.html": {
+      "hash": "4cdddf9cc753e8bc27aa4ee27a92308ce199364f9e5a3a996f692d291810e1f9",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\4c\\4cdddf9cc753e8bc27aa4ee27a92308ce199364f9e5a3a996f692d291810e1f9"
+    },
+    "compositions/score.html": {
+      "hash": "8f73cce5c163ae267f5ef672776d9cb115d4a755a6f6ced17c7fae335514f824",
+      "content": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8f\\8f73cce5c163ae267f5ef672776d9cb115d4a755a6f6ced17c7fae335514f824"
+    }
+  },
+  "revisions": {
+    "c14a305c-0bcc-44bd-b92b-be63d02e7153": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792892491869,
+      "endedAt": 1792892492146,
+      "files": {
+        "compositions/ask.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\c8\\c81b7910c8b4566dc193738036270f33014345fed98744a084e9ae607123e160",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\5b\\5b34acb9d5e2f062311fae1f9ed3b3a87c050259a84dfbbe1ef6f3b1f6d632d7"
+        },
+        "compositions/hook.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\00\\00b0dc323f660e0fcce227564c6088b80a011d6862961e791cd0121a8890a9e7",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\92\\92e515ac7cb258045afd7ebfa41d62f85c83cb637fde6d3f9753a32ff44282ac"
+        },
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8a\\8adc7591d18853ee7e9037df35ba587ce6a87cfd6fdb849413521cddfec43036",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\1d\\1d6321b3c87f19721be0f3d847ad2df062aef6720845703bd02cb2b72ab1c48f"
+        },
+        "compositions/outro.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\c1\\c1eba3477565383ccba53b28607156261e34941686095d8c2441c0624ffcc4aa",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\1a\\1ad84771be05f40bd11eda006057dde56f2fffb3fc7de3b3f620a22664a19dbe"
+        },
+        "compositions/prove.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\a5\\a5446c1ed414e6b78c963d26f5d7d3dc247a303b4a88fed788c3ba6be782a61a",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\86\\86d7b2daa92d607c95bca200404338d3c843b5323b6989ec345c48bbedbd8445"
+        },
+        "index.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\2f\\2f5ca4077d6fb350a43f1254035d12577904b0c63a1d93df221929468e72c6bf",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\ed\\edb46d8080bcabca811c73b324c6fbde8da0c9d26f1d62d94b54f0cbba6c67f7"
+        }
+      }
+    },
+    "d1d9fe12-8aa9-4e14-92c1-686bb38c0d1f": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792892524535,
+      "endedAt": 1792892524683,
+      "files": {
+        "compositions/ask.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\5b\\5b34acb9d5e2f062311fae1f9ed3b3a87c050259a84dfbbe1ef6f3b1f6d632d7",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\08\\081a318b46009f43353fefbfb581b043aefa4a2dd1fa98d35a0875865c54806e"
+        },
+        "compositions/hook.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\92\\92e515ac7cb258045afd7ebfa41d62f85c83cb637fde6d3f9753a32ff44282ac",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\fb\\fbd529b539561dd57f52559974dd63ffbfc267ce151d6bdbc6eaf198ead659bf"
+        },
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\1d\\1d6321b3c87f19721be0f3d847ad2df062aef6720845703bd02cb2b72ab1c48f",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\03\\03de52f1fac58be3e538e2e46fb8fca1d722a6fa9c384a3c70e0ec867c1e57a4"
+        },
+        "compositions/outro.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\1a\\1ad84771be05f40bd11eda006057dde56f2fffb3fc7de3b3f620a22664a19dbe",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\1e\\1e6d9543f75cf6e3cac38eaa496e608ee1ac52f220b96c574f37f47b39d52c64"
+        },
+        "compositions/prove.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\86\\86d7b2daa92d607c95bca200404338d3c843b5323b6989ec345c48bbedbd8445",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\54\\545b3885469c7c6c0a60180eefcc4846fa76aa8118bc75288e658ac7145d5333"
+        }
+      }
+    },
+    "2afed3aa-527a-42ab-bc04-f27cdc0a19c7": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792892555559,
+      "endedAt": 1792892555577,
+      "files": {
+        "compositions/ask.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\08\\081a318b46009f43353fefbfb581b043aefa4a2dd1fa98d35a0875865c54806e",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\d7\\d736105f49358d8d32fb5f8524b82adb0d593a6c89c02c6560e5371a8406ecfb"
+        },
+        "compositions/hook.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\fb\\fbd529b539561dd57f52559974dd63ffbfc267ce151d6bdbc6eaf198ead659bf",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\d9\\d935505340b6a4d2166227ebd70566c3caee0f9341bba579cd08ad5b7af291c6"
+        },
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\03\\03de52f1fac58be3e538e2e46fb8fca1d722a6fa9c384a3c70e0ec867c1e57a4",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\0f\\0f0bcdd554a4a614e37c628daeb0c6d29692ef919a622e17a9efa06bd8a00e28"
+        },
+        "compositions/outro.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\1e\\1e6d9543f75cf6e3cac38eaa496e608ee1ac52f220b96c574f37f47b39d52c64",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\54\\54e0f61e5944a5d1f5dd33dfc886e56253f59f7818c9b1e2175fbfac1dc63e4c"
+        },
+        "compositions/prove.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\54\\545b3885469c7c6c0a60180eefcc4846fa76aa8118bc75288e658ac7145d5333",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\d0\\d037f09cfa3f766f0435e6aac043c50041c2ad25e44102f586f7daf080954cbc"
+        }
+      }
+    },
+    "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792892618473,
+      "endedAt": 1792892618497,
+      "files": {
+        "compositions/ask.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\d7\\d736105f49358d8d32fb5f8524b82adb0d593a6c89c02c6560e5371a8406ecfb",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\a2\\a2e02e001e6327fccb6ee95405da9abd0d382782e771d6c12bdf373d05c0fa85"
+        },
+        "compositions/hook.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\d9\\d935505340b6a4d2166227ebd70566c3caee0f9341bba579cd08ad5b7af291c6",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8d\\8d0b6be597d28a42892114a5cd2139e33632812a58b57b4dd1fe6f4850ab94bb"
+        },
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\0f\\0f0bcdd554a4a614e37c628daeb0c6d29692ef919a622e17a9efa06bd8a00e28",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\46\\46d576c15c5259ca83c1e52bd24729180b5ec95ac1f9c5172213b45b7e536aec"
+        },
+        "compositions/outro.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\54\\54e0f61e5944a5d1f5dd33dfc886e56253f59f7818c9b1e2175fbfac1dc63e4c",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\a6\\a653c95165e46a6ce39cc0c3a390c28328b4d249a1c1a8a7e067b77c88fcac8d"
+        },
+        "compositions/prove.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\d0\\d037f09cfa3f766f0435e6aac043c50041c2ad25e44102f586f7daf080954cbc",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\08\\083bb6ccddba1482d3ed1d9f4d5be6c4cd70c88d87208fc2f4c132447645423f"
+        },
+        "index.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\ed\\edb46d8080bcabca811c73b324c6fbde8da0c9d26f1d62d94b54f0cbba6c67f7",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\01\\01578fc50d259f4688a1a880ee97ffa098158db2c7042b4e685e3d91b87d2abc"
+        }
+      }
+    },
+    "facfa440-dda0-4786-b9ff-21f8abb63cb0": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792892683836,
+      "endedAt": 1792892685844,
+      "files": {
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\46\\46d576c15c5259ca83c1e52bd24729180b5ec95ac1f9c5172213b45b7e536aec",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\3b\\3bb1732f16e47ed637b831acc4d81b969eacc695c4d5a06ce85b6045d183b420"
+        },
+        "compositions/prove.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\08\\083bb6ccddba1482d3ed1d9f4d5be6c4cd70c88d87208fc2f4c132447645423f",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\3d\\3dc6e2d4b9b2fe8433f5354749738aef21a3dd58f580fac6b7b49720b053179c"
+        },
+        "index.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\01\\01578fc50d259f4688a1a880ee97ffa098158db2c7042b4e685e3d91b87d2abc",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\9d\\9d4f1bf23614fc51d78d1f159694f6d535088e65ca5484efe2ffea7104dba5b8"
+        }
+      }
+    },
+    "0a511249-0218-4351-9eb8-432c00d3fbcc": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792892700872,
+      "endedAt": 1792892702889,
+      "files": {
+        "compositions/outro.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\a6\\a653c95165e46a6ce39cc0c3a390c28328b4d249a1c1a8a7e067b77c88fcac8d",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\49\\4983faf60317696c2da7e1d1bc009486e07b725c3955f0076dc8ddb91eaebcd2"
+        },
+        "compositions/prove.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\3d\\3dc6e2d4b9b2fe8433f5354749738aef21a3dd58f580fac6b7b49720b053179c",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\cc\\ccc889f007fbf6d7c00ecdf10234ea6942ed2e211de6cfc0e73ebff27cf6723c"
+        },
+        "index.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\9d\\9d4f1bf23614fc51d78d1f159694f6d535088e65ca5484efe2ffea7104dba5b8",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\0a\\0a7dff92a103b00a37460f92543e4346c53a0fabb4469aceae8f7d871334382e"
+        }
+      }
+    },
+    "947e548f-92c6-4551-92fa-8b3e49513152": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792893228414,
+      "endedAt": 1792893230430,
+      "files": {
+        "assets/audit-trail.png": {
+          "before": null,
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\7b\\7b6f506db0d2ea0643c93056cb9991dc4f0d929ea76840248cbde4f02945bcef"
+        }
+      }
+    },
+    "7ef65c60-5c0c-47be-85cd-af06d41ca51b": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894241166,
+      "endedAt": 1792894243169,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\0a\\0a7dff92a103b00a37460f92543e4346c53a0fabb4469aceae8f7d871334382e",
+          "after": null
+        }
+      }
+    },
+    "38cbe93d-7146-4aa0-99fa-10535e17d944": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894251046,
+      "endedAt": 1792894253047,
+      "files": {
+        "index.html": {
+          "before": null,
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8c\\8cec08ee717f6e94032107591ab474ee1eb2e4954641e21149bdc3843fad474b"
+        }
+      }
+    },
+    "bd1b665d-57d1-4c1f-b8d9-3563b122369b": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894264763,
+      "endedAt": 1792894268207,
+      "files": {
+        "compositions/score.html": {
+          "before": null,
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\21\\210cfc3e39c01a6b6aa86270c9346aae7cd67d47b9d9275c03c94f400c758399"
+        },
+        "compositions/system.html": {
+          "before": null,
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\91\\914b310305dd5212aae9b96393571a9d6f3b117d72b6c5b325d7dff5e51b981a"
+        }
+      }
+    },
+    "c9f8a897-5e7a-4d6e-97aa-dda66500ef85": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894308904,
+      "endedAt": 1792894312231,
+      "files": {
+        "compositions/ask.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\a2\\a2e02e001e6327fccb6ee95405da9abd0d382782e771d6c12bdf373d05c0fa85",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\7a\\7ac948d126d066e4ad14e4a08b341edc4c96b75ab09c401e477290f0e64a211e"
+        },
+        "compositions/hook.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8d\\8d0b6be597d28a42892114a5cd2139e33632812a58b57b4dd1fe6f4850ab94bb",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\07\\07b7cc30e8a5ba27b1df6d642924efe6b0283a33d413f96a1ac1ad235cf52a25"
+        }
+      }
+    },
+    "eece2eb5-592a-4ee7-9569-f3f4bf9b0153": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894326624,
+      "endedAt": 1792894328634,
+      "files": {
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\3b\\3bb1732f16e47ed637b831acc4d81b969eacc695c4d5a06ce85b6045d183b420",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\80\\802a62c1bd67c4bb1315ecd278a9f79e8412dbb497f457a8428eafe4c8280f03"
+        }
+      }
+    },
+    "87f00e6c-b82a-469f-8fcf-c71911bef324": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894335093,
+      "endedAt": 1792894337103,
+      "files": {
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\80\\802a62c1bd67c4bb1315ecd278a9f79e8412dbb497f457a8428eafe4c8280f03",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\18\\18878790b1d8d98269cf5af7015f4a9f1bd4b63da767b165d5e789bcee8fa6fb"
+        }
+      }
+    },
+    "85b06508-429b-49ad-8ee9-406acef7e869": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894350297,
+      "endedAt": 1792894352298,
+      "files": {
+        "compositions/prove.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\cc\\ccc889f007fbf6d7c00ecdf10234ea6942ed2e211de6cfc0e73ebff27cf6723c",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\43\\43911060ba7f7d4179d8fc8234b9b9eef77111435a4cea94d75c6315715d4aeb"
+        }
+      }
+    },
+    "7a191987-8ca7-4ead-a2d7-6b58c0f68785": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894391644,
+      "endedAt": 1792894393815,
+      "files": {
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\18\\18878790b1d8d98269cf5af7015f4a9f1bd4b63da767b165d5e789bcee8fa6fb",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\19\\196d0ab2dbf394114d83a98ef25b4055f66755de4746bef7b0477b74453765be"
+        },
+        "compositions/system.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\91\\914b310305dd5212aae9b96393571a9d6f3b117d72b6c5b325d7dff5e51b981a",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\64\\64218144bcdd981da3cbefda444814d5188c536bf1b42a6385efb9dad70ac541"
+        },
+        "index.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8c\\8cec08ee717f6e94032107591ab474ee1eb2e4954641e21149bdc3843fad474b",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8f\\8f171c2525a7a49828617051025799e9e483f4ca2809a9b892bccd4c8c83bf18"
+        }
+      }
+    },
+    "4baf3f00-9cc2-4f10-b7a3-fec470631aca": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894400888,
+      "endedAt": 1792894402899,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8f\\8f171c2525a7a49828617051025799e9e483f4ca2809a9b892bccd4c8c83bf18",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\4c\\4ce10bb4335057147a57cc90a11e6878bf59b33571ed79e95e74de1aaa1d3e0d"
+        }
+      }
+    },
+    "e147b4b3-d8f5-44fe-9824-5f579a36f89e": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1792894446180,
+      "endedAt": 1792894448231,
+      "files": {
+        "compositions/learn.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\19\\196d0ab2dbf394114d83a98ef25b4055f66755de4746bef7b0477b74453765be",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\96\\968d9c66522304de70efff5f4927331132826aa635defbd586f3f4e926f53cf2"
+        },
+        "compositions/score.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\21\\210cfc3e39c01a6b6aa86270c9346aae7cd67d47b9d9275c03c94f400c758399",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\8f\\8f73cce5c163ae267f5ef672776d9cb115d4a755a6f6ced17c7fae335514f824"
+        },
+        "compositions/system.html": {
+          "before": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\64\\64218144bcdd981da3cbefda444814d5188c536bf1b42a6385efb9dad70ac541",
+          "after": "C:\\Users\\nikup\\Documents\\Codex\\2026-10-24\\set\\work\\profile\\.cache\\hyperframes\\history\\cd909099-51a3-441f-a5e3-6e2cb0fc146d\\blobs\\4c\\4cdddf9cc753e8bc27aa4ee27a92308ce199364f9e5a3a996f692d291810e1f9"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+      "id": "75c7c4f8-7b2d-49e0-8280-9b3bf856507a"
+    },
+    "revisions": {
+      "c14a305c-0bcc-44bd-b92b-be63d02e7153": [
+        {
+          "id": "7c058ac2-f285-4a4d-a858-ff25b8295c99",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792892503828,
+          "contentHash": "c15214d328214ffbb6dcd182c927af62d8c5fa67595852e4f52e569fa6f08b5f",
+          "revision": "c14a305c-0bcc-44bd-b92b-be63d02e7153",
+          "inputFingerprint": "ef0171dad7040e3bb9a5c32cdf2ad851a5e57f93daa4fd84357915c98ea18b59",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        }
+      ],
+      "d1d9fe12-8aa9-4e14-92c1-686bb38c0d1f": [
+        {
+          "id": "73c0ef3e-30e0-4b35-b409-fd9ece3948d7",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792892533011,
+          "contentHash": "cea8ab84ce3d6cb249f73edba91581ca587143fcc24b48d81980602be1a0fe4e",
+          "revision": "d1d9fe12-8aa9-4e14-92c1-686bb38c0d1f",
+          "inputFingerprint": "760acaf7bc53dbf106013913083e44f0858b90df3a7881f1d28ba0abc589d7f4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        }
+      ],
+      "2afed3aa-527a-42ab-bc04-f27cdc0a19c7": [
+        {
+          "id": "07303cad-2d9c-4fc7-a57c-9fd7441fe3c8",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792892563987,
+          "contentHash": "3927fae874f767b10763920bddba145f157d192f8c95015266121df931082b17",
+          "revision": "2afed3aa-527a-42ab-bc04-f27cdc0a19c7",
+          "inputFingerprint": "8cc00b71dab310dc8bf709a03a13b4b207ad07c9d858e2c5da57e3f297505f01",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        }
+      ],
+      "0a511249-0218-4351-9eb8-432c00d3fbcc": [
+        {
+          "id": "03bd8d59-5a29-4143-a80b-3a11b627e6fa",
+          "scope": "project",
+          "report": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\checks\\03bd8d59-5a29-4143-a80b-3a11b627e6fa.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792892720538,
+          "contentHash": "3927fae874f767b10763920bddba145f157d192f8c95015266121df931082b17",
+          "revision": "0a511249-0218-4351-9eb8-432c00d3fbcc",
+          "inputFingerprint": "5bb2bbef42d0b72c47a964268e86fbe4e069c61b865934659fbfe5bddb2ccf66",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "4baf3f00-9cc2-4f10-b7a3-fec470631aca": [
+        {
+          "id": "cc588074-f962-4e64-8f51-fa84f1037f1b",
+          "scope": "project",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792894425469,
+          "contentHash": "1b6645e4712db747799f2b81c8cc872deb92ae61bf9e058b364b823b3ae8751c",
+          "revision": "4baf3f00-9cc2-4f10-b7a3-fec470631aca",
+          "inputFingerprint": "493e1f714759d3a108cc94eca2b382efeb7c38ac710afc1eed0602e55a649d4b",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "5a94fe62-c40c-4a79-bf97-0a71e7d71cf6"
+        }
+      ],
+      "e147b4b3-d8f5-44fe-9824-5f579a36f89e": [
+        {
+          "id": "75c7c4f8-7b2d-49e0-8280-9b3bf856507a",
+          "scope": "project",
+          "report": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\checks\\75c7c4f8-7b2d-49e0-8280-9b3bf856507a.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1792894483253,
+          "contentHash": "7180eedf919c67a78ef31e2bdf7ec753ded43463e1979a2641798390efd05b18",
+          "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+          "inputFingerprint": "855d3024c66f8a0c217b12a57c0c869ca635d33168127d6ce0454c835cf747df",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "7923f541-8acd-4b46-9181-1df919422266",
+        "scope": "project",
+        "report": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\checks\\7923f541-8acd-4b46-9181-1df919422266.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1792892419378,
+        "contentHash": "91cc1154c2ea5a22efbf6379fc9f29cf755c7df1d40b15a20f4fab0d08912e47",
+        "revision": null,
+        "inputFingerprint": "d3050c49c2e9501e6ae750796cbfa47745c1202b5397adf70aa9dfdc97481e55",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+      "id": "522d9348-832f-46c7-b3ee-353668e03a0a-6"
+    },
+    "revisions": {
+      "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357": [
+        {
+          "scope": "full",
+          "id": "b2ba5f57-dd11-4c6c-8b99-e27cccec6ac7-0",
+          "time": 1.2,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792892626033,
+          "contentHash": "d4ccc78ee97639c79d468b62f8cbe8dd530180e6cd1dcf0e02ab100ae815d944",
+          "revision": "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357",
+          "inputFingerprint": "9451ad351112ff0d86ab64bfbb5c90dc830efe6bf0e9a5b6390a95f61d9218e4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        },
+        {
+          "scope": "full",
+          "id": "b2ba5f57-dd11-4c6c-8b99-e27cccec6ac7-1",
+          "time": 5.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792892626033,
+          "contentHash": "5b6d11833ea1de953baf0e7c5d380977d53f03f014dbf59e90b8aac6901f6c74",
+          "revision": "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357",
+          "inputFingerprint": "9451ad351112ff0d86ab64bfbb5c90dc830efe6bf0e9a5b6390a95f61d9218e4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        },
+        {
+          "scope": "full",
+          "id": "b2ba5f57-dd11-4c6c-8b99-e27cccec6ac7-2",
+          "time": 9.3,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792892626033,
+          "contentHash": "dc42bf056ead5f067b3577eb76867e246c1c848df269b4e59fa44d21ea3380be",
+          "revision": "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357",
+          "inputFingerprint": "9451ad351112ff0d86ab64bfbb5c90dc830efe6bf0e9a5b6390a95f61d9218e4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        },
+        {
+          "scope": "full",
+          "id": "b2ba5f57-dd11-4c6c-8b99-e27cccec6ac7-3",
+          "time": 14.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792892626034,
+          "contentHash": "9b70f1a44bc6b17e15e2bce553f5e0ab05f59fc7139127faef96334b83d5c595",
+          "revision": "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357",
+          "inputFingerprint": "9451ad351112ff0d86ab64bfbb5c90dc830efe6bf0e9a5b6390a95f61d9218e4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        },
+        {
+          "scope": "full",
+          "id": "b2ba5f57-dd11-4c6c-8b99-e27cccec6ac7-4",
+          "time": 15.9,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792892626034,
+          "contentHash": "bbcd78af2e4cd28aba5a5667c716ab002dd446f33664cccbc1e95fab58992ca6",
+          "revision": "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357",
+          "inputFingerprint": "9451ad351112ff0d86ab64bfbb5c90dc830efe6bf0e9a5b6390a95f61d9218e4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        },
+        {
+          "scope": "full",
+          "id": "b2ba5f57-dd11-4c6c-8b99-e27cccec6ac7-5",
+          "time": 17.7,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792892626034,
+          "contentHash": "4f7fd8ec9188b53b59eb6191bb3ef4a74e6ce96c916d5f27c20da4f397f9133b",
+          "revision": "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357",
+          "inputFingerprint": "9451ad351112ff0d86ab64bfbb5c90dc830efe6bf0e9a5b6390a95f61d9218e4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        },
+        {
+          "scope": "full",
+          "id": "b2ba5f57-dd11-4c6c-8b99-e27cccec6ac7-6",
+          "time": 19.2,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792892626035,
+          "contentHash": "909b78f397e5cc77f260be2bf324d2c42dc0ab0efea6730a9381a1db7e2cec55",
+          "revision": "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357",
+          "inputFingerprint": "9451ad351112ff0d86ab64bfbb5c90dc830efe6bf0e9a5b6390a95f61d9218e4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        },
+        {
+          "scope": "full",
+          "id": "b2ba5f57-dd11-4c6c-8b99-e27cccec6ac7-7",
+          "time": 19.4,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792892626035,
+          "contentHash": "909b78f397e5cc77f260be2bf324d2c42dc0ab0efea6730a9381a1db7e2cec55",
+          "revision": "cf5fa4f6-b33b-4933-ba9f-ac82c6c5f357",
+          "inputFingerprint": "9451ad351112ff0d86ab64bfbb5c90dc830efe6bf0e9a5b6390a95f61d9218e4",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision",
+          "status": "cleaned",
+          "cleanedAfterRender": "6b3b59ac-0602-4ea8-9bfa-0dcf49c2df6d"
+        }
+      ],
+      "e147b4b3-d8f5-44fe-9824-5f579a36f89e": [
+        {
+          "scope": "full",
+          "id": "522d9348-832f-46c7-b3ee-353668e03a0a-0",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\snapshots\\29efbec5-3841-418a-a4a8-94e6a6ed56ca\\frame-00-at-1.4s.png",
+          "time": 1.4,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792894458677,
+          "contentHash": "4d78576a6803c2b6a7a16ba844a33fd4dacd4fc45432a8699ad2456a038eafa9",
+          "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+          "inputFingerprint": "855d3024c66f8a0c217b12a57c0c869ca635d33168127d6ce0454c835cf747df",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "522d9348-832f-46c7-b3ee-353668e03a0a-1",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\snapshots\\29efbec5-3841-418a-a4a8-94e6a6ed56ca\\frame-01-at-5.5s.png",
+          "time": 5.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792894458677,
+          "contentHash": "0930a95662c14a6d62787c5b112f3d6cd9b4f822b33527be1c3e31a9fbc60656",
+          "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+          "inputFingerprint": "855d3024c66f8a0c217b12a57c0c869ca635d33168127d6ce0454c835cf747df",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "522d9348-832f-46c7-b3ee-353668e03a0a-2",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\snapshots\\29efbec5-3841-418a-a4a8-94e6a6ed56ca\\frame-02-at-9s.png",
+          "time": 9,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792894458677,
+          "contentHash": "d9413eb39dc0db4d6e19bb4355e04a68e31e2b51a4fb3ba68efdb3830a509a3d",
+          "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+          "inputFingerprint": "855d3024c66f8a0c217b12a57c0c869ca635d33168127d6ce0454c835cf747df",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "522d9348-832f-46c7-b3ee-353668e03a0a-3",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\snapshots\\29efbec5-3841-418a-a4a8-94e6a6ed56ca\\frame-03-at-14.5s.png",
+          "time": 14.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792894458677,
+          "contentHash": "5ebf93a9c5becbc375ab67633380e7a5d09ac6baf1b641bbce092e2cda3834cf",
+          "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+          "inputFingerprint": "855d3024c66f8a0c217b12a57c0c869ca635d33168127d6ce0454c835cf747df",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "522d9348-832f-46c7-b3ee-353668e03a0a-4",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\snapshots\\29efbec5-3841-418a-a4a8-94e6a6ed56ca\\frame-04-at-19s.png",
+          "time": 19,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792894458678,
+          "contentHash": "5906e00670b4a6257e479ae8f0672609ae4125207309c902eb50d88b62cff07c",
+          "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+          "inputFingerprint": "855d3024c66f8a0c217b12a57c0c869ca635d33168127d6ce0454c835cf747df",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "522d9348-832f-46c7-b3ee-353668e03a0a-5",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\snapshots\\29efbec5-3841-418a-a4a8-94e6a6ed56ca\\frame-05-at-23.5s.png",
+          "time": 23.5,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792894458678,
+          "contentHash": "17debe72e963c839b1ca6909084eb6e05f67d503d96a9b40ff0b6238d180ca6d",
+          "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+          "inputFingerprint": "855d3024c66f8a0c217b12a57c0c869ca635d33168127d6ce0454c835cf747df",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "522d9348-832f-46c7-b3ee-353668e03a0a-6",
+          "image": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\composition\\.hyperframes\\artifacts\\snapshots\\29efbec5-3841-418a-a4a8-94e6a6ed56ca\\frame-06-at-24.25s.png",
+          "time": 24.25,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1792894458678,
+          "contentHash": "17debe72e963c839b1ca6909084eb6e05f67d503d96a9b40ff0b6238d180ca6d",
+          "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+          "inputFingerprint": "855d3024c66f8a0c217b12a57c0c869ca635d33168127d6ce0454c835cf747df",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "5a94fe62-c40c-4a79-bf97-0a71e7d71cf6",
+      "completedAt": 1792894539781,
+      "output": "C:\\Users\\nikup\\Repos\\CalHacks13\\brag-output\\brag.mp4",
+      "status": "completed",
+      "revision": "e147b4b3-d8f5-44fe-9824-5f579a36f89e"
+    },
+    "retainedRevisions": [
+      "e147b4b3-d8f5-44fe-9824-5f579a36f89e",
+      "0a511249-0218-4351-9eb8-432c00d3fbcc"
+    ]
+  },
+  "pendingArtifactCleanup": []
+}

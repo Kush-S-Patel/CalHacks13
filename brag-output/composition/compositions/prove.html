@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><script src="assets/gsap.min.js"></script></head><body><template><style>
+  #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden; background:#0c1210; }
+  .clip { position:absolute; }
+  .screen { inset:0; width:1920px; height:1080px; object-fit:cover; background:#0c1210; }
+  .brand-tag { z-index:10; top:50px; right:70px; padding:15px 20px; border:1px solid #5fd49a; border-radius:999px; background:#0c1210; color:#e8f0ea; font:700 28px Inter,Arial,sans-serif; letter-spacing:.14em; }
+  .brand-tag strong { color:#5fd49a; }
+  .qr-mask { z-index:11; right:0; bottom:0; width:230px; height:250px; background:#0c1210; border-top:1px solid rgba(95,212,154,.24); border-left:1px solid rgba(95,212,154,.24); border-radius:22px 0 0 0; }
+  .mark { position:absolute; right:38px; bottom:38px; color:#b2c3b7; font:16px/1.7 Inter,Arial,sans-serif; letter-spacing:.12em; text-align:right; }
+  .mark strong { display:block; color:#5fd49a; font-size:22px; }
+  .panel { z-index:12; right:92px; width:660px; padding:38px 42px 40px; border:1px solid #5fd49a; border-radius:24px; background:rgba(12,18,16,.98); box-shadow:0 24px 80px rgba(0,0,0,.4); font-family:Inter,Arial,sans-serif; }
+  .eyebrow { color:#5fd49a; font:700 28px Inter,Arial,sans-serif; letter-spacing:.18em; text-transform:uppercase; }
+  .headline { margin-top:18px; color:#e8f0ea; font:700 58px/1.05 "Playfair Display",Georgia,serif; letter-spacing:-.025em; }
+  .copy { margin-top:17px; color:#b2c3b7; font:28px/1.35 Inter,Arial,sans-serif; }
+  .accent { color:#5fd49a; }
+  .warn { color:#e0a045; }
+</style><div data-hf-id="hf-1klz" id="root" data-composition-id="prove" data-width="1920" data-height="1080">
+  <img data-hf-id="hf-b8gu" id="prove-screen" class="clip screen" data-start="0" data-duration="4" data-track-index="1" src="assets/audit-trail.png">
+  <div class="clip" data-start="0" data-duration="4" data-track-index="2" style="inset:0;background:linear-gradient(90deg,rgba(12,18,16,.08),rgba(12,18,16,.78));z-index:2"></div>
+  <div data-hf-id="hf-h4j3" id="prove-brand" class="clip brand-tag" data-start="0" data-duration="4" data-track-index="3"><strong data-hf-id="hf-j2es">CALHACKS 13</strong></div>
+  <div data-hf-id="hf-xm4z" id="prove-mask" class="clip qr-mask" data-start="0" data-duration="4" data-track-index="4" style="width:200px;height:205px"></div>
+  <div class="clip" data-start="0" data-duration="4" data-track-index="5" style="left:0;bottom:0;width:60px;height:60px;background:#0c1210;z-index:11"></div>
+  <div data-hf-id="hf-rxn8" id="prove-panel" class="clip panel" data-start="0.2" data-duration="3.8" data-track-index="6" style="top:245px">
+    <div data-hf-id="hf-dtn1" id="prove-content"><div data-hf-id="hf-x07z" class="eyebrow">03 / ENFORCED IN CODE · VISIBLE IN AUDIT</div><div data-hf-id="hf-w5tp" class="headline">Jordan tries to approve.</div><div data-hf-id="hf-4ucn" id="denied" class="headline accent" style="margin-top:14px;font-size:78px;letter-spacing:.06em;color:#e0a045">DENIED</div><div data-hf-id="hf-t53w" class="copy">Only Priya approves. The October repeat is held, and every transition stays in the audit.</div></div>
+  </div>
+  <script>const tl=gsap.timeline({paused:true});tl.fromTo("#prove-content",{opacity:0,x:24},{opacity:1,x:0,duration:.38,ease:"power3.out"},.2);tl.fromTo("#denied",{scale:.9,opacity:0},{scale:1,opacity:1,duration:.3,ease:"power3.out"},.52);window.__timelines["prove"]=tl;</script>
+</div></template></body></html>
+
+
+
+
+
+

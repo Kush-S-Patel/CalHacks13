@@ -44,7 +44,7 @@ curl -X POST http://127.0.0.1:8765/v1/claims/demo -H "content-type: application/
 curl -X POST http://127.0.0.1:8765/v1/claims/demo -H "content-type: application/json" -d "{\"phase\":\"resume\",\"answer\":\"No — that was our staff celebration. Exclude it.\"}"
 ```
 
-UI: open `/` → **Start — pause for Priya**, or `/suite/claims`. Talk track: [`DEMO.md`](DEMO.md) · tracks: [`HYPHENATE.md`](HYPHENATE.md).
+UI: open `/` — hero banner → how it works → **Start — pause for Priya**. Talk track: [`DEMO.md`](DEMO.md) · tracks: [`HYPHENATE.md`](HYPHENATE.md).
 
 ```bash
 cd agents && set PYTHONPATH=.&& python -m unittest discover -s tests -v
