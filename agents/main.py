@@ -442,6 +442,12 @@ def approve_work(work_item_id: str, body: ActorAction | None = None) -> dict[str
     if item_peek and str(item_peek.kind).startswith("claim") and (not body or not body.actor_id):
         raw_actor = FINANCE_MANAGER.id
     actor = ACTORS.get(raw_actor, MAYA)
+    # Hard guard: never silently swap an agent onto claim approve
+    if item_peek and str(item_peek.kind).startswith("claim") and actor.role.startswith("ai_"):
+        raise HTTPException(
+            403,
+            f"DENIED {actor.id} approve {work_item_id}: claims require human_finance_manager (limits in code)",
+        )
     try:
         item = WORLD.approve(work_item_id, actor, (body.reason if body else None) or "approved")
         posted = None
@@ -492,11 +498,37 @@ def answer_work(work_item_id: str, body: AnswerBody) -> dict[str, Any]:
     item_peek = WORLD.work_items.get(work_item_id)
     default = FINANCE_MANAGER.id if item_peek and str(item_peek.kind).startswith("claim") else MAYA.id
     actor = ACTORS.get(body.actor_id or default, MAYA)
+    # Claim learning loop: answering the catering question resumes the full sequence
+    if (
+        item_peek
+        and item_peek.kind == "claim_question"
+        and item_peek.state == "NEEDS_INFO"
+        and item_peek.payload.get("claim_id")
+    ):
+        try:
+            from claims.learning_loop import resume_claims_learning
+
+            result = resume_claims_learning(
+                WORLD,
+                claim_id=str(item_peek.payload.get("claim_id")),
+                answer=body.answer,
+            )
+            return {
+                "item": WORLD.work_items.get(work_item_id).to_dict()
+                if work_item_id in WORLD.work_items
+                else None,
+                "claims_loop": result,
+                "world": WORLD.snapshot(),
+            }
+        except KeyError as e:
+            raise HTTPException(400, str(e)) from e
     try:
         item = WORLD.answer(work_item_id, actor, body.answer)
         return {"item": item.to_dict(), "world": WORLD.snapshot()}
     except Denied as e:
         raise HTTPException(403, str(e)) from e
+    except KeyError as e:
+        raise HTTPException(404, f"unknown work item {work_item_id}") from e
 
 
 @app.post("/v1/demo/run")
@@ -519,6 +551,7 @@ def demo_run() -> dict[str, Any]:
         "story": claims.get("story"),
         "audit": claims.get("audit"),
         "outcome": claims.get("outcome"),
+        "hyphenate": claims.get("hyphenate") or score_run(WORLD),
         "log": list(claims.get("log") or []),
         "answer_key": claims.get("answer_key"),
         "netsuite": NETSUITE.snapshot(),
@@ -537,6 +570,9 @@ def demo_chaos(body: ChaosKind) -> dict[str, Any]:
 
 @app.post("/v1/reset")
 def reset_world() -> dict[str, Any]:
+    from claims.session import clear_all_pending
+
+    clear_all_pending()
     fresh = bootstrap(SystemOfWork())
     WORLD.work_items = fresh.work_items
     WORLD.policies = fresh.policies
@@ -546,6 +582,7 @@ def reset_world() -> dict[str, Any]:
     WORLD.gateway = fresh.gateway
     WORLD.cash_balance_cents = fresh.cash_balance_cents
     WORLD.daily_burn_cents = fresh.daily_burn_cents
+    WORLD.room_id = fresh.room_id
     return WORLD.snapshot()
 
 
@@ -632,12 +669,42 @@ def missions_demo() -> dict[str, Any]:
 
 @app.get("/v1/claims")
 def list_claims() -> dict[str, Any]:
-    return {"claims": CLAIMS.list_summaries(), "count": len(CLAIMS.packages), "corpus": corpus_summary()}
+    from claims.session import list_pending, recover_pending
+
+    recover_pending(WORLD)
+    return {
+        "claims": CLAIMS.list_summaries(),
+        "count": len(CLAIMS.packages),
+        "corpus": corpus_summary(),
+        "pending": list_pending(),
+    }
 
 
 @app.get("/v1/claims/corpus")
 def claims_corpus() -> dict[str, Any]:
     return corpus_summary()
+
+
+@app.get("/v1/claims/pending")
+def claims_pending() -> dict[str, Any]:
+    """Recover interactive demo state after refresh / process bounce."""
+    from claims.session import list_pending, recover_pending
+
+    sess = recover_pending(WORLD)
+    pending = list_pending()
+    out: dict[str, Any] = {"pending": pending, "count": len(pending)}
+    if sess:
+        ask = WORLD.work_items.get(sess["ask_wi_id"])
+        claim = CLAIMS.get(sess["claim_id"])
+        out["active"] = {
+            "claim_id": sess["claim_id"],
+            "ask_work_item_id": sess["ask_wi_id"],
+            "prepare_work_item_id": sess["prepare_wi_id"],
+            "question": ask.question if ask else None,
+            "awaiting_manager": bool(ask and ask.state == "NEEDS_INFO"),
+            "claim": claim.to_dict() if claim else None,
+        }
+    return out
 
 
 @app.get("/v1/claims/nonprofit")

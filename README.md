@@ -46,6 +46,10 @@ curl -X POST http://127.0.0.1:8765/v1/claims/demo -H "content-type: application/
 
 UI: open `/` → **Start — pause for Priya**, or `/suite/claims`. Talk track: [`DEMO.md`](DEMO.md) · tracks: [`HYPHENATE.md`](HYPHENATE.md).
 
+```bash
+cd agents && set PYTHONPATH=.&& python -m unittest discover -s tests -v
+```
+
 ## What is governed (not labels)
 
 | Actor | Role | May | May not |

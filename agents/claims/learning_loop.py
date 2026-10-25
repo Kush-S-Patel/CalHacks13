@@ -18,6 +18,13 @@ from claims.models import ClaimPackage, EvidenceDoc, new_id, now_iso
 from claims.package import build_schedules
 from claims.pipeline import build_demo_inputs, prepare_claim, validate_totals
 from claims.risk import score_claim_risk
+from claims.session import (
+    clear_all_pending,
+    completed_result_from_claim,
+    pop_pending,
+    recover_pending,
+    save_pending,
+)
 from claims.store import CLAIMS
 from sow.improve import apply_correction
 from sow.models import AI_CLAIMS, FINANCE_MANAGER, Policy, SYNC
@@ -50,8 +57,23 @@ MANAGER_NO_ALIASES = {
 
 POLICY_ID = "pol-claim-001"
 
-# In-flight demo sessions (claim_id → handles)
-_PENDING: dict[str, dict[str, Any]] = {}
+
+def _assert_objective_invariants(results: dict[str, Any]) -> list[str]:
+    """Hard fail soft demos that drift off the answer-key dollars."""
+    gaps: list[str] = []
+    if int(round(float(results.get("excluded_usd") or 0) * 100)) != EXCLUDED_TOTAL_CENTS:
+        gaps.append("excluded_usd")
+    if int(round(float(results.get("eligible_reimbursement_usd") or 0) * 100)) != ELIGIBLE_CENTS:
+        gaps.append("eligible_reimbursement_usd")
+    if int(round(float(results.get("receipt_attached_usd") or 0) * 100)) != RECEIPT_CENTS:
+        gaps.append("receipt_attached_usd")
+    if "critical_exceptions_after" not in results or int(results["critical_exceptions_after"]) != 0:
+        gaps.append("critical_exceptions_after")
+    if not results.get("agent_approve_denied"):
+        gaps.append("agent_approve_denied")
+    if "unauthorized_approvals" not in results or int(results["unauthorized_approvals"]) != 0:
+        gaps.append("unauthorized_approvals")
+    return gaps
 
 
 def _critical_codes(package: ClaimPackage) -> set[str]:
@@ -199,6 +221,11 @@ def start_claims_learning(sow: SystemOfWork) -> dict[str, Any]:
     Leaves work in NEEDS_INFO for a human answer.
     """
     sow.room_id = "meridian-bawo"
+    # Abandon prior unfinished sessions so stage restarts are clean
+    clear_all_pending()
+    # Retire prior claim policy so re-runs can re-propose cleanly
+    sow.policies.pop(POLICY_ID, None)
+
     story: list[dict[str, Any]] = []
 
     raw = build_demo_inputs()
@@ -214,7 +241,6 @@ def start_claims_learning(sow: SystemOfWork) -> dict[str, Any]:
     package.meta["revision"] = 1
     package.meta["product"] = "SwarmCFO Claims"
     package.meta["client_firm"] = "Meridian Bookkeeping"
-    package.meta["awaiting_manager"] = True
     package.log.append("Jordan opened September’s package for Priya — four things look off")
     CLAIMS.upsert(package)
 
@@ -306,13 +332,16 @@ def start_claims_learning(sow: SystemOfWork) -> dict[str, Any]:
         }
     )
 
-    _PENDING[package.id] = {
-        "prepare_wi_id": prepare_wi.id,
-        "ask_wi_id": ask_wi.id,
-        "claim_id": package.id,
-        "critical": critical,
-        "story": story,
-    }
+    save_pending(
+        package.id,
+        {
+            "prepare_wi_id": prepare_wi.id,
+            "ask_wi_id": ask_wi.id,
+            "critical": critical,
+            "story": story,
+        },
+        package,
+    )
 
     return {
         "ok": True,
@@ -347,80 +376,62 @@ def resume_claims_learning(
     answer: str = MANAGER_NO,
 ) -> dict[str, Any]:
     """Steps 4–11 after the manager answers."""
-    if not claim_id:
-        if len(_PENDING) == 1:
-            claim_id = next(iter(_PENDING))
-        elif _PENDING:
-            claim_id = max(_PENDING.keys(), key=lambda k: CLAIMS.get(k).updated_at if CLAIMS.get(k) else "")
-        else:
-            # recover from open NEEDS_INFO claim_question
-            for w in sow.work_items.values():
-                if w.kind == "claim_question" and w.state == "NEEDS_INFO":
-                    claim_id = w.payload.get("claim_id") or w.subject
-                    break
-    if not claim_id or claim_id not in _PENDING:
-        # rebuild pending from sow if possible
-        ask = next(
-            (
-                w
-                for w in sow.work_items.values()
-                if w.kind == "claim_question" and w.state == "NEEDS_INFO"
-            ),
-            None,
-        )
-        prep = next(
-            (w for w in sow.work_items.values() if w.kind == "claim_prepare" and w.state == "PROPOSED"),
-            None,
-        )
-        if ask and prep:
-            cid = str(ask.payload.get("claim_id") or ask.subject)
-            package = CLAIMS.get(cid)
-            if package:
-                _PENDING[cid] = {
-                    "prepare_wi_id": prep.id,
-                    "ask_wi_id": ask.id,
-                    "claim_id": cid,
-                    "critical": sorted(_critical_codes(package)),
-                    "story": [],
-                }
-                claim_id = cid
-    if not claim_id or claim_id not in _PENDING:
+    pending = recover_pending(sow, claim_id)
+    if pending:
+        claim_id = pending["claim_id"]
+    package = CLAIMS.get(claim_id) if claim_id else None
+    if package:
+        done = completed_result_from_claim(package)
+        if done:
+            return done
+    if not pending or not claim_id:
         raise KeyError("no claims demo awaiting a manager answer — call start first")
 
-    pending = _PENDING[claim_id]
     package = CLAIMS.get(claim_id)
     if not package:
         raise KeyError(f"unknown claim {claim_id}")
-    prepare_wi = sow.work_items[pending["prepare_wi_id"]]
-    ask_wi = sow.work_items[pending["ask_wi_id"]]
+    try:
+        prepare_wi = sow.work_items[pending["prepare_wi_id"]]
+        ask_wi = sow.work_items[pending["ask_wi_id"]]
+    except KeyError as e:
+        raise KeyError("pending session work items missing — call start again") from e
+    if ask_wi.state != "NEEDS_INFO":
+        raise KeyError(f"question work is {ask_wi.state}, expected NEEDS_INFO — already answered?")
     critical = list(pending.get("critical") or sorted(_critical_codes(package)))
     story: list[dict[str, Any]] = list(pending.get("story") or [])
     denials: list[dict[str, Any]] = []
 
     final_answer = answer.strip() if answer and answer.strip() else MANAGER_NO
     if not _is_exclude_answer(final_answer):
-        # Still record the answer, but demo path requires exclude for objective results
-        sow.answer(ask_wi.id, FINANCE_MANAGER, final_answer)
-        story.append(
-            {
-                "step": 4,
-                "actor": "Priya Shah · Finance Manager",
-                "action": "answer",
-                "work_item_id": ask_wi.id,
-                "answer": final_answer,
-                "spoken": "Noted — but for the stage answer key we need the exclusion path.",
-            }
-        )
+        # Do NOT transition — keep NEEDS_INFO so Priya can retry Exclude
+        reject_step = {
+            "step": 4,
+            "actor": "Priya Shah · Finance Manager",
+            "action": "answer_rejected",
+            "work_item_id": ask_wi.id,
+            "answer": final_answer,
+            "spoken": "That would keep celebration on the award — try Exclude for the learning loop.",
+        }
         return {
             "ok": False,
-            "awaiting_manager": False,
-            "phase": "wrong_path",
+            "awaiting_manager": True,
+            "phase": "awaiting_manager",
             "score": 0,
+            "claim_id": claim_id,
+            "ask_work_item_id": ask_wi.id,
+            "question": ask_wi.question or CATERING_QUESTION,
             "checks": {"manager_said_no": False},
-            "story": story,
+            "story": list(pending.get("story") or []) + [reject_step],
             "claim": package.to_dict(),
-            "talk_track": "Priya kept the catering. Retry with Exclude to show the learning loop.",
+            "rejected_answer": final_answer,
+            "talk_track": "Still waiting on Priya — choose Exclude to continue.",
             "hint": MANAGER_NO,
+            "manager_prompt": {
+                "who": "Priya Shah · Finance Manager · Meridian Bookkeeping",
+                "about": "North Bay Catering · $860.00 · GL-9005",
+                "options": ask_wi.payload.get("options"),
+                "hint": "Tap Exclude — that’s the Hyphenate “handles a no.”",
+            },
         }
 
     # ── 4. Manager says no ────────────────────────────────────────────────
@@ -505,9 +516,7 @@ def resume_claims_learning(
     )
 
     # ── 7. Policy ─────────────────────────────────────────────────────────
-    if POLICY_ID in sow.policies:
-        # allow re-run: bump version on re-propose path
-        del sow.policies[POLICY_ID]
+    sow.policies.pop(POLICY_ID, None)
     policy = Policy(
         id=POLICY_ID,
         version=1,
@@ -687,8 +696,13 @@ def resume_claims_learning(
         "zero_unauthorized": results["unauthorized_approvals"] == 0,
         "audit_complete": results["every_transition_audited"],
     }
+    invariant_gaps = _assert_objective_invariants(results)
+    checks["objective_invariants"] = len(invariant_gaps) == 0
     score = int(100 * sum(1 for v in checks.values() if v) / max(1, len(checks)))
-    _PENDING.pop(claim_id, None)
+    pop_pending(claim_id)
+    package.meta["loop_complete"] = True
+    package.meta["objective_invariants_ok"] = len(invariant_gaps) == 0
+    CLAIMS.upsert(package)
 
     return {
         "ok": all(checks.values()),
@@ -698,6 +712,7 @@ def resume_claims_learning(
         "product": "SwarmCFO Claims",
         "demo": "learning_loop",
         "checks": checks,
+        "invariant_gaps": invariant_gaps,
         "results": results,
         "story": story,
         "denials": denials,

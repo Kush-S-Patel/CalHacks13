@@ -57,6 +57,12 @@ export function ClaimsPanel() {
   const [demoScore, setDemoScore] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [pending, setPending] = useState<{
+    claimId: string;
+    question: string;
+    who: string;
+    about: string;
+  } | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -65,6 +71,19 @@ export function ClaimsPanel() {
       const json = await res.json();
       setList(json.claims || []);
       setErr(null);
+      const pend = await fetch(`${API}/v1/claims/pending`, { cache: "no-store" });
+      if (pend.ok) {
+        const pjson = await pend.json();
+        const active = pjson.active;
+        if (active?.awaiting_manager) {
+          setPending({
+            claimId: active.claim_id,
+            question: active.question || "",
+            who: "Priya Shah · Finance Manager · Meridian Bookkeeping",
+            about: "North Bay Catering · $860.00",
+          });
+        }
+      }
     } catch (e) {
       setErr(e instanceof Error ? e.message : "claims offline");
     }
@@ -100,27 +119,94 @@ export function ClaimsPanel() {
     }
   }
 
-  async function runDemo() {
+  function applyDemo(json: Record<string, unknown>) {
+    setDemoScore((json.score as number) ?? null);
+    setStory((json.story as LearningStoryStep[]) || []);
+    setResults((json.results as LearningResults) || null);
+    setChecks(json.checks as Record<string, boolean> | undefined);
+    setAudit((json.audit as AuditRow[]) || []);
+    setRevisionDiff(
+      (json.revision_diff as { from?: Record<string, unknown>; to?: Record<string, unknown> }) ||
+        null,
+    );
+    setOutcome((json.outcome as string) || "");
+    if (json.viz) setViz(json.viz as RiskVizData);
+  }
+
+  async function startInteractive() {
+    setBusy(true);
+    setErr(null);
+    setPending(null);
+    try {
+      const res = await fetch(`${API}/v1/claims/demo`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phase: "start" }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const json = await res.json();
+      applyDemo(json);
+      const prompt = (json.manager_prompt || {}) as { who?: string; about?: string };
+      setPending({
+        claimId: json.claim_id,
+        question: json.question || "",
+        who: prompt.who || "Priya Shah · Finance Manager",
+        about: prompt.about || "$860 catering",
+      });
+      await load();
+      if (json.claim?.id) await openClaim(json.claim.id);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "demo failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function answerPriya(answer: string) {
+    if (!pending) return;
     setBusy(true);
     setErr(null);
     try {
-      const res = await fetch(`${API}/v1/claims/demo`, { method: "POST" });
+      const res = await fetch(`${API}/v1/claims/demo`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phase: "resume", claim_id: pending.claimId, answer }),
+      });
       if (!res.ok) throw new Error(await res.text());
       const json = await res.json();
-      setDemoScore(json.score ?? null);
-      setStory((json.story as LearningStoryStep[]) || []);
-      setResults((json.results as LearningResults) || null);
-      setChecks(json.checks);
-      setAudit((json.audit as AuditRow[]) || []);
-      setRevisionDiff(json.revision_diff || json.claim?.meta?.revision_diff || null);
-      setOutcome(json.outcome || "");
-      if (json.viz) setViz(json.viz as RiskVizData);
+      applyDemo(json);
+      if (json.awaiting_manager) {
+        setPending({
+          ...pending,
+          question: json.question || pending.question,
+        });
+      } else {
+        setPending(null);
+      }
       await load();
       if (json.claim?.id) await openClaim(json.claim.id);
-      if (json.viz) setViz(json.viz as RiskVizData);
-      if (json.story) setStory(json.story);
-      if (json.results) setResults(json.results);
-      if (json.audit) setAudit(json.audit);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "resume failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runDemo() {
+    setBusy(true);
+    setErr(null);
+    setPending(null);
+    try {
+      const res = await fetch(`${API}/v1/claims/demo`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phase: "full" }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const json = await res.json();
+      applyDemo(json);
+      await load();
+      if (json.claim?.id) await openClaim(json.claim.id);
     } catch (e) {
       setErr(e instanceof Error ? e.message : "demo failed");
     } finally {
@@ -139,10 +225,30 @@ export function ClaimsPanel() {
             not submit to the funder or alter the ledger.
           </p>
         </div>
-        <button type="button" disabled={busy} onClick={() => void runDemo()}>
-          {busy ? "Running learning loop…" : "Run Claims learning loop"}
-        </button>
+        <div className="actions">
+          <button type="button" disabled={busy} onClick={() => void startInteractive()}>
+            {busy && !pending ? "Jordan working…" : "Start — pause for Priya"}
+          </button>
+          <button type="button" className="ghost" disabled={busy} onClick={() => void runDemo()}>
+            Full loop
+          </button>
+        </div>
       </header>
+
+      {pending && (
+        <div className="priya">
+          <p className="who">{pending.who}</p>
+          <p className="about">{pending.about}</p>
+          <p className="q">{pending.question}</p>
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => void answerPriya("No — that was our staff celebration. Exclude it.")}
+          >
+            No — staff celebration. Exclude it.
+          </button>
+        </div>
+      )}
 
       {demoScore != null && (
         <p className="score">
@@ -240,6 +346,11 @@ export function ClaimsPanel() {
           margin: 0;
           font-size: 0.92rem;
         }
+        .actions {
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        }
         header button {
           background: #1f4d3a;
           color: #e8f2ec;
@@ -250,8 +361,45 @@ export function ClaimsPanel() {
           cursor: pointer;
           white-space: nowrap;
         }
+        header button.ghost {
+          background: transparent;
+          border: 1px solid var(--line);
+          color: var(--ink-muted);
+          font-weight: 500;
+        }
         header button:disabled {
           opacity: 0.6;
+        }
+        .priya {
+          margin: 1rem 0;
+          padding: 1rem 1.15rem;
+          border-radius: 12px;
+          border: 1px solid rgba(212, 180, 95, 0.45);
+          background: rgba(80, 60, 20, 0.25);
+          max-width: 40rem;
+        }
+        .priya .who {
+          margin: 0;
+          font-weight: 700;
+        }
+        .priya .about {
+          margin: 0.2rem 0 0.5rem;
+          color: var(--ink-muted);
+          font-size: 0.8rem;
+        }
+        .priya .q {
+          margin: 0 0 0.75rem;
+          font-size: 0.9rem;
+          line-height: 1.4;
+        }
+        .priya button {
+          background: #1f4d3a;
+          color: #e8f2ec;
+          border: 0;
+          border-radius: 8px;
+          padding: 0.65rem 1rem;
+          font-weight: 600;
+          cursor: pointer;
         }
         .score {
           color: #7eb892;
